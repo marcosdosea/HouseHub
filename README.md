@@ -24,7 +24,7 @@
 
   <h2 id="solucao">2. A Solução </h2>
   
-  <p>Na tentiva de solucionar esse problema de agendamento criamos o <a href="https://github.com/marcosdosea/Househub" >Househub</a>. </p>
+  <p>Na tentiva de solucionar esse problema criamos a <a href="https://github.com/marcosdosea/Househub" >Househub</a>. </p>
   <p>A HouseHub é uma plataforma imobiliária moderna e integrada, projetada para simplificar o processo de busca, venda e locação de imóveis. Através da HouseHub, usuários podem buscar imóveis por região, agendar visitas, assinar contratos digitalmente e realizar pagamentos online, tudo de maneira eficiente e segura.</p>
 
 <p>Além disso, a plataforma visa diminuir a burocracia envolvida, proporcionando uma experiência de aluguel e compra mais ágil e acessível. Com uma interface intuitiva, HouseHub conecta proprietários, locatários, corretores e compradores, modernizando o setor imobiliário e facilitando a vida de todos os envolvidos.</p>
