@@ -1,16 +1,6 @@
 
-
-<div style="text-align: center; margin: 0;">
-  <!-- Logo HouseHub Aqui!<img src="./Codigo/AgendeMeWeb/wwwroot/assets/logo.svg" width="60%"><br><br>-->
-  <h1 style="border-bottom: none; margin-bottom: 0;">
-    HouseHub
-  </h1>
-  <!--Mudar o h1 por uma logo?-->
-  <h2 style="margin-top: 5px; border-bottom: none">
-    Sistema para gestão de imóveis
-  </h2>
-</div>
-
+<h3  align=center>HouseHub</h3>
+<h5  align=center>Sistema para gestão de imóveis</h5>
 
 
 ## Sumário
@@ -18,11 +8,11 @@
     <li><a href="#problema">1. O Problema</a></li>
     <li><a href="#solucao">2. A Solução</a></li>
     <li><a href="#publico">3. Público Alvo</a></li>
-    <li><a href="#linksuteis">4. Links Úteis</a></li>
-    <li><a href="#equipe">5. Equipe</a></li>
+    <!--<li><a href="#linksuteis">4. Links Úteis</a></li>-->
+    <li><a href="#equipe">4. Equipe</a></li>
   </ul>
 
-  <h2 id="problema">1. O Problema :warning:</h2>
+  <h2 id="problema">1. O Problema </h2>
   
 <p>O setor de locação de imóveis enfrenta desafios significativos no Brasil, incluindo a dificuldade em encontrar propriedades disponíveis, a burocracia excessiva no processo de aluguel e as altas taxas cobradas por imobiliárias. Esses obstáculos afetam corretores de imóveis, vendedores e, especialmente, pessoas que buscam alugar ou comprar residências.</p>
 
@@ -32,14 +22,14 @@
   
   <!-- banner househub ![fila de pessoas](https://github.com/ms-daniel/justimagens/blob/main/2007.i105.019..png)-->
 
-  <h2 id="solucao">2. A Solução :sparkles:</h2>
+  <h2 id="solucao">2. A Solução </h2>
   
   <p>Na tentiva de solucionar esse problema de agendamento criamos o <a href="https://github.com/marcosdosea/Househub" >Househub</a>. </p>
   <p>A HouseHub é uma plataforma imobiliária moderna e integrada, projetada para simplificar o processo de busca, venda e locação de imóveis. Através da HouseHub, usuários podem buscar imóveis por região, agendar visitas, assinar contratos digitalmente e realizar pagamentos online, tudo de maneira eficiente e segura.</p>
 
 <p>Além disso, a plataforma visa diminuir a burocracia envolvida, proporcionando uma experiência de aluguel e compra mais ágil e acessível. Com uma interface intuitiva, HouseHub conecta proprietários, locatários, corretores e compradores, modernizando o setor imobiliário e facilitando a vida de todos os envolvidos.</p>
 
-  <h2 id="publico">3. Público Alvo :dart:</h2>
+  <h2 id="publico">3. Público Alvo </h2>
   
   Nosso público-alvo principal inclui:
 <ul>
