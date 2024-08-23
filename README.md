@@ -46,7 +46,7 @@
   
 
   
-  <h2 id="equipe">5. Equipe :</h2>
+  <h2 id="equipe">4. Equipe</h2>
 
   <table align="center">
   <tr>
