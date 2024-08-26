@@ -63,7 +63,7 @@
       <a href="https://github.com/WalterHenri" target="_blank">
         <img style="border-radius:100px;" src="https://avatars.githubusercontent.com/u/110775600?v=4" width="100px;" alt="Foto de Wagner no GitHub"/><br>
         <sub>
-          <b>Walter dos Anjos</b>
+          <b>Walter Santos</b>
           <p style="margin: 5;">Desenvolvedor</p>
         </sub>
       </a>
