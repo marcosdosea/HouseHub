@@ -1,7 +1,7 @@
-
-<h3  align=center>HouseHub</h3>
-<h5  align=center>Sistema para gestão de imóveis</h5>
-
+<div align="center">
+  <img style="border-radius: 20px" width="300px" src="logomarca.webp"/>
+  <h3>Sistema para gestão de imóveis</h3>
+</div>
 
 ## Sumário
   <ul id="nav" >
