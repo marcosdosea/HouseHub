@@ -108,7 +108,7 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/jvvict0r" target="_blank">
+      <a href="https://github.com/imarcossm" target="_blank">
         <img style="border-radius:100px;" src="https://avatars.githubusercontent.com/u/114831028?v=4" width="100px;" alt="Foto de batom no GitHub"/><br>
         <sub>
           <b>Marcos Morais</b>
