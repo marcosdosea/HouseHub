@@ -27,8 +27,7 @@ CREATE TABLE IF NOT EXISTS `househub`.`Pessoa` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) INVISIBLE,
-  INDEX `nome_idx` (`nome` ASC) INVISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -38,15 +37,15 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(40) NOT NULL,
-  `quartos` INT NOT NULL,
-  `banheiros` INT NOT NULL,
+  `quartos` TINYINT UNSIGNED NOT NULL,
+  `banheiros` TINYINT UNSIGNED NOT NULL,
   `endereco` VARCHAR(100) NOT NULL,
-  `valorCondominio` DECIMAL NOT NULL,
-  `precoAluguel` DECIMAL NOT NULL,
-  `precoVenda` DECIMAL NOT NULL,
-  `ipva` DECIMAL NOT NULL,
+  `valorCondominio` DECIMAL UNSIGNED NOT NULL,
+  `precoAluguel` DECIMAL UNSIGNED NOT NULL,
+  `precoVenda` DECIMAL UNSIGNED NOT NULL,
+  `iptu` DECIMAL UNSIGNED NOT NULL,
   `status` ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL DEFAULT 'Disponível',
-  `precoCondominio` DECIMAL NOT NULL,
+  `precoCondominio` DECIMAL UNSIGNED NOT NULL,
   `podeAnimal` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `tipo` ENUM('Casa', 'Apartamento') NOT NULL DEFAULT 'Casa',
   `idPessoa` INT UNSIGNED NOT NULL,
@@ -73,20 +72,18 @@ CREATE TABLE IF NOT EXISTS `househub`.`Agendamento` (
   `dataVisita` DATE NOT NULL,
   `status` ENUM('Pendente', 'Recusado', 'Agendado', 'Concluído') NOT NULL DEFAULT 'Pendente',
   `idImovel` INT UNSIGNED NOT NULL,
-  `Pessoa_id` INT UNSIGNED NOT NULL,
+  `idPessoa` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Agendamento_Imovel1_idx` (`idImovel` ASC) VISIBLE,
-  INDEX `fk_Agendamento_Pessoa1_idx` (`Pessoa_id` ASC) VISIBLE,
-  INDEX `status_idx` (`status` ASC) INVISIBLE,
-  INDEX `dataVisita_idx` (`dataVisita` ASC) VISIBLE,
+  INDEX `fk_Agendamento_Pessoa1_idx` (`idPessoa` ASC) VISIBLE,
   CONSTRAINT `fk_Agendamento_Imovel1`
     FOREIGN KEY (`idImovel`)
     REFERENCES `househub`.`Imovel` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_Agendamento_Pessoa1`
-    FOREIGN KEY (`Pessoa_id`)
+    FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
@@ -101,26 +98,22 @@ CREATE TABLE IF NOT EXISTS `househub`.`Locacao` (
   `dataContrato` DATE NOT NULL,
   `dataVencimento` DATE NOT NULL,
   `dataInicio` DATE NOT NULL,
-  `dataFim` DATE NOT NULL,
+  `dataFim` DATE NULL,
   `valor` DECIMAL UNSIGNED NOT NULL,
   `status` ENUM('Ativo', 'Inativo') NOT NULL DEFAULT 'Ativo',
   `idImovel` INT UNSIGNED NOT NULL,
-  `Pessoa_id` INT UNSIGNED NOT NULL,
+  `idPessoa` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Locacao_Imovel1_idx` (`idImovel` ASC) VISIBLE,
-  INDEX `dataContrato_idx` (`dataContrato` ASC) INVISIBLE,
-  INDEX `dataInicio_idx` (`dataInicio` ASC) INVISIBLE,
-  INDEX `dataVencimento_idx` (`dataVencimento` ASC) INVISIBLE,
-  INDEX `dataFim_idx` (`dataFim` ASC) VISIBLE,
-  INDEX `fk_Locacao_Pessoa1_idx` (`Pessoa_id` ASC) VISIBLE,
+  INDEX `fk_Locacao_Pessoa1_idx` (`idPessoa` ASC) VISIBLE,
   CONSTRAINT `fk_Locacao_Imovel1`
     FOREIGN KEY (`idImovel`)
     REFERENCES `househub`.`Imovel` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_Locacao_Pessoa1`
-    FOREIGN KEY (`Pessoa_id`)
+    FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
@@ -132,14 +125,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `househub`.`Pagamento` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `dataDePagamento` DATE NOT NULL,
-  `formaDePagamento` ENUM('Dinheiro', 'Cartão de Crédito', 'Transferência Bancária', 'Boleto') NOT NULL DEFAULT 'Dinheiro',
+  `dataPagamento` DATE NOT NULL,
+  `formaPagamento` ENUM('Dinheiro', 'Cartão de Crédito', 'Transferência Bancária', 'Boleto', 'Pix') NULL,
   `pagamentoManual` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `idLocacao` INT UNSIGNED NOT NULL,
+  `status` ENUM('Pendente', 'Pago', 'Em atraso') NOT NULL DEFAULT 'Pendente',
+  `dataVencimento` DATE NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Pagamento_Locacao1_idx` (`idLocacao` ASC) VISIBLE,
-  INDEX `dataDePagamento_idx` (`dataDePagamento` ASC) INVISIBLE,
   CONSTRAINT `fk_Pagamento_Locacao1`
     FOREIGN KEY (`idLocacao`)
     REFERENCES `househub`.`Locacao` (`id`)
@@ -156,17 +150,15 @@ CREATE TABLE IF NOT EXISTS `househub`.`Avaliacao` (
   `valorAprovado` DECIMAL UNSIGNED NOT NULL,
   `documento` VARCHAR(40) NOT NULL,
   `rendaMensal` DECIMAL UNSIGNED NOT NULL,
-  `numeroDependentes` INT UNSIGNED NOT NULL,
-  `scoreSerasa` INT NOT NULL,
-  `status` ENUM('Solicitado', 'Análise', 'Aprovado', 'Reprovado') NULL,
-  `Pessoa_id` INT UNSIGNED NOT NULL,
+  `numeroDependentes` SMALLINT UNSIGNED NOT NULL,
+  `scoreSerasa` SMALLINT UNSIGNED NOT NULL,
+  `status` ENUM('Solicitado', 'Análise', 'Aprovado', 'Reprovado') NOT NULL DEFAULT 'Solicitado',
+  `idPessoa` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_Avaliacao_Pessoa1_idx` (`Pessoa_id` ASC) INVISIBLE,
-  INDEX `documento_idx` (`documento` ASC) INVISIBLE,
-  INDEX `status_idx` (`status` ASC) INVISIBLE,
+  INDEX `fk_Avaliacao_Pessoa1_idx` (`idPessoa` ASC) INVISIBLE,
   CONSTRAINT `fk_Avaliacao_Pessoa1`
-    FOREIGN KEY (`Pessoa_id`)
+    FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
@@ -189,8 +181,6 @@ CREATE TABLE IF NOT EXISTS `househub`.`SolicitacaoReparo` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_SolicitacaoReparo_Locacao1_idx` (`idLocacao` ASC) INVISIBLE,
   INDEX `descricao_idx` (`descricao` ASC) INVISIBLE,
-  INDEX `data_idx` (`data` ASC) INVISIBLE,
-  INDEX `status_idx` (`status` ASC) VISIBLE,
   CONSTRAINT `fk_SolicitacaoReparo_Locacao1`
     FOREIGN KEY (`idLocacao`)
     REFERENCES `househub`.`Locacao` (`id`)
