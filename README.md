@@ -1,5 +1,5 @@
 <div align="center">
-  <img style="border-radius: 20px" width="300px" src="logomarca.webp"/>
+  <img style="border-radius: 20px" width="300px" src="houseHub__b.svg"/>
   <h3>Sistema para gestão de imóveis</h3>
 </div>
 
