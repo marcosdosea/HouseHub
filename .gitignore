@@ -98,6 +98,9 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+#extensão gerada pelo sql workbench
+*.bak
+
 # Chutzpah Test files
 _Chutzpah*
 
