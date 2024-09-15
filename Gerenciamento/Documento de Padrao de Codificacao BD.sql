@@ -23,7 +23,14 @@ CREATE TABLE IF NOT EXISTS `househub`.`Pessoa` (
   `cpf` VARCHAR(11) NOT NULL,
   `dataNascimento` DATE NOT NULL,
   `telefone` VARCHAR(15) NOT NULL,
-  `email` VARCHAR(50) NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `bairro` VARCHAR(50) NULL,
+  `estado` VARCHAR(45) NULL,
+  `cidade` VARCHAR(45) NULL,
+  `logradouro` VARCHAR(100) NULL,
+  `cep` VARCHAR(8) NULL,
+  `numero` VARCHAR(20) NULL,
+  `complemento` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) INVISIBLE,
@@ -39,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `descricao` VARCHAR(40) NOT NULL,
   `quartos` TINYINT UNSIGNED NOT NULL,
   `banheiros` TINYINT UNSIGNED NOT NULL,
-  `endereco` VARCHAR(100) NOT NULL,
   `valorCondominio` DECIMAL UNSIGNED NOT NULL,
   `precoAluguel` DECIMAL UNSIGNED NOT NULL,
   `precoVenda` DECIMAL UNSIGNED NOT NULL,
@@ -49,11 +55,21 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `podeAnimal` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `tipo` ENUM('Casa', 'Apartamento') NOT NULL DEFAULT 'Casa',
   `idPessoa` INT UNSIGNED NOT NULL,
+  `bairro` VARCHAR(100) NOT NULL,
+  `estado` VARCHAR(100) NOT NULL,
+  `cidade` VARCHAR(100) NOT NULL,
+  `cep` VARCHAR(8) NOT NULL,
+  `logradouro` VARCHAR(45) NOT NULL,
+  `numero` VARCHAR(45) NOT NULL,
+  `complemento` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Imovel_Pessoa1_idx` (`idPessoa` ASC) VISIBLE,
-  INDEX `endereco_idx` (`endereco` ASC) VISIBLE,
   INDEX `descricao_idx` (`descricao` ASC) VISIBLE,
+  INDEX `bairro_idx` (`bairro` ASC) INVISIBLE,
+  INDEX `estado_idx` (`estado` ASC) INVISIBLE,
+  INDEX `cidade_idx` (`cidade` ASC) INVISIBLE,
+  INDEX `logradouro_idx` (`logradouro` ASC) VISIBLE,
   CONSTRAINT `fk_Imovel_Pessoa1`
     FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
@@ -126,7 +142,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `househub`.`Pagamento` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `dataPagamento` DATE NOT NULL,
-  `formaPagamento` ENUM('Dinheiro', 'Cartão de Crédito', 'Transferência Bancária', 'Boleto', 'Pix') NULL,
+  `formaPagamento` ENUM('Dinheiro', 'Cartão de Crédito', 'Transferência Bancária', 'Boleto', 'Pix') NOT NULL,
   `pagamentoManual` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `idLocacao` INT UNSIGNED NOT NULL,
   `status` ENUM('Pendente', 'Pago', 'Em atraso') NOT NULL DEFAULT 'Pendente',
@@ -143,6 +159,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `househub`.`ResultadoAvaliacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`ResultadoAvaliacao` (
+  `id` INT UNSIGNED NOT NULL,
+  `descricao` VARCHAR(200) NOT NULL,
+  `aprovado` TINYINT NULL DEFAULT 0 COMMENT '0 - Não\n1 - Sim',
+  `dataFinalizado` DATE NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `househub`.`Avaliacao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `househub`.`Avaliacao` (
@@ -154,14 +182,21 @@ CREATE TABLE IF NOT EXISTS `househub`.`Avaliacao` (
   `scoreSerasa` SMALLINT UNSIGNED NOT NULL,
   `status` ENUM('Solicitado', 'Análise', 'Aprovado', 'Reprovado') NOT NULL DEFAULT 'Solicitado',
   `idPessoa` INT UNSIGNED NOT NULL,
+  `ResultadoAvaliacao_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Avaliacao_Pessoa1_idx` (`idPessoa` ASC) INVISIBLE,
+  INDEX `fk_Avaliacao_ResultadoAvaliacao1_idx` (`ResultadoAvaliacao_id` ASC) VISIBLE,
   CONSTRAINT `fk_Avaliacao_Pessoa1`
     FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
     ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    ON UPDATE RESTRICT,
+  CONSTRAINT `fk_Avaliacao_ResultadoAvaliacao1`
+    FOREIGN KEY (`ResultadoAvaliacao_id`)
+    REFERENCES `househub`.`ResultadoAvaliacao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -186,6 +221,18 @@ CREATE TABLE IF NOT EXISTS `househub`.`SolicitacaoReparo` (
     REFERENCES `househub`.`Locacao` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `househub`.`Valores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`Valores` (
+  `id` INT UNSIGNED NOT NULL,
+  `descricao` VARCHAR(45) NULL,
+  `valor` DECIMAL NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Descricao_UNIQUE` (`descricao` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
