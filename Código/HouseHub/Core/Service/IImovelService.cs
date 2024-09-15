@@ -12,6 +12,5 @@ namespace Core.Service {
         void Delete(Imovel imovel);
         Imovel Get(int id);
         IEnumerable<Imovel> GetAll();
-        Imovel GetById(int id);
     }
 }

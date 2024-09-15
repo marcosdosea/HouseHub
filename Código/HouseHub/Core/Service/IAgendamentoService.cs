@@ -8,10 +8,9 @@ namespace Core.Service {
     public interface IAgendamentoService 
     {
         void Create(Agendamento agendamento);
-        void Edit(Agendamento agendamento);
+        void Update(Agendamento agendamento);
         void Delete(Agendamento agendamento);
         Agendamento Get(int id);
         IEnumerable<Agendamento> GetAll();
-        Agendamento GetById(int id);
     }
 }

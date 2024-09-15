@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Service {
-    public interface ISolicitacaoreparo 
+    public interface ISolicitacaoreparoService 
     {
         void Create(Solicitacaoreparo solicitacaoreparo);
         void Update(Solicitacaoreparo solicitacaoreparo);

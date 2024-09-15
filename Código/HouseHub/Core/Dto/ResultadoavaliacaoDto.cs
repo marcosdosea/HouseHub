@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Dto {
-    internal class Resultadoavaliacao {
+    internal class ResultadoavaliacaoDto {
     }
 }
