@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHubWeb", "HouseHubWeb\HouseHubWeb.csproj", "{6D513089-4EA4-44E4-A797-CD5DA81C2160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseHubWeb", "HouseHubWeb\HouseHubWeb.csproj", "{6D513089-4EA4-44E4-A797-CD5DA81C2160}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F206FEE5-A485-4228-A836-595586FC5FD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{8CBC7667-C4F9-4109-8C42-23A26EE3D521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6D513089-4EA4-44E4-A797-CD5DA81C2160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D513089-4EA4-44E4-A797-CD5DA81C2160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D513089-4EA4-44E4-A797-CD5DA81C2160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F206FEE5-A485-4228-A836-595586FC5FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F206FEE5-A485-4228-A836-595586FC5FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F206FEE5-A485-4228-A836-595586FC5FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F206FEE5-A485-4228-A836-595586FC5FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CBC7667-C4F9-4109-8C42-23A26EE3D521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CBC7667-C4F9-4109-8C42-23A26EE3D521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CBC7667-C4F9-4109-8C42-23A26EE3D521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CBC7667-C4F9-4109-8C42-23A26EE3D521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
