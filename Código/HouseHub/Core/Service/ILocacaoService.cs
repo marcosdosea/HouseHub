@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface ILocacaoService 
     {
-        void Creat(Locacao locacao);
+        uint Create(Locacao locacao);
         void Update(Locacao locacao);
         void Delete(Locacao locacao);
         Locacao Get(int id);

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IResultadoavaliacaoService 
     {
-        void Create(Resultadoavaliacao resultadoavaliacao);
+        uint Create(Resultadoavaliacao resultadoavaliacao);
         void Update(Resultadoavaliacao resultadoavaliacao);
-        void Delete(Resultadoavaliacao resultadoavaliacao);
+        void Delete(uint id);
         Resultadoavaliacao Get(int id);
         IEnumerable<Resultadoavaliacao> GetAll();
 

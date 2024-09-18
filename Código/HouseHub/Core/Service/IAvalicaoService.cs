@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IAvalicaoService 
     {
-        void Create(Avaliacao avaliacao);
+        uint Create(Avaliacao avaliacao);
         void Update(Avaliacao avaliacao);
         void Delete(Avaliacao avaliacao);
         Avaliacao Get(int id);
         IEnumerable<Avaliacao> GetAll();
     }
+
 }

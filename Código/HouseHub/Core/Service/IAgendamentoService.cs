@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IAgendamentoService 
     {
-        void Create(Agendamento agendamento);
+        uint Create(Agendamento agendamento);
         void Update(Agendamento agendamento);
-        void Delete(Agendamento agendamento);
-        Agendamento Get(int id);
+        void Delete(uint Id);
+        Agendamento? Get(uint Id);
         IEnumerable<Agendamento> GetAll();
     }
 }
