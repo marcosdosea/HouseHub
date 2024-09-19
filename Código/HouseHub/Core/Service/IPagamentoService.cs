@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IPagamentoService
     {
-        void Create(Pagamento pagamento);
+        uint Create(Pagamento pagamento);
         void Update(Pagamento pagamento);
         void Delete(Pagamento pagamento);
         Pagamento Get(int id);
