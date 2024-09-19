@@ -1,10 +1,22 @@
+using Core;
 using Core.Service;
+using Microsoft.EntityFrameworkCore;
 using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("HouseHubDatabase") ?? throw new InvalidOperationException();
+builder.Services.AddDbContext<HouseHubContext>(options =>
+{
+    options.UseMySQL(connectionString);
+});
+
+builder.Services.AddTransient<IAgendamentoService, AgendamentoService>();
+builder.Services.AddTransient<IAvalicaoService, AvaliacaoService>();
+builder.Services.AddTransient<IImovelService, ImovelService>();
 
 var app = builder.Build();
 

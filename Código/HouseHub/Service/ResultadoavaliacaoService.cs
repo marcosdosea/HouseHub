@@ -6,25 +6,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service {
-    public class ResultadoavaliacaoService : IResultadoavaliacaoService {
-        public void Create(Resultadoavaliacao resultadoavaliacao) {
+namespace Service
+{
+    public class ResultadoavaliacaoService : IResultadoavaliacaoService
+    {
+        public uint Create(Resultadoavaliacao resultadoavaliacao)
+        {
             throw new NotImplementedException();
         }
 
-        public void Delete(Resultadoavaliacao resultadoavaliacao) {
+        public void Delete(uint id)
+        {
             throw new NotImplementedException();
         }
 
-        public Resultadoavaliacao Get(int id) {
+        public Resultadoavaliacao Get(int id)
+        {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Resultadoavaliacao> GetAll() {
+        public IEnumerable<Resultadoavaliacao> GetAll()
+        {
             throw new NotImplementedException();
         }
 
-        public void Update(Resultadoavaliacao resultadoavaliacao) {
+        public void Update(Resultadoavaliacao resultadoavaliacao)
+        {
             throw new NotImplementedException();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Service;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace Service {
         /// <param name="id"></param>
         /// <returns></returns>
         public Agendamento? Get(uint id) {
-            return houseHubContext.Agendamentos.Find(id);
+            return houseHubContext.Agendamentos.AsNoTracking().Find(id);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Service {
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Agendamento> GetAll() {
-            return houseHubContext.Agendamentos;
+            return houseHubContext.Agendamentos.AsNoTracking();
         }
 
         /// <summary>
