@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service {
-    public class AgendamentoService : IAgendamentoService {
-
+namespace Service
+{
+    public class AgendamentoService : IAgendamentoService
+    {
         private readonly HouseHubContext houseHubContext;
 
         public AgendamentoService(HouseHubContext houseHubContext)
@@ -22,14 +23,15 @@ namespace Service {
         /// </summary>
         /// <param name="agendamento"></param>
         /// <returns>Id do agendamento criado</returns>
-        public uint Create(Agendamento agendamento) {
-            
+        public uint Create(Agendamento agendamento)
+        {
             houseHubContext.Agendamentos.Add(agendamento);
             houseHubContext.SaveChanges();
             return agendamento.Id;
         }
 
-        public void Delete(uint Id) {
+        public void Delete(uint Id)
+        {
             var agendamento = houseHubContext.Agendamentos.Find(Id);
             if (agendamento != null)
             {
@@ -43,7 +45,8 @@ namespace Service {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Agendamento? Get(uint id) {
+        public Agendamento? Get(uint id)
+        {
             return houseHubContext.Agendamentos.AsNoTracking().Find(id);
         }
 
@@ -51,7 +54,8 @@ namespace Service {
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Agendamento> GetAll() {
+        public IEnumerable<Agendamento> GetAll()
+        {
             return houseHubContext.Agendamentos.AsNoTracking();
         }
 
@@ -59,7 +63,8 @@ namespace Service {
         /// faz a atualizacao de uma entidade caso nao esteja usando as no tracking
         /// </summary>
         /// <param name="agendamento"></param>
-        public void Update(Agendamento agendamento) {
+        public void Update(Agendamento agendamento)
+        {
             houseHubContext.Agendamentos.Update(agendamento);
             houseHubContext.SaveChanges();
         }

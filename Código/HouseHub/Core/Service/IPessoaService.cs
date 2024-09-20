@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IPessoaService 
     {
-        void Create(Pessoa pessoa);
+        uint Create(Pessoa pessoa);
         void Update(Pessoa pessoa);
         void Delete(Pessoa pessoa);
-        Pessoa Get(int id);
+        Pessoa Get(uint id);
         IEnumerable<Pessoa> GetAll();
         IEnumerable<Pessoa> GetByNome(string nome);
     }

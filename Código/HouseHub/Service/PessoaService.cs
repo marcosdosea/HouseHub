@@ -7,28 +7,35 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Service {
-    public class PessoaService : IPessoaService {
-        public void Create(Pessoa pessoa) {
+    public class PessoaService : IPessoaService
+    {
+        public uint Create(Pessoa pessoa)
+        {
             throw new NotImplementedException();
         }
 
-        public void Delete(Pessoa pessoa) {
+        public void Delete(Pessoa pessoa)
+        {
             throw new NotImplementedException();
         }
 
-        public Pessoa Get(int id) {
+        public Pessoa Get(uint id)
+        {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Pessoa> GetAll() {
+        public IEnumerable<Pessoa> GetAll()
+        {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Pessoa> GetByNome(string nome) {
+        public IEnumerable<Pessoa> GetByNome(string nome)
+        {
             throw new NotImplementedException();
         }
 
-        public void Update(Pessoa pessoa) {
+        public void Update(Pessoa pessoa)
+        {
             throw new NotImplementedException();
         }
     }

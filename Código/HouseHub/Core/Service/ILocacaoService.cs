@@ -10,7 +10,7 @@ namespace Core.Service {
         uint Create(Locacao locacao);
         void Update(Locacao locacao);
         void Delete(Locacao locacao);
-        Locacao Get(int id);
+        Locacao Get(uint id);
         IEnumerable<Locacao> GetAll();
 
     }
