@@ -47,9 +47,9 @@ namespace Service {
         }
 
         /// <summary>
-        /// retorna todos os imoveis
+        /// pega todos os imoveis
         /// </summary>
-        /// <returns></returns>
+        /// <returns> vai retornar os imoveis</returns>
         public IEnumerable<Imovel> GetAll() {
             return houseHubContext.Imovels.AsNoTracking();
         }
