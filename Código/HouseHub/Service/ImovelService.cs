@@ -25,7 +25,10 @@ namespace Service {
             houseHubContext.SaveChanges();
             return imovel.Id;
         }
-
+        /// <summary>
+        /// remove um imovel
+        /// </summary>
+        /// <param name="imovel"></param>
         public void Delete(Imovel imovel) {
             var imovelToDelete = houseHubContext.Imovels.Find(imovel.Id);
             if (imovelToDelete != null)
@@ -34,15 +37,26 @@ namespace Service {
                 houseHubContext.SaveChanges();
             }
         }
-
+        /// <summary>
+        /// pega um imovel
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> retorna o imovel </returns>
         public Imovel Get(uint id) {
             return houseHubContext.Imovels.AsNoTracking().Find(id);
         }
 
+        /// <summary>
+        /// retorna todos os imoveis
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Imovel> GetAll() {
             return houseHubContext.Imovels.AsNoTracking();
         }
-
+        /// <summary>
+        /// atualiza um imovel
+        /// </summary>
+        /// <param name="imovel"></param>
         public void Update(Imovel imovel) {
             houseHubContext.Imovels.Update(imovel);
             houseHubContext.SaveChanges();
