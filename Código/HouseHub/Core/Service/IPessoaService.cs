@@ -9,8 +9,8 @@ namespace Core.Service {
     {
         uint Create(Pessoa pessoa);
         void Update(Pessoa pessoa);
-        void Delete(Pessoa pessoa);
-        Pessoa Get(uint id);
+        bool Delete(uint Id);
+        Pessoa? Get(uint id);
         IEnumerable<Pessoa> GetAll();
         IEnumerable<Pessoa> GetByNome(string nome);
     }
