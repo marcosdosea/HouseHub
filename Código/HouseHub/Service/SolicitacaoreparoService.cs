@@ -51,7 +51,7 @@ namespace Service
         /// <returns>retorna a solicitação de reparo encontrada</returns>
         public Solicitacaoreparo? Get(uint id)
         {
-            return houseHubContext.Solicitacaoreparos.AsNoTracking().Find(id);
+            return houseHubContext.Solicitacaoreparos.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
         /// <summary>
         /// 
@@ -59,7 +59,7 @@ namespace Service
         /// <returns>retorna a lista de solicitações de reparo</returns>
         public IEnumerable<Solicitacaoreparo> GetAll()
         {
-            return houseHubContext.Agendamentos.AsNoTracking();
+            return houseHubContext.Solicitacaoreparos.AsNoTracking();
         }
         /// <summary>
         /// faz a atualização de uma entidade caso não esteja usando as no tracking
