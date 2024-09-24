@@ -7,36 +7,81 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Service {
-    public class PessoaService : IPessoaService
+    public class PessoaService : IPessoaService 
     {
-        public uint Create(Pessoa pessoa)
+
+        private readonly HouseHubContext houseHubContext;
+        public PessoaService(HouseHubContext houseHubContext) 
         {
-            throw new NotImplementedException();
+            this.houseHubContext = houseHubContext;
         }
 
-        public void Delete(Pessoa pessoa)
+        /// <summary>
+        /// Cria uma pessoa
+        /// </summary>
+        /// <param name="pessoa"></param>
+        /// <returns>Retorna o id da pessoa cadastrada</returns>
+        public uint Create(Pessoa pessoa) 
         {
-            throw new NotImplementedException();
+            houseHubContext.Pessoas.Add(pessoa);
+            houseHubContext.SaveChanges();
+            return pessoa.Id;
         }
 
-        public Pessoa Get(uint id)
+        /// <summary>
+        /// Deleta uma pessoa
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>Retorna verdadeiro se a remoção for bem sucedida</returns>
+        public bool Delete(uint Id) 
         {
-            throw new NotImplementedException();
+            var Pessoa = houseHubContext.Pessoas.Find(Id);
+            if(Pessoa != null) 
+            {
+                houseHubContext.Remove(Pessoa);
+                houseHubContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public IEnumerable<Pessoa> GetAll()
+        /// <summary>
+        /// Obter uma pessoa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Retorna um registro de pessoa através do id</returns>
+        public Pessoa? Get(uint id)
         {
-            throw new NotImplementedException();
+            return houseHubContext.Pessoas.Find(id);
         }
 
-        public IEnumerable<Pessoa> GetByNome(string nome)
+        /// <summary>
+        /// Obter todas as pessoas com as no tracking
+        /// </summary>
+        /// <returns>Retorna uma lista com todas as pessoas</returns>
+        public IEnumerable<Pessoa> GetAll() 
         {
-            throw new NotImplementedException();
+            return houseHubContext.Pessoas.AsNoTracking();
         }
 
-        public void Update(Pessoa pessoa)
+        /// <summary>
+        /// Obter uma ou mais pessoas pelo nome com as no tracking
+        /// </summary>
+        /// <param name="nome"></param>
+        /// <returns>Retorna uma ou mais pessoas que contenham o mesmo nome</returns>
+        public IEnumerable<Pessoa> GetByNome(string nome) 
         {
-            throw new NotImplementedException();
+            return houseHubContext.Pessoas.AsNoTracking().Where(p => p.Nome.Contains(nome));
+        }
+
+        /// <summary>
+        /// Atualiza o registro de uma pessoa
+        /// </summary>
+        /// <param name="pessoa"></param>
+        public void Update(Pessoa pessoa) 
+        {
+            houseHubContext.Pessoas.Update(pessoa);
+            houseHubContext.SaveChanges();
         }
     }
 }
