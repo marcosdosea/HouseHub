@@ -10,7 +10,7 @@ namespace Core.Service {
         uint Create(Imovel imovel);
         void Update(Imovel imovel);
         void Delete(Imovel imovel);
-        Imovel Get(uint id);
+        Imovel ? Get(uint id);
         IEnumerable<Imovel> GetAll();
     }
 }

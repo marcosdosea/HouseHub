@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Service;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,8 +43,8 @@ namespace Service {
         /// </summary>
         /// <param name="id"></param>
         /// <returns> retorna o imovel </returns>
-        public Imovel Get(uint id) {
-            return houseHubContext.Imovels.AsNoTracking().Find(id);
+        public Imovel ? Get(uint id) {
+            return houseHubContext.Imovels.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
         /// <summary>
