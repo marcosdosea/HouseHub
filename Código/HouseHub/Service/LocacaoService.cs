@@ -10,29 +10,66 @@ namespace Service
 {
     public class LocacaoService : ILocacaoService
     {
+        private readonly HouseHubContext houseHubContext;
+        public LocacaoService(HouseHubContext houseHubContext)
+        {
+            this.houseHubContext = houseHubContext;
+        }
+        /// <summary>
+        /// Cria uma locação no banco de dados
+        /// </summary>
+        /// <param name="locacao"></param>
+        /// <returns>retorna o id da locação criada</returns>
+
         public uint Create(Locacao locacao)
         {
-            throw new NotImplementedException();
+            houseHubContext.Locacaos.Add(locacao);
+            houseHubContext.SaveChanges();
+            return locacao.Id;
         }
 
-        public void Delete(Locacao locacao)
+        /// <summary>
+        /// deleta uma locação do banco de dados
+        /// </summary>
+        /// <param name="id"></param>
+        public void Delete(uint id)
         {
-            throw new NotImplementedException();
+            var locacao = houseHubContext.Locacaos.Find(id);
+            if (locacao != null)
+            {
+                houseHubContext.Remove(locacao);
+                houseHubContext.SaveChanges();
+            }
+        }
+        /// <summary>
+        /// busca uma locação no banco de dados pelo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>retorna uma locação caso não eista retorna nulo</returns>
+
+        public Locacao? Get(uint id)
+        {
+            return houseHubContext.Locacaos.Find(id);
         }
 
-        public Locacao Get(uint id)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// retorna todas as locações do banco de dados
+        /// </summary>
+        /// <returns></returns>
 
         public IEnumerable<Locacao> GetAll()
         {
-            throw new NotImplementedException();
+            return houseHubContext.Locacaos;
         }
 
+        /// <summary>
+        /// atualiza uma locação no banco de dados
+        /// </summary>
+        /// <param name="locacao"></param>
         public void Update(Locacao locacao)
         {
-            throw new NotImplementedException();
+            houseHubContext.Locacaos.Update(locacao);
+            houseHubContext.SaveChanges();
         }
     }
 }
