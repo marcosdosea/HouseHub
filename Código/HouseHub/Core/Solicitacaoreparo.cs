@@ -25,4 +25,6 @@ public partial class Solicitacaoreparo
     public uint IdLocacao { get; set; }
 
     public virtual Locacao IdLocacaoNavigation { get; set; } = null!;
+
+    public virtual ICollection<Imagem> Imagems { get; set; } = new List<Imagem>();
 }

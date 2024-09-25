@@ -236,6 +236,61 @@ CREATE TABLE IF NOT EXISTS `househub`.`Valores` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `househub`.`Imagem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`Imagem` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `URL` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `URL_UNIQUE` (`URL` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `househub`.`ImovelImagem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`ImovelImagem` (
+  `Imovel_id` INT UNSIGNED NOT NULL,
+  `Imagem_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`Imovel_id`, `Imagem_id`),
+  INDEX `fk_Imovel_has_Imagem_Imagem1_idx` (`Imagem_id` ASC) VISIBLE,
+  INDEX `fk_Imovel_has_Imagem_Imovel1_idx` (`Imovel_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Imovel_has_Imagem_Imovel1`
+    FOREIGN KEY (`Imovel_id`)
+    REFERENCES `househub`.`Imovel` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Imovel_has_Imagem_Imagem1`
+    FOREIGN KEY (`Imagem_id`)
+    REFERENCES `househub`.`Imagem` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `househub`.`SolicitacaoReparoImagem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`SolicitacaoReparoImagem` (
+  `SolicitacaoReparo_id` INT UNSIGNED NOT NULL,
+  `Imagem_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`SolicitacaoReparo_id`, `Imagem_id`),
+  INDEX `fk_SolicitacaoReparo_has_Imagem_Imagem1_idx` (`Imagem_id` ASC) VISIBLE,
+  INDEX `fk_SolicitacaoReparo_has_Imagem_SolicitacaoReparo1_idx` (`SolicitacaoReparo_id` ASC) VISIBLE,
+  CONSTRAINT `fk_SolicitacaoReparo_has_Imagem_SolicitacaoReparo1`
+    FOREIGN KEY (`SolicitacaoReparo_id`)
+    REFERENCES `househub`.`SolicitacaoReparo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SolicitacaoReparo_has_Imagem_Imagem1`
+    FOREIGN KEY (`Imagem_id`)
+    REFERENCES `househub`.`Imagem` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

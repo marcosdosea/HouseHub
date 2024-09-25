@@ -53,4 +53,6 @@ public partial class Imovel
     public virtual Pessoa IdPessoaNavigation { get; set; } = null!;
 
     public virtual ICollection<Locacao> Locacaos { get; set; } = new List<Locacao>();
+
+    public virtual ICollection<Imagem> Imagems { get; set; } = new List<Imagem>();
 }
