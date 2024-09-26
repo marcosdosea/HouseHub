@@ -19,6 +19,8 @@ public partial class HouseHubContext : DbContext
 
     public virtual DbSet<Avaliacao> Avaliacaos { get; set; }
 
+    public virtual DbSet<Imagem> Imagems { get; set; }
+
     public virtual DbSet<Imovel> Imovels { get; set; }
 
     public virtual DbSet<Locacao> Locacaos { get; set; }
@@ -33,7 +35,9 @@ public partial class HouseHubContext : DbContext
 
     public virtual DbSet<Valore> Valores { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=m4rcos;database=househub");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -119,6 +123,20 @@ public partial class HouseHubContext : DbContext
                 .HasConstraintName("fk_Avaliacao_ResultadoAvaliacao1");
         });
 
+        modelBuilder.Entity<Imagem>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("imagem");
+
+            entity.HasIndex(e => e.Url, "URL_UNIQUE").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Url)
+                .HasMaxLength(200)
+                .HasColumnName("URL");
+        });
+
         modelBuilder.Entity<Imovel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -198,6 +216,27 @@ public partial class HouseHubContext : DbContext
                 .HasForeignKey(d => d.IdPessoa)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_Imovel_Pessoa1");
+
+            entity.HasMany(d => d.Imagems).WithMany(p => p.Imovels)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Imovelimagem",
+                    r => r.HasOne<Imagem>().WithMany()
+                        .HasForeignKey("ImagemId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_Imovel_has_Imagem_Imagem1"),
+                    l => l.HasOne<Imovel>().WithMany()
+                        .HasForeignKey("ImovelId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_Imovel_has_Imagem_Imovel1"),
+                    j =>
+                    {
+                        j.HasKey("ImovelId", "ImagemId").HasName("PRIMARY");
+                        j.ToTable("imovelimagem");
+                        j.HasIndex(new[] { "ImagemId" }, "fk_Imovel_has_Imagem_Imagem1_idx");
+                        j.HasIndex(new[] { "ImovelId" }, "fk_Imovel_has_Imagem_Imovel1_idx");
+                        j.IndexerProperty<uint>("ImovelId").HasColumnName("Imovel_id");
+                        j.IndexerProperty<uint>("ImagemId").HasColumnName("Imagem_id");
+                    });
         });
 
         modelBuilder.Entity<Locacao>(entity =>
@@ -390,6 +429,27 @@ public partial class HouseHubContext : DbContext
                 .HasForeignKey(d => d.IdLocacao)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_SolicitacaoReparo_Locacao1");
+
+            entity.HasMany(d => d.Imagems).WithMany(p => p.SolicitacaoReparos)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Solicitacaoreparoimagem",
+                    r => r.HasOne<Imagem>().WithMany()
+                        .HasForeignKey("ImagemId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_SolicitacaoReparo_has_Imagem_Imagem1"),
+                    l => l.HasOne<Solicitacaoreparo>().WithMany()
+                        .HasForeignKey("SolicitacaoReparoId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_SolicitacaoReparo_has_Imagem_SolicitacaoReparo1"),
+                    j =>
+                    {
+                        j.HasKey("SolicitacaoReparoId", "ImagemId").HasName("PRIMARY");
+                        j.ToTable("solicitacaoreparoimagem");
+                        j.HasIndex(new[] { "ImagemId" }, "fk_SolicitacaoReparo_has_Imagem_Imagem1_idx");
+                        j.HasIndex(new[] { "SolicitacaoReparoId" }, "fk_SolicitacaoReparo_has_Imagem_SolicitacaoReparo1_idx");
+                        j.IndexerProperty<uint>("SolicitacaoReparoId").HasColumnName("SolicitacaoReparo_id");
+                        j.IndexerProperty<uint>("ImagemId").HasColumnName("Imagem_id");
+                    });
         });
 
         modelBuilder.Entity<Valore>(entity =>
