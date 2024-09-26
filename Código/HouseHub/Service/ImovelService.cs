@@ -30,8 +30,8 @@ namespace Service {
         /// remove um imovel
         /// </summary>
         /// <param name="imovel"></param>
-        public void Delete(Imovel imovel) {
-            var imovelToDelete = houseHubContext.Imovels.Find(imovel.Id);
+        public void Delete(uint imovel) {
+            var imovelToDelete = houseHubContext.Imovels.Find(imovel);
             if (imovelToDelete != null)
             {
                 houseHubContext.Remove(imovelToDelete);
