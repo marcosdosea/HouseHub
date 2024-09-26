@@ -10,7 +10,7 @@ namespace Core.Service {
         uint Create(Resultadoavaliacao resultadoavaliacao);
         void Update(Resultadoavaliacao resultadoavaliacao);
         void Delete(uint id);
-        Resultadoavaliacao Get(int id);
+        Resultadoavaliacao? Get(int id);
         IEnumerable<Resultadoavaliacao> GetAll();
 
     }

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Service;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +11,43 @@ namespace Service
 {
     public class ResultadoavaliacaoService : IResultadoavaliacaoService
     {
+        private readonly HouseHubContext houseHubContext;
+
+        public ResultadoavaliacaoService(HouseHubContext houseHubContext)
+        {
+            this.houseHubContext = houseHubContext;
+        }
+
         public uint Create(Resultadoavaliacao resultadoavaliacao)
         {
-            throw new NotImplementedException();
+            houseHubContext.Add(resultadoavaliacao);
+            houseHubContext.SaveChanges();
+            return resultadoavaliacao.Id;
         }
 
         public void Delete(uint id)
         {
-            throw new NotImplementedException();
+            var resultadoavaliacao = houseHubContext.Resultadoavaliacaos.Find(id);
+            if (resultadoavaliacao == null) { return; }
+            houseHubContext.Resultadoavaliacaos.Remove(resultadoavaliacao);
+            houseHubContext.SaveChanges();
         }
 
-        public Resultadoavaliacao Get(int id)
+        public Resultadoavaliacao? Get(int id)
         {
-            throw new NotImplementedException();
+            var resultadoavaliacao = houseHubContext.Resultadoavaliacaos.Find(id);
+            return resultadoavaliacao;
         }
 
         public IEnumerable<Resultadoavaliacao> GetAll()
         {
-            throw new NotImplementedException();
+            return houseHubContext.Resultadoavaliacaos.AsNoTracking();
         }
 
         public void Update(Resultadoavaliacao resultadoavaliacao)
         {
-            throw new NotImplementedException();
+            houseHubContext.Resultadoavaliacaos.Update(resultadoavaliacao);
+            houseHubContext.SaveChanges();
         }
     }
 }
