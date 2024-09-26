@@ -18,6 +18,8 @@ builder.Services.AddTransient<IAgendamentoService, AgendamentoService>();
 builder.Services.AddTransient<IAvalicaoService, AvaliacaoService>();
 builder.Services.AddTransient<IImovelService, ImovelService>();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

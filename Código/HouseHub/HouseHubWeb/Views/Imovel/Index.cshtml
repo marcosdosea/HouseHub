@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ImovelViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="d-flex justify-content-around flex-row">
+    <h1> Meus imovéis</h1>
+
+    <nav class="nav justify-content-end">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link disabled">Disabled</a>
+    </nav>
+</div>
+
+
+
+<section class="table">
+
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <p>
+                @if (true)
+                {
+                    <text>Para alugar</text>
+                }
+            </p>
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@item.PrecoAluguel</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+    }
+</section>
+
+
+<a class="btn-lg rounded-circle btn plus-button" asp-action="Create">
+    +
+</a>
