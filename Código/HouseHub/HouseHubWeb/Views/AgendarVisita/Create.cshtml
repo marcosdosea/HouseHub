@@ -18,16 +18,13 @@
                 <span asp-validation-for="Observacoes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataCriacao" class="control-label"></label>
-                <input asp-for="DataCriacao" class="form-control" />
-                <span asp-validation-for="DataCriacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="DataVisita" class="control-label"></label>
                 <input asp-for="DataVisita" class="form-control" />
                 <span asp-validation-for="DataVisita" class="text-danger"></span>
             </div>
            
+            <p>@Model.Telefone </p>
+
             @Html.HiddenFor(x => x.IdImovel)
             
 

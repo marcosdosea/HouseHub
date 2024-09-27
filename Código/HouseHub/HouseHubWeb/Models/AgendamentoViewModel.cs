@@ -1,4 +1,6 @@
-﻿namespace HouseHubWeb.Models
+﻿using Org.BouncyCastle.Bcpg.OpenPgp;
+
+namespace HouseHubWeb.Models
 {
     public class AgendamentoViewModel
     {
@@ -9,5 +11,8 @@
         public string Status { get; set; }
         public uint IdImovel { get; set; }
         public uint IdPessoa { get; set; }
+
+        public string Telefone { get; set; } = string.Empty;
+
     }
 }
