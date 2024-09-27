@@ -11,6 +11,6 @@ namespace Core.Service {
         void Update(Agendamento agendamento);
         void Delete(uint Id);
         Agendamento? Get(uint Id);
-        IEnumerable<Agendamento> GetAll();
+       
     }
 }
