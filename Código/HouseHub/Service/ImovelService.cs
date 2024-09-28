@@ -45,7 +45,7 @@ namespace Service {
         /// <param name="id"></param>
         /// <returns> retorna o imovel </returns>
         public Imovel ? Get(uint id) {
-            return houseHubContext.Imovels.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return houseHubContext.Imovels.FirstOrDefault(x => x.Id == id);
         }
 
         /// <summary>

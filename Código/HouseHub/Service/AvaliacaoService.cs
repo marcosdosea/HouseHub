@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service {
+namespace Service
+{
     public class AvaliacaoService : IAvalicaoService
     {
         private readonly HouseHubContext houseHubContext;
@@ -17,37 +18,16 @@ namespace Service {
             this.houseHubContext = houseHubContext;
         }
 
+        /// <summary>
+        /// Cria uma nova Avaliação.
+        /// </summary>
+        /// <param name="avaliacao">O objeto Avaliação a ser criado.</param>
+        /// <returns>O ID da Avaliação criada.</returns>
         public uint Create(Avaliacao avaliacao)
         {
             houseHubContext.Add(avaliacao);
             houseHubContext.SaveChanges();
             return avaliacao.Id;
-        }
-
-        public void Delete(Avaliacao avaliacao)
-        {
-            var _avaliacao = houseHubContext.Avaliacaos.Find(avaliacao.Id);
-            if( _avaliacao != null)
-            {
-                houseHubContext.Remove(_avaliacao);
-                houseHubContext.SaveChanges();
-            }
-        }
-
-        public Avaliacao Get(int id)
-        {
-            return houseHubContext.Avaliacaos.Find(id);
-        }
-
-        public IEnumerable<Avaliacao> GetAll()
-        {
-            return houseHubContext.Avaliacaos.AsNoTracking();
-        }
-
-        public void Update(Avaliacao avaliacao)
-        {
-            houseHubContext.Update(avaliacao);
-            houseHubContext.SaveChanges();
         }
     }
 }

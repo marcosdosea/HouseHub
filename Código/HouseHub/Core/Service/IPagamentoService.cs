@@ -8,10 +8,5 @@ namespace Core.Service {
     public interface IPagamentoService
     {
         uint Create(Pagamento pagamento);
-        void Update(Pagamento pagamento);
-        void Delete(Pagamento pagamento);
-        Pagamento? Get(int id);
-        IEnumerable<Pagamento> GetAll();
-
     }
 }

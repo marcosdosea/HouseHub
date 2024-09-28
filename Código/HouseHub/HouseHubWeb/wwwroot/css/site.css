@@ -1,3 +1,7 @@
+:root {
+    --cor-de-btn: #FF5C00;
+}
+
 html {
     font-size: 14px;
 }
@@ -29,11 +33,22 @@ body {
     text-align: center;
     padding: 0;
     color: #fff;
-    background-color: #FF5C00;
+    background-color: var(--cor-de-btn);
     border-color: #ff6a00;
 }
 
-    .plus-button :hover {
+    .plus-button:hover {
+        background-color: #ff6a00;
+        border-color: #ff6a00;
+    }
+
+.btn-laranja {
+    background-color: var(--cor-de-btn);
+    border-color: var(--cor-de-btn);
+    color: #fff;
+}
+
+    .btn-laranja:hover {
         background-color: #ff6a00;
         border-color: #ff6a00;
     }

@@ -19,7 +19,7 @@ namespace Service
             this.houseHubContext = houseHubContext;
         }
         /// <summary>
-        /// 
+        /// Criar uma solicitação de reparo
         /// </summary>
         /// <param name="solicitacaoreparo"></param>
         /// <returns>Id da solicitação do reparo criado</returns>
