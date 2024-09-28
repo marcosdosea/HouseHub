@@ -6,5 +6,6 @@
         public string Bairro { get; set; } = string.Empty;
         public decimal ValorMaximo { get; set; }
         public byte Quartos { get; set; }
+        public string Modalidade { get; set; } = string.Empty;
     }
 }

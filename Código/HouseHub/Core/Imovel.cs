@@ -48,6 +48,8 @@ public partial class Imovel
 
     public string? Complemento { get; set; }
 
+    public string Modalidade { get; set; } = null!;
+
     public virtual ICollection<Agendamento> Agendamentos { get; set; } = new List<Agendamento>();
 
     public virtual Pessoa IdPessoaNavigation { get; set; } = null!;

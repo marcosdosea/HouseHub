@@ -35,9 +35,9 @@ public partial class HouseHubContext : DbContext
 
     public virtual DbSet<Valore> Valores { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=m4rcos;database=househub");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=123456;database=househub");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -184,6 +184,10 @@ public partial class HouseHubContext : DbContext
             entity.Property(e => e.Logradouro)
                 .HasMaxLength(45)
                 .HasColumnName("logradouro");
+            entity.Property(e => e.Modalidade)
+                .HasDefaultValueSql("'Ambos'")
+                .HasColumnType("enum('Aluguel',' Venda','Ambos')")
+                .HasColumnName("modalidade");
             entity.Property(e => e.Numero)
                 .HasMaxLength(45)
                 .HasColumnName("numero");
@@ -202,7 +206,7 @@ public partial class HouseHubContext : DbContext
             entity.Property(e => e.Quartos).HasColumnName("quartos");
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'Disponível'")
-                .HasColumnType("enum('Disponível','Vendido','Alugado')")
+                .HasColumnType("enum('Disponível','Vendido','Alugado','Deletado')")
                 .HasColumnName("status");
             entity.Property(e => e.Tipo)
                 .HasDefaultValueSql("'Casa'")

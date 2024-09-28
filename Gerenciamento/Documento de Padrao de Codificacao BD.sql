@@ -11,6 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema househub
 -- -----------------------------------------------------
+
 CREATE SCHEMA IF NOT EXISTS `househub` DEFAULT CHARACTER SET utf8 ;
 USE `househub` ;
 
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `precoAluguel` DECIMAL UNSIGNED NOT NULL,
   `precoVenda` DECIMAL UNSIGNED NOT NULL,
   `iptu` DECIMAL UNSIGNED NOT NULL,
-  `status` ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL DEFAULT 'Disponível',
+  `status` ENUM('Disponível', 'Vendido', 'Alugado', 'Deletado') NOT NULL DEFAULT 'Disponível',
   `precoCondominio` DECIMAL UNSIGNED NOT NULL,
   `podeAnimal` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `tipo` ENUM('Casa', 'Apartamento') NOT NULL DEFAULT 'Casa',
@@ -62,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `logradouro` VARCHAR(45) NOT NULL,
   `numero` VARCHAR(45) NOT NULL,
   `complemento` VARCHAR(100) NULL,
+  `modalidade` ENUM('Aluguel', ' Venda', 'Ambos') NOT NULL DEFAULT 'Ambos',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Imovel_Pessoa1_idx` (`idPessoa` ASC) VISIBLE,

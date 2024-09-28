@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Core.Service {
         void Delete(uint imovel);
         Imovel ? Get(uint id);
         IEnumerable<Imovel> GetAll();
+        IEnumerable<Imovel> GetAll(BuscarImovelDto busca);
     }
 }
