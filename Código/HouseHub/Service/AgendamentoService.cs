@@ -50,20 +50,22 @@ namespace Service
             return houseHubContext.Agendamentos.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
-       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Agendamento> GetAll()
+        {
+            return houseHubContext.Agendamentos.AsNoTracking();
+        }
+
         /// <summary>
         /// faz a atualizacao de uma entidade caso nao esteja usando as no tracking
         /// </summary>
         /// <param name="agendamento"></param>
         public void Update(Agendamento agendamento)
         {
-            var agendamentoExistente = houseHubContext.Agendamentos.Find(agendamento.Id);
-            if (agendamentoExistente == null)
-            {
-                throw new Exception("Agendamento não encontrado");
-            }
-            agendamentoExistente = agendamento;
-            houseHubContext.Agendamentos.Update(agendamentoExistente);
+            houseHubContext.Agendamentos.Update(agendamento);
             houseHubContext.SaveChanges();
         }
     }

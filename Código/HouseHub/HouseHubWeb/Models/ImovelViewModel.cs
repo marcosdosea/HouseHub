@@ -50,5 +50,7 @@ namespace HouseHubWeb.Models
         public string Numero { get; set; } = null!;
 
         public string? Complemento { get; set; }
+
+        public string Modalidade { get; set; } = null!;
     }
 }

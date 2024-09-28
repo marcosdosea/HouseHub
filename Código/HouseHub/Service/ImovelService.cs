@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DTOs;
 using Core.Service;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,7 +45,7 @@ namespace Service {
         /// <param name="id"></param>
         /// <returns> retorna o imovel </returns>
         public Imovel ? Get(uint id) {
-            return houseHubContext.Imovels.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return houseHubContext.Imovels.FirstOrDefault(x => x.Id == id);
         }
 
         /// <summary>
@@ -54,6 +55,28 @@ namespace Service {
         public IEnumerable<Imovel> GetAll() {
             return houseHubContext.Imovels.AsNoTracking();
         }
+
+        /// <summary>
+        /// Pega todos os imóveis de acordo com os parametros definidos na busca
+        /// </summary>
+        /// <param name="busca"></param>
+        /// <returns>retorna os imoveis</returns>
+        public IEnumerable<Imovel> GetAll(BuscarImovelDto busca)
+        {
+            if(busca.Modalidade == "Aluguel")
+            {
+                return houseHubContext.Imovels.AsNoTracking()
+                .Where(x => x.Cidade.ToLower() == busca.Cidade.ToLower() && x.Bairro.ToLower() == busca.Bairro.ToLower()
+                        && (x.Modalidade.ToLower() == busca.Modalidade.ToLower() || x.Modalidade.ToLower() == "ambos") && x.PrecoAluguel < busca.ValorMaximo);
+            }
+            else
+            {
+                return houseHubContext.Imovels.AsNoTracking()
+                .Where(x => x.Cidade.ToLower() == busca.Cidade.ToLower() && x.Bairro.ToLower() == busca.Bairro.ToLower()
+                        && (x.Modalidade.ToLower() == busca.Modalidade.ToLower() || x.Modalidade.ToLower() == "ambos") && x.PrecoVenda < busca.ValorMaximo);
+            }
+        }
+
         /// <summary>
         /// atualiza um imovel
         /// </summary>

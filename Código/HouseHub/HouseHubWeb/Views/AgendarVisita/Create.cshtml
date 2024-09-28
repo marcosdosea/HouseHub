@@ -4,44 +4,53 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h2>INFORME O DIA DA VISITA</h2>
 
-<h4>AgendamentoViewModel</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Observacoes" class="control-label"></label>
-                <input asp-for="Observacoes" class="form-control" />
-                <span asp-validation-for="Observacoes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataCriacao" class="control-label"></label>
-                <input asp-for="DataCriacao" class="form-control" />
-                <span asp-validation-for="DataCriacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 <label asp-for="DataVisita" class="control-label"></label>
-                <input asp-for="DataVisita" class="form-control" />
+                <input asp-for="DataVisita" class="form-control" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+
                 <span asp-validation-for="DataVisita" class="text-danger"></span>
             </div>
-           
-            @Html.HiddenFor(x => x.IdImovel)
+
             
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mb-3" >
+                <label asp-for="Observacoes" class="control-label"></label>
+                <textarea asp-for="Observacoes" class="form-control" placeholder="Adicionar obeservações:" rows="6" style="resize: none;"></textarea>
+                <span asp-validation-for="Observacoes" class="text-danger"></span>
             </div>
+
+            <div class="form-group mb-5">
+                <input type="submit" value="AGENDAR" class="btn btn-warning btn-laranja" />
+            </div>
+
+            <div class="mb-3">
+                <h5 class="m-0">Ou se Preferir:</h5>
+                <span class="btn btn-secondary">@Model.Telefone</span>
+
+            </div>
+
+            @Html.HiddenFor(x => x.IdImovel)
+
+
+
+            
         </form>
     </div>
 </div>
-
+<!--
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+-->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
