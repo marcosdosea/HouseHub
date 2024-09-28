@@ -10,7 +10,7 @@ namespace Core.Service {
         uint Create(Pagamento pagamento);
         void Update(Pagamento pagamento);
         void Delete(Pagamento pagamento);
-        Pagamento? Get(int id);
+        Pagamento Get(int id);
         IEnumerable<Pagamento> GetAll();
 
     }
