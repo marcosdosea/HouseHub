@@ -10,29 +10,18 @@ namespace Service
 {
     public class PagamentoService : IPagamentoService
     {
+        private readonly HouseHubContext houseHubContext;
+
+        public PagamentoService(HouseHubContext houseHubContext)
+        {
+            this.houseHubContext = houseHubContext;
+        }
+
         public uint Create(Pagamento pagamento)
         {
-            throw new NotImplementedException();
+            houseHubContext.Add(pagamento);
+            return pagamento.Id;
         }
 
-        public void Delete(Pagamento pagamento)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pagamento Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Pagamento> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Pagamento pagamento)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
