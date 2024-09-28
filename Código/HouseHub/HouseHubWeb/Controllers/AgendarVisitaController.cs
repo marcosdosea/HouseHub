@@ -8,14 +8,9 @@ namespace HouseHubWeb.Controllers
 {
     public class AgendarVisitaController : Controller
     {
-
         private readonly IAgendamentoService agendamentoService;
-
         private readonly IMapper mapper;
-
         
-        
-
         public AgendarVisitaController(IAgendamentoService agendamentoService, IMapper mapper)
         {
             this.agendamentoService = agendamentoService;
@@ -41,7 +36,6 @@ namespace HouseHubWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(AgendamentoViewModel model)
         {
-
             try
             {
                 if (ModelState.IsValid)
@@ -53,7 +47,6 @@ namespace HouseHubWeb.Controllers
                     return RedirectToAction(nameof(Index),nameof(HomeController));
                 }
                 return View(model);
-
             }
             catch
             {
@@ -61,7 +54,5 @@ namespace HouseHubWeb.Controllers
             }
 
         }
-
-        
     }
 }
