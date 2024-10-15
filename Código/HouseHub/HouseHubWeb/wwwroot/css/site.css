@@ -11,6 +11,26 @@ html {
         font-size: 16px;
     }
 }
+.btn-primary {
+    color: black;
+    font-weight: bold;
+    background-color: var(--cor-de-btn);
+    border-color: var(--cor-de-btn);
+    border-radius: 40px;
+}
+
+.btn-primary:hover {
+    background-color: #552200;
+}
+
+.btn_voltar {
+    color: black;
+    font-weight: bold;
+    border-color: lightgray;
+    border-radius: 40px;
+    color: black;
+    background-color: lightgray;
+}
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;

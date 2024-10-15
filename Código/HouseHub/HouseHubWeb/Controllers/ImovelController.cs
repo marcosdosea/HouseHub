@@ -3,6 +3,7 @@ using Core.Service;
 using HouseHubWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HouseHubWeb.Controllers
 {
@@ -38,7 +39,14 @@ namespace HouseHubWeb.Controllers
         // GET: ImovelController/Create
         public ActionResult Create()
         {
-            return View();
+            ViewData["Tipos"] = new List<SelectListItem>
+            {
+                new SelectListItem("Casa", "Casa"),
+                new SelectListItem("Apartamento", "Apartamento")
+            };
+            var model = new ImovelViewModel();
+
+            return View(model);
         }
 
         // POST: ImovelController/Create

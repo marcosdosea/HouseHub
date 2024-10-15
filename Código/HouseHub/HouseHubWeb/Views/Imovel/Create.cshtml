@@ -4,19 +4,52 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Anuncie com o HouseHub!</h1>
 
-<h4>ImovelViewModel</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Create" class="container-fluid">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row w-100 justify-content-around">
+        <div class="endereco col-md-4">
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="Cep" class="control-label"></label>
+                <input asp-for="Cep" class="form-control" id="cepInput" />
+                <span asp-validation-for="Cep" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" id="estadoInput" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cidade" class="control-label"></label>
+                <input asp-for="Cidade" class="form-control" id="cidadeInput" />
+                <span asp-validation-for="Cidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bairro" class="control-label"></label>
+                <input asp-for="Bairro" class="form-control" id="bairroInput" />
+                <span asp-validation-for="Bairro" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Logradouro" class="control-label"></label>
+                <input asp-for="Logradouro" class="form-control" id="logradouroInput" />
+                <span asp-validation-for="Logradouro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Numero" class="control-label"></label>
+                <input asp-for="Numero" class="form-control" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Complemento" class="control-label"></label>
+                <input asp-for="Complemento" class="form-control" />
+                <span asp-validation-for="Complemento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label"></label>
                 <input asp-for="Descricao" class="form-control" />
@@ -33,96 +66,217 @@
                 <span asp-validation-for="Banheiros" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ValorCondominio" class="control-label"></label>
-                <input asp-for="ValorCondominio" class="form-control" />
-                <span asp-validation-for="ValorCondominio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecoAluguel" class="control-label"></label>
-                <input asp-for="PrecoAluguel" class="form-control" />
-                <span asp-validation-for="PrecoAluguel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecoVenda" class="control-label"></label>
-                <input asp-for="PrecoVenda" class="form-control" />
-                <span asp-validation-for="PrecoVenda" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Iptu" class="control-label"></label>
-                <input asp-for="Iptu" class="form-control" />
-                <span asp-validation-for="Iptu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecoCondominio" class="control-label"></label>
-                <input asp-for="PrecoCondominio" class="form-control" />
-                <span asp-validation-for="PrecoCondominio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PodeAnimal" class="control-label"></label>
-                <input asp-for="PodeAnimal" class="form-control" />
+                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
+                    @{
+                        string Active = Model.PodeAnimal ? "active" : "";
+                        string NotActive = Model.PodeAnimal ? "" : "active";
+                    }
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" asp-for="PodeAnimal" value="true" autocomplete="off"> Sim
+                    </label>
+                    <label class="btn btn-outline-secondary @NotActive">
+                        <input type="radio" asp-for="PodeAnimal" value="false" autocomplete="off"> Não
+                    </label>
+                </div>
                 <span asp-validation-for="PodeAnimal" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
+                @Html.DropDownListFor(model => model.Tipo, ViewData["Tipos"] as List<SelectListItem>, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IdPessoa" class="control-label"></label>
-                <input asp-for="IdPessoa" class="form-control" />
-                <span asp-validation-for="IdPessoa" class="text-danger"></span>
+            <div class="form_group">
+                <label for="formFileMultiple" class="form-label">Coloque suas fotos</label>
+                <input class="form-control" type="file" id="formFileMultiple" multiple>
             </div>
-            <div class="form-group">
-                <label asp-for="Bairro" class="control-label"></label>
-                <input asp-for="Bairro" class="form-control" />
-                <span asp-validation-for="Bairro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cidade" class="control-label"></label>
-                <input asp-for="Cidade" class="form-control" />
-                <span asp-validation-for="Cidade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cep" class="control-label"></label>
-                <input asp-for="Cep" class="form-control" />
-                <span asp-validation-for="Cep" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Logradouro" class="control-label"></label>
-                <input asp-for="Logradouro" class="form-control" />
-                <span asp-validation-for="Logradouro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Numero" class="control-label"></label>
-                <input asp-for="Numero" class="form-control" />
-                <span asp-validation-for="Numero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Complemento" class="control-label"></label>
-                <input asp-for="Complemento" class="form-control" />
-                <span asp-validation-for="Complemento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div class="imagens mt-3">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 card">
+            <div class="card-header card-header-tabs card-header-pills">
+
+                <div class="btn-group" role="group" aria-label="Modalidades de Venda">
+                    <input type="radio" class="btn-check" id="Alugar" name="modalidade_venda" value="alugar" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="Alugar">Alugar</label>
+
+                    <input type="radio" class="btn-check" id="Vender" name="modalidade_venda" value="vender" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="Vender">Vender</label>
+
+                    <input type="radio" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="Ambos">Ambos</label>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="ValorCondominio" class="control-label"></label>
+                    <input asp-for="ValorCondominio" class="form-control" id="ValorCondominioInput" />
+                    <span asp-validation-for="ValorCondominio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrecoAluguel" class="control-label"></label>
+                    <input asp-for="PrecoAluguel" class="form-control" id="PrecoAluguelInput" />
+                    <span asp-validation-for="PrecoAluguel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrecoVenda" class="control-label"></label>
+                    <input asp-for="PrecoVenda" class="form-control" id="PrecoVendaInput" />
+                    <span asp-validation-for="PrecoVenda" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Iptu" class="control-label"></label>
+                    <input asp-for="Iptu" class="form-control" />
+                    <span asp-validation-for="Iptu" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ValorTotal" class="control-label">Valor Total</label>
+                    <input id="ValorTotal" class="form-control" readonly />
+                    <span asp-validation-for="Iptu" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="row bg-white">
+                    <a class="btn btn_voltar col m-1" asp-action="Index">Cancelar</a>
+                    <input type="submit" value="Salvar" class="btn btn-primary col m-1" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('cepInput').addEventListener('change', function () {
+            var cep = this.value.trim();
+            if (cep.length == 9 && cep[5] === '-') {
+                cep = cep.replace('-', '');
+            }
+            if (cep.length == 8) {
+                fetch('https://viacep.com.br/ws/' + cep + '/json/', {
+                    method: 'GET'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                    }
+                    )
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('cidadeInput').value = data.localidade;
+                            document.getElementById('bairroInput').value = data.bairro;
+                            document.getElementById('estadoInput').value = data.uf;
+                            document.getElementById('logradouroInput').value = data.logradouro;
+                        }
+                    });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alugarRadio = document.getElementById('Alugar');
+            const venderRadio = document.getElementById('Vender');
+            const ambosRadio = document.getElementById('Ambos');
+            const valorCondominioInput = document.getElementById('ValorCondominioInput');
+            const precoAluguelInput = document.getElementById('PrecoAluguelInput');
+            const precoVendaInput = document.getElementById('PrecoVendaInput');
+            const valorTotalInput = document.getElementById('ValorTotal');
+
+            function toggleFields() {
+                const isAlugarSelected = alugarRadio.checked;
+                const isVenderSelected = venderRadio.checked;
+
+                document.querySelector('.valor-condominio').style.display = (isAlugarSelected || isVenderSelected) ? '' : 'none';
+                document.querySelector('.valor-aluguel').style.display = isAlugarSelected ? '' : 'none';
+                document.querySelector('.valor-venda').style.display = isVenderSelected ? '' : 'none';
+
+                if (isAlugarSelected) {
+                    calculateValorTotal();
+                }
+            }
+
+            function calculateValorTotal() {
+                const valorCondominio = parseFloat(valorCondominioInput.value || 0);
+                const precoAluguel = parseFloat(precoAluguelInput.value || 0);
+                const valorTotal = valorCondominio + precoAluguel;
+                valorTotalInput.value = valorTotal.toFixed(2);
+            }
+
+            // Adicionamos um evento change ao grupo de radio buttons
+            document.querySelectorAll('[name="modalidade_venda"]').forEach(radio => {
+                radio.addEventListener('change', toggleFields);
+            });
+
+            valorCondominioInput.addEventListener('input', calculateValorTotal);
+            precoAluguelInput.addEventListener('input', calculateValorTotal);
+
+            // Inicializar os campos
+            toggleFields();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('formFileMultiple');
+            const carouselInner = document.querySelector('.carousel-inner');
+
+            fileInput.addEventListener('change', function (e) {
+                const files = e.target.files;
+                carouselInner.innerHTML = '';
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        const slide = document.createElement('div');
+                        slide.className = `carousel-item ${i === 0 ? 'active' : ''}`;
+
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.className = 'd-block w-100';
+                        img.alt = file.name;
+
+                        slide.appendChild(img);
+                        carouselInner.appendChild(slide);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+
+                // Atualiza o carrossel após adicionar novas imagens
+                var myCarousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+                    interval: false
+                });
+
+                // Adiciona evento de clique nas imagens para navegar no carrossel
+                carouselInner.querySelectorAll('.carousel-item').forEach((item, index) => {
+                    item.addEventListener('click', () => {
+                        myCarousel.to(index);
+                    });
+                });
+            });
+        });
+
+    </script>
 }
