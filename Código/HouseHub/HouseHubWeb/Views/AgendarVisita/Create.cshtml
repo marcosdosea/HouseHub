@@ -4,53 +4,64 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>INFORME O DIA DA VISITA</h2>
+<div class="container-fluid align-content-xl-center">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group mb-3">
-                <label asp-for="DataVisita" class="control-label"></label>
+    <form asp-action="Create" class=" row w-100 h-100">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-xl-6  h-100">
+            <div class="form-group  mb-3">
+                <label asp-for="DataVisita" class="control-label">INFORME O DIA E HORÁRIO DA VISITA:</label>
                 <input asp-for="DataVisita" class="form-control" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
 
                 <span asp-validation-for="DataVisita" class="text-danger"></span>
-            </div>
 
+
+            </div>
             
 
-            <div class="form-group mb-3" >
-                <label asp-for="Observacoes" class="control-label"></label>
-                <textarea asp-for="Observacoes" class="form-control" placeholder="Adicionar obeservações:" rows="6" style="resize: none;"></textarea>
+            <div class=" form-group mb-3">
+                <label asp-for="Observacoes" class="control-label">OBSERVAÇÕES</label>
+                <textarea asp-for="Observacoes" class="form-control" placeholder="Adicionar obeservações:" rows="10" style="resize: none;"></textarea>
                 <span asp-validation-for="Observacoes" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-5">
                 <input type="submit" value="AGENDAR" class="btn btn-warning btn-laranja" />
             </div>
+        </div>
 
+
+        <div class="col p-3">
             <div class="mb-3">
-                <h5 class="m-0">Ou se Preferir:</h5>
-                <span class="btn btn-secondary">@Model.Telefone</span>
-
+                <h3 class="m-0 text-start">Ou se preferir:</h3>
+                <a href="https://api.whatsapp.com/send?phone=557999705526&text=Ol%C3%A1%2C+gostaria+de+falar+a+respeito+do+seu+im%C3%B3vel+dispon%C3%ADvel+na+HouseHub" class="btn btn-secondary">
+                    @Model.Telefone
+                    <img src="~/img/zap.jpg" alt="WhatsApp" height="30px" />
+                    <img src="~/img/telefone.png" alt="Telefone" height="30px" />
+                </a>
             </div>
 
-            @Html.HiddenFor(x => x.IdImovel)
+        </div>
 
+        @Html.HiddenFor(x => x.IdImovel)
 
-
-            
-        </form>
-    </div>
+    </form>
 </div>
+
+
 <!--
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 -->
+
+
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        
+    </script>
 }

@@ -25,7 +25,7 @@ namespace HouseHubWeb.Controllers.Tests
             {
                 DataVisita = DateTime.Now,
                 Observacoes = "teste",
-                Telefone = "(79)99999-9999",
+                Telefone = "(79) 99999-9999",
                 IdImovel = 1
             };
             Assert.Fail();
