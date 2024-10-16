@@ -140,8 +140,8 @@ namespace Service.Tests
             imovelService.Delete(1);
             // Assert
             Assert.AreEqual(1, imovelService.GetAll().Count());
-            var usuario = imovelService.Get(1);
-            Assert.AreEqual(null, usuario);
+            var imovel = imovelService.Get(1);
+            Assert.AreEqual(null, imovel);
         }
 
         [TestMethod()]
