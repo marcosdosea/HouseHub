@@ -1,23 +1,40 @@
-﻿/* Estilo para o botão padrão (não selecionado) */
+﻿
 .btn-outline-primary {
-    color: #ff5c00; /* Cor do texto */
-    border-color: #ff5c00; /* Cor da borda */
+    color: #ff5c00;
+    border-color: #ff5c00 !important;
 }
 
-    /* Estilo para o botão quando o mouse passa por cima */
-    .btn-outline-primary:hover {
-        background-color: #ff5c00;
-        color: white; /* Cor do texto no hover */
-    }
 
-/* Estilo para o botão selecionado */
+.btn-outline-primary:hover {
+    background-color: #ff5c00;
+    color: white;
+}
+
 .btn-check:checked + .btn-outline-primary {
-    background-color: #ff5c00; /* Cor de fundo do botão selecionado */
-    color: white; /* Cor do texto do botão selecionado */
-    border-color: #ff5c00;
+    background-color: #ff5c00 !important;
+    color: white;
+    border-color: #ff5c00 !important;
 }
 
 .btn-primary {
-    background-color: #ff5c00;
-    border-color: #ff5c00;
+    background-color: #ff5c00 !important;
+    border-color: #ff5c00 !important;
+}
+
+.custom-card {
+    background-color: rgba(52, 58, 64, 0.99); 
+    color: white; 
+}
+.bg-imagem {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-image: url("/img/fundo_buscar.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
