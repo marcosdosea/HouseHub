@@ -1,0 +1,16 @@
+﻿@model HouseHubWeb.Models.PessoaViewModel
+
+@{
+    ViewData["Title"] = "Deletar Conta";
+}
+
+<h2>Lamentamos sua Partida</h2>
+<p>Ao desativar a conta você perderá acesso a todos os recursos e dados associados à sua conta e configurações personalizadas. Se ainda assim deseja prosseguir, por favor, confirme sua decisão abaixo.</p>
+
+<form asp-action="Delete" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>

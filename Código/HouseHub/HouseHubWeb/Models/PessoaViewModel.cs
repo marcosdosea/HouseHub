@@ -6,7 +6,8 @@ namespace HouseHubWeb.Models
     {
         [Key]
         public uint Id { get; set; }
-        [Required (ErrorMessage = "O campo Nome é obrigatório")]
+
+        [Required(ErrorMessage = "O campo Nome é obrigatório")]
         [StringLength(100, ErrorMessage = "O campo Nome deve ter no máximo 100 caracteres")]
         public string Nome { get; set; } = null!;
 
@@ -44,7 +45,16 @@ namespace HouseHubWeb.Models
         [Required(ErrorMessage = "O campo Número é obrigatório")]
         public string? Numero { get; set; }
 
+        [Required(ErrorMessage = "O campo Rua é obrigatório")]
+        public string? Rua { get; set; }
+
         [StringLength(100, ErrorMessage = "O campo Complemento deve ter no máximo 100 caracteres")]
         public string? Complemento { get; set; }
+
+        // Campos adicionais
+        [Required(ErrorMessage = "O campo RG é obrigatório")]
+        public string Rg { get; set; } = null!;
+
+        public string? Avatar { get; set; }
     }
 }
