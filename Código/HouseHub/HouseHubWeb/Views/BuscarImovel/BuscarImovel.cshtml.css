@@ -1,0 +1,23 @@
+﻿/* Estilo para o botão padrão (não selecionado) */
+.btn-outline-primary {
+    color: #ff5c00; /* Cor do texto */
+    border-color: #ff5c00; /* Cor da borda */
+}
+
+    /* Estilo para o botão quando o mouse passa por cima */
+    .btn-outline-primary:hover {
+        background-color: #ff5c00;
+        color: white; /* Cor do texto no hover */
+    }
+
+/* Estilo para o botão selecionado */
+.btn-check:checked + .btn-outline-primary {
+    background-color: #ff5c00; /* Cor de fundo do botão selecionado */
+    color: white; /* Cor do texto do botão selecionado */
+    border-color: #ff5c00;
+}
+
+.btn-primary {
+    background-color: #ff5c00;
+    border-color: #ff5c00;
+}

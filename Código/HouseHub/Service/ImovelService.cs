@@ -77,6 +77,18 @@ namespace Service {
             }
         }
 
+        public ImovelDto? GetImovelDto(uint id)
+        {
+            return houseHubContext.Imovels.Select(x => new ImovelDto
+            { 
+                Iptu = x.Iptu,
+                IdImovel = x.Id,
+                PrecoAluguel = x.PrecoAluguel,
+                PrecoCondominio = x.PrecoAluguel,
+                Status = x.Status,
+            }).FirstOrDefault(x => x.IdImovel == id);
+        }
+
         /// <summary>
         /// atualiza um imovel
         /// </summary>
