@@ -78,7 +78,7 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/imarcossm" target="_blank">
+      <a href="https://github.com/geilso" target="_blank">
         <img style="border-radius:100px;" src="https://avatars.githubusercontent.com/u/59769321?v=4" width="100px;" alt="Foto de Gilso no GitHub"/><br>
         <sub>
           <b>Geilson dos Santos</b>
