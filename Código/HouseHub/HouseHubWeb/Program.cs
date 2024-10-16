@@ -1,5 +1,6 @@
 using Core;
 using Core.Service;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Service;
 
@@ -24,6 +25,7 @@ builder.Services.AddTransient<IPagamentoService, PagamentoService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,13 +39,15 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=BuscarImovel}/{action=Index}");
 
 app.Run();
 
