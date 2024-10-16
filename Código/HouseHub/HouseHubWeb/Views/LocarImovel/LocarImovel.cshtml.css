@@ -1,0 +1,116 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 5000px;
+    width: 100%;
+}
+
+.form-section {
+    flex: 1;
+    margin-right: 20px;
+}
+
+    .form-section label {
+        font-weight: bold;
+    }
+
+    .form-section input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .form-section h2 {
+        margin-bottom: 10px;
+    }
+
+.username {
+    color: var(--cor-de-btn);
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    margin-bottom: 10px;
+}
+
+.approved, .estimated-income {
+    font-weight: bold;
+}
+
+.summary-section {
+    flex: 0.5;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.price-details p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.rent-button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--cor-de-btn);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .rent-button:hover {
+        background-color: darkorange;
+    }
+
+h2{
+    font-weight: bold;
+    font-size:1.8rem;
+}
+
+.gray-box {
+    width: 380px;
+    height: 220px;
+    background-color: gray;
+}
+
+.approved, .estimated-income {
+    font-weight: bold;
+}
+
+h3{
+    margin-left: 20%;
+}
