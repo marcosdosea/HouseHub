@@ -18,29 +18,20 @@ namespace HouseHubWeb.Controllers
         }
 
         [HttpGet]
-        [Route("/BuscarImovel")]
-        public IActionResult BuscarImovel()
+        public IActionResult Index()
         {
-            return View();
+            return View("BuscarImovel");
         }
 
         [HttpPost]
-        [Route("/BuscarImovel")]
         [ValidateAntiForgeryToken]
-        public IActionResult BuscarImovel(BuscarImovelViewModel buscarImovelViewModel)
+        public IActionResult Index(BuscarImovelViewModel buscarImovelViewModel)
         {
             var buscarImovelDto = mapper.Map<BuscarImovelDto>(buscarImovelViewModel);
-            return RedirectToAction("Index", "BuscarImovel", buscarImovelDto);
-        }
-
-        [Route("/BuscarImovel/Index")]
-        public IActionResult Index(BuscarImovelDto buscarImovelDto)
-        {
             var imoveis = imovelService.GetAll(buscarImovelDto);
             var imoveisViewModel = mapper.Map<IEnumerable<ImovelViewModel>>(imoveis);
             return View(imoveisViewModel);
         }
-
 
     }
 }
