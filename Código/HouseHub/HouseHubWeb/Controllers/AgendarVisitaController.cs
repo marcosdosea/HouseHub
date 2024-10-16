@@ -26,7 +26,7 @@ namespace HouseHubWeb.Controllers
         public ActionResult Create(int id)
         {
             var agendamentoImovel = new AgendamentoViewModel();
-            agendamentoImovel.Telefone = "(79)99999-9999";
+            agendamentoImovel.Telefone = "(79) 99999-9999";
             agendamentoImovel.IdImovel = (uint)id;
             return View(agendamentoImovel);
         }
