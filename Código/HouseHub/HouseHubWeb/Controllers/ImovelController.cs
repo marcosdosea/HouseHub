@@ -39,11 +39,6 @@ namespace HouseHubWeb.Controllers
         // GET: ImovelController/Create
         public ActionResult Create()
         {
-            ViewData["Tipos"] = new List<SelectListItem>
-            {
-                new SelectListItem("Casa", "Casa"),
-                new SelectListItem("Apartamento", "Apartamento")
-            };
             var model = new ImovelViewModel();
 
             return View(model);
@@ -59,13 +54,17 @@ namespace HouseHubWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var imovel = mapper.Map<Core.Imovel>(model);
+                    string modalidade = model.ModalidadeVender ?
+                        "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
+                    imovel.Modalidade = modalidade;
                     imovelService.Create(imovel);
                     return RedirectToAction(nameof(Index));
                 }
                 return View(model);
             }
-            catch(Exception)
+            catch(Exception e)
             {
+                
                 return View();
             }
         }

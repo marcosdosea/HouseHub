@@ -84,7 +84,7 @@
 
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                @Html.DropDownListFor(model => model.Tipo, ViewData["Tipos"] as List<SelectListItem>, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Tipo, Model.Tipos, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form_group">
@@ -111,13 +111,13 @@
             <div class="card-header card-header-tabs card-header-pills">
 
                 <div class="btn-group" role="group" aria-label="Modalidades de Venda">
-                    <input type="radio" class="btn-check" id="Alugar" name="modalidade_venda" value="alugar" autocomplete="off">
+                    <input type="radio" asp-for="ModalidadeAluguel" class="btn-check" id="Alugar" name="modalidade_venda" value="alugar" autocomplete="off">
                     <label class="btn btn-outline-primary" for="Alugar">Alugar</label>
 
-                    <input type="radio" class="btn-check" id="Vender" name="modalidade_venda" value="vender" autocomplete="off">
+                    <input type="radio" asp-for="ModalidadeVender" class="btn-check" id="Vender" name="modalidade_venda" value="vender" autocomplete="off">
                     <label class="btn btn-outline-primary" for="Vender">Vender</label>
 
-                    <input type="radio" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off">
+                    <input type="radio" asp-for="ModalidadeAmbos" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off">
                     <label class="btn btn-outline-primary" for="Ambos">Ambos</label>
                 </div>
             </div>

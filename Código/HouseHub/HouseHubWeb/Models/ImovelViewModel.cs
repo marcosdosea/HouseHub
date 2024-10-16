@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +8,7 @@ namespace HouseHubWeb.Models
 {
     public class ImovelViewModel
     {
-  
+
         public uint Id { get; set; }
 
         [MaxLength(100)]
@@ -25,7 +27,7 @@ namespace HouseHubWeb.Models
 
         public decimal Iptu { get; set; }
 
-        public string Status { get; set; } = null!;
+        public string Status { get; set; } = string.Empty;
 
 
         /// <summary>
@@ -54,6 +56,15 @@ namespace HouseHubWeb.Models
 
         public string? Complemento { get; set; }
 
-        public string Modalidade { get; set; } = null!;
+        public string? Modalidade { get; set; } = string.Empty;
+
+        public bool ModalidadeAmbos { get; set; }
+        public bool ModalidadeVender { get; set; }
+        public bool ModalidadeAluguel { get; set; }
+
+        public List<SelectListItem> Tipos { get; set; } = new List<SelectListItem>{
+            new SelectListItem("Casa", "Casa"),
+            new SelectListItem("Apartamento", "Apartamento")
+        };
     }
 }
