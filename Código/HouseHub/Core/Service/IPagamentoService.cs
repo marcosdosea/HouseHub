@@ -8,5 +8,6 @@ namespace Core.Service {
     public interface IPagamentoService
     {
         uint Create(Pagamento pagamento);
+        IEnumerable<Pagamento> GetAllCobranca(int idPessoa);
     }
 }
