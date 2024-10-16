@@ -3,6 +3,7 @@ using Core.Service;
 using HouseHubWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HouseHubWeb.Controllers
 {
@@ -38,7 +39,9 @@ namespace HouseHubWeb.Controllers
         // GET: ImovelController/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new ImovelViewModel();
+
+            return View(model);
         }
 
         // POST: ImovelController/Create
@@ -51,13 +54,17 @@ namespace HouseHubWeb.Controllers
                 if (ModelState.IsValid)
                 {
                     var imovel = mapper.Map<Core.Imovel>(model);
+                    string modalidade = model.ModalidadeVender ?
+                        "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
+                    imovel.Modalidade = modalidade;
                     imovelService.Create(imovel);
                     return RedirectToAction(nameof(Index));
                 }
                 return View(model);
             }
-            catch(Exception)
+            catch(Exception e)
             {
+                
                 return View();
             }
         }

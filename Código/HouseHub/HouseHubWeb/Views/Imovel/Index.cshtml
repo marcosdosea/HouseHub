@@ -1,50 +1,58 @@
 ﻿@model IEnumerable<ImovelViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Meus Imóveis";
 }
-
 
 <div class="d-flex justify-content-around flex-row">
     <h1> Meus imovéis</h1>
-
     <nav class="nav justify-content-end">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link disabled">Disabled</a>
+        <a class="nav-link active" aria-current="page" href="#">Todos</a>
+        <a class="nav-link" href="#">Anunciar</a>
+        <a class="nav-link" href="#">Alugados</a>
     </nav>
 </div>
 
 
-
-<section class="table">
-
+<section class="d-flex flex-row flex-wrap">
     @foreach (var item in Model)
     {
-        <div class="card" style="width: 18rem;">
+        <div class="card m-2" style="width: 18rem">
             <p>
-                @if (true)
-                {
-                    <text>Para alugar</text>
-                }
+                @($"Imovel disponível para {item.Modalidade}")
             </p>
-            <img src="..." class="card-img-top" alt="...">
+            <img src="..." class="card-img-top" alt="Imagens da casa">
             <div class="card-body">
                 <h5 class="card-title">@item.PrecoAluguel</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <p class="card-text">@item.Descricao</p>
+
+            </div>
+            <div class="card-footer">
+
+                @if (item.Status == "Disponível")
+                {
+                    <div class="row">
+                        <a href="#" class="col btn btn-outline-secondary m-1">Inativar anúncio</a>
+                        <a href="#" class="col btn btn-danger m-1">
+                            Excluir imóvel
+                            <i class="fa fas trash"></i>
+                        </a>
+                    </div>
+
+                    <a href="#" class="btn btn-primary w-100">Alugar</a>
+                }
+                else if (item.Status == "Alugado")
+                {
+                    <a class="btn btn-outline-secondary m-1" href="#"> Confirmar Pagamento de Aluguel</a>
+                    <a class="btn btn-primary m-1">
+                        <i class="fa fas clock"></i>
+                        Ver históricos de pagamentos
+                    </a>
+                }
             </div>
         </div>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
     }
 </section>
-
 
 <a class="btn-lg rounded-circle btn plus-button" asp-action="Create">
     +

@@ -7,12 +7,6 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #FF5C00;
-    border-color: #552200;
-}
-
 .nav-pills .nav-link.active, .nav-pills.show > .nav-link {
     
     background-color: #1b6ec2;

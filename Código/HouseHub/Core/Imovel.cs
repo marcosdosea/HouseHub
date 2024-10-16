@@ -20,8 +20,8 @@ public partial class Imovel
     public decimal PrecoVenda { get; set; }
 
     public decimal Iptu { get; set; }
-
-    public string Status { get; set; } = null!;
+    
+    public string Status { get; set; } = string.Empty;
 
     public decimal PrecoCondominio { get; set; }
 
