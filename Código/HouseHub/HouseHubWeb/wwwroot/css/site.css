@@ -57,10 +57,10 @@ body {
     border-color: #ff6a00;
 }
 
-    .plus-button:hover {
-        background-color: #ff6a00;
-        border-color: #ff6a00;
-    }
+.plus-button:hover {
+    background-color: #ff6a00;
+    border-color: #ff6a00;
+}
 
 .btn-laranja {
     background-color: var(--cor-de-btn);

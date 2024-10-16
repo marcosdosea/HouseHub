@@ -1,0 +1,36 @@
+﻿@model HouseHubWeb.Models.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Pagamentos";
+}
+
+
+<h4>Pagamento de Aluguel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Inserir">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="FormaPagamento" class="control-label"></label>
+                @Html.DropDownListFor(m => m.FormaPagamento, Model.FormasDePagamento, "Selecione a forma de pagamento", htmlAttributes: new { @class = "form-control" });
+                <span asp-validation-for="FormaPagamento" class="text-danger"></span>
+            </div>
+          
+           @Html.HiddenFor(model => model.IdLocacao);
+           
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

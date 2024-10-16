@@ -20,6 +20,7 @@ builder.Services.AddTransient<IImovelService, ImovelService>();
 builder.Services.AddTransient<IPessoaService, PessoaService>();
 builder.Services.AddTransient<ISolicitacaoreparoService, SolicitacaoreparoService>();
 builder.Services.AddTransient<ILocacaoService, LocacaoService>();
+builder.Services.AddTransient<IPagamentoService, PagamentoService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
