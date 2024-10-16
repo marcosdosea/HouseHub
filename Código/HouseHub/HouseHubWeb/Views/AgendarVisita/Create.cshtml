@@ -32,8 +32,9 @@
 
             <div class="mb-3">
                 <h5 class="m-0">Ou se Preferir:</h5>
-                <span class="btn btn-secondary">@Model.Telefone</span>
-
+                <a href="https://api.whatsapp.com/send?phone=5579999220843&text=Olá,+gostaria+de+informações+sobre: essa casinha"  class="btn btn-secondary">
+                    @Model.Telefone
+                </a>
             </div>
 
             @Html.HiddenFor(x => x.IdImovel)
