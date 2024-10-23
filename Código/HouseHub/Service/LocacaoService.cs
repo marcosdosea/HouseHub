@@ -1,10 +1,5 @@
 ﻿using Core;
 using Core.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -15,21 +10,28 @@ namespace Service
         {
             this.houseHubContext = houseHubContext;
         }
+
         /// <summary>
-        /// Cria uma locação no banco de dados
+        /// Cria uma locação no banco de dados caso nao tenha nenhuma locacao ativa para determinado imovel
         /// </summary>
         /// <param name="locacao"></param>
         /// <returns>retorna o id da locação criada</returns>
 
         public uint Create(Locacao locacao)
         {
-            houseHubContext.Locacaos.Add(locacao);
-            houseHubContext.SaveChanges();
-            return locacao.Id;
+            var locacoes = houseHubContext.Locacaos
+                .Where(l => l.IdImovel == locacao.IdImovel && l.Status == "Ativo");
+            if (locacoes == null || locacoes.Count() == 0)
+            {
+                houseHubContext.Locacaos.Add(locacao);
+                houseHubContext.SaveChanges();
+                return locacao.Id;
+            }
+            throw new Exception("Imóvel já alugado");
         }
 
         /// <summary>
-        /// deleta uma locação do banco de dados
+        /// Inativa uma locação do banco de dados
         /// </summary>
         /// <param name="id"></param>
         public void Delete(uint id)
@@ -37,7 +39,9 @@ namespace Service
             var locacao = houseHubContext.Locacaos.Find(id);
             if (locacao != null)
             {
-                houseHubContext.Remove(locacao);
+                locacao.DataFim = DateTime.Now;
+                locacao.Status = "Inativo";
+                houseHubContext.Locacaos.Update(locacao);
                 houseHubContext.SaveChanges();
             }
         }

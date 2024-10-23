@@ -5,13 +5,14 @@
 }
 
 
-<div class="container">
+<form asp-action="Create" class="container">
     <div class="form-section">
-        <label for="cpf-email">Alugar para:</label>
-        <input type="text" id="cpf-email" placeholder="CPF ou EMAIL:">
+        <label asp-for="EmailCpf">Alugar para:</label>
+        <input asp-for="EmailCpf" type="text" id="cpf-email" placeholder="CPF ou EMAIL:">
 
         <h2>Informações do usuário:</h2>
-        <h3 class="username">Marcos Dósea</h3>
+
+        <h3 id="usuario" class="username">@Model.NomeUsuario</h3>
 
         <p>Aprovado: <span class="approved">R$ 2.000,00</span></p>
         <p>Renda Mensal Estimada: <span class="estimated-income">R$ 40.000,00</span></p>
@@ -26,6 +27,6 @@
             <hr>
             <p>Total <span class="total">R$ 1.200,00</span></p>
         </div>
-        <button class="rent-button">Alugar</button>
+        <input type="submit" value="Alugar" class="rent-button" />
     </div>
-</div>
+</form>
