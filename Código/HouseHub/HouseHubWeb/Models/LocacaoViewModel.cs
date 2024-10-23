@@ -10,6 +10,8 @@ namespace HouseHubWeb.Models
         public decimal PrecoCondominio { get; set; }
         public uint IdImovel { get; set; }
         public string NomeUsuario { get; set; } = string.Empty;
+        public string EmailCpf { get; set; } = string.Empty;
+
 
     }
 }

@@ -12,7 +12,7 @@ namespace HouseHubWeb.Controllers
         private readonly ILocacaoService locacaoService;
         private readonly IMapper mapper;
 
-        public LocarImovelController(IImovelService imovelService,  IMapper mapper, ILocacaoService locacaoService)
+        public LocarImovelController(IImovelService imovelService, IMapper mapper, ILocacaoService locacaoService)
         {
             this.imovelService = imovelService;
             this.mapper = mapper;
@@ -20,11 +20,11 @@ namespace HouseHubWeb.Controllers
         }
 
         [HttpGet]
-        [Route("/LocarImovel/{idImovel}")]
-        public IActionResult LocarImovel(uint idImovel)
+        [Route("/LocarImovel/{id}")]
+        public IActionResult LocarImovel(int id)
         {
-            var imovel = imovelService.GetImovelDto(idImovel);
-            if(imovel == null || imovel.Status != "Disponível")
+            var imovel = imovelService.GetImovelDto((uint)id);
+            if (imovel == null || imovel.Status != "Disponível")
             {
                 return NotFound();
             }
@@ -34,29 +34,29 @@ namespace HouseHubWeb.Controllers
         }
 
         [HttpPost]
-        [Route("/LocarImovel/{idImovel}")]
+        [Route("/LocarImovel/{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult LocarImovel(uint idImovel, LocacaoViewModel locacaoViewModel)
+        public IActionResult LocarImovel(uint id, LocacaoViewModel locacaoViewModel)
         {
-            Locacao locacao = new Locacao
+            try
             {
-                DataInicio = DateTime.Now,
-                DataContrato = DateTime.Now,
-                DataFim = DateTime.Now.AddMonths(1),
-                DataVencimento = DateTime.Now.AddDays(5),
-                IdImovel = idImovel,
-                IdPessoa = 1,
-                Status = "Inativo",
-                Valor = 99990000,
-            };
-            if(locacaoService.Create(locacao) > 0)
-            {
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    var locacao = mapper.Map<Locacao>(locacaoViewModel);
+                    locacaoService.Create(locacao);
+                    return RedirectToAction("Index", "Home");
+                }
+                return View(locacaoViewModel);
             }
-            else
+            catch (Exception e)
             {
-                return View();
+                if (e.Message == "Imóvel já alugado")
+                {
+                    ModelState.AddModelError("IdImovel", "Imóvel já alugado");
+                }
+                return View(locacaoViewModel);
             }
+
         }
     }
 }
