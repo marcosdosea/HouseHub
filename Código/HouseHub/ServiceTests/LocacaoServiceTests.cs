@@ -62,10 +62,63 @@ namespace Service.Tests
                 Cep = "49509-765",
                 Logradouro = "Rua do centro",
                 Numero = "123",
-                Complemento = "Casa 1"
+                Complemento = "Casa 1",
+                Modalidade = "Aluguel"
+            };
+
+            var imovel2 = new Imovel()
+            {
+                Id = 2,
+                Descricao = "Casa feia",
+                Quartos = 3,
+                Banheiros = 2,
+                ValorCondominio = 400,
+                PrecoAluguel = 800,
+                PrecoVenda = 0,
+                Iptu = 200,
+                Status = "Disponível",
+                PrecoCondominio = 200,
+                PodeAnimal = 0,
+                Tipo = "Casa",
+                IdPessoa = 1,
+                Bairro = "Centro",
+                Estado = "Sergipe",
+                Cidade = "Itabaiana",
+                Cep = "49509-765",
+                Logradouro = "Rua do centro",
+                Numero = "123",
+                Complemento = "Casa 1",
+                Modalidade = "Aluguel"
+            };
+
+            var imovel3 = new Imovel()
+            {
+                Id = 3,
+                Descricao = "Casa regular",
+                Quartos = 3,
+                Banheiros = 2,
+                ValorCondominio = 400,
+                PrecoAluguel = 800,
+                PrecoVenda = 0,
+                Iptu = 200,
+                Status = "Disponível",
+                PrecoCondominio = 200,
+                PodeAnimal = 0,
+                Tipo = "Casa",
+                IdPessoa = 1,
+                Bairro = "Centro",
+                Estado = "Sergipe",
+                Cidade = "Itabaiana",
+                Cep = "49509-765",
+                Logradouro = "Rua do centro",
+                Numero = "1234",
+                Complemento = "Casa 3",
+                Modalidade = "Aluguel"
             };
             houseHubContext.Pessoas.Add(pessoa);
             houseHubContext.Imovels.Add(imovel);
+            houseHubContext.Imovels.Add(imovel2);
+            houseHubContext.Imovels.Add(imovel3);
         }
 
         private IEnumerable<Locacao> GetTestSugestoes()
@@ -91,8 +144,9 @@ namespace Service.Tests
                     DataVencimento = DateTime.Now.AddMonths(1),
                     DataInicio = DateTime.Now.AddDays(2),
                     DataFim = DateTime.Now.AddDays(2),
+                    Status = "Inativo",
                     Valor = 800,
-                    IdImovel = 1,
+                    IdImovel = 2,
                     IdPessoa = 1
                 }
             };
@@ -108,8 +162,10 @@ namespace Service.Tests
                 DataInicio = DateTime.Now,
                 DataFim = null,
                 Valor = 235,
-                IdImovel = 1,
+                Status = "Ativo",
+                IdImovel = 3,
                 IdPessoa = 1
+            
             };
         }
 
@@ -122,7 +178,7 @@ namespace Service.Tests
 
             // Assert
             Assert.AreEqual(3, houseHubContext.Locacaos.Count());
-            var locacaoCriado = houseHubContext.Locacaos.Find((uint)4);
+            var locacaoCriado = houseHubContext.Locacaos.Find((uint)3);
             Assert.IsNotNull(locacaoCriado);
             Assert.AreEqual(235, locacaoCriado.Valor);
             Assert.AreEqual("Ativo", locacaoCriado.Status);
@@ -150,7 +206,7 @@ namespace Service.Tests
             //Assert
             Assert.IsNotNull(locacao);
             Assert.AreEqual(500, locacao.Valor);
-            Assert.AreEqual("Inativo", locacao.Status);
+            Assert.AreEqual("Ativo", locacao.Status);
         }
 
         [TestMethod()]
@@ -175,7 +231,7 @@ namespace Service.Tests
             // Assert
             var locacaoAtualizado = locacaoService.Get(1);
             Assert.IsNotNull(locacaoAtualizado);
-            Assert.AreEqual("Inativo", locacaoAtualizado.Status);
+            Assert.AreEqual("Ativo", locacaoAtualizado.Status);
             Assert.AreEqual(0, locacaoAtualizado.Valor);
             Assert.AreEqual((uint)1, locacaoAtualizado.IdPessoa);
         }
