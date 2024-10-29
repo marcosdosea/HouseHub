@@ -6,6 +6,8 @@ using Service;
 using HouseHubWeb.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using HouseHubWeb.Helpers;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ builder.Services.AddDbContext<HouseHubContext>(options =>
 });
 
 builder.Services.AddDbContext<IdentityContext>(
-                options => options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDatabase")));
+                options => options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDatabase") ?? throw new InvalidOperationException()));
 
 
 
@@ -40,7 +42,7 @@ builder.Services.AddDefaultIdentity<UsuarioIdentity>(options =>
     // Default User settings.
     options.User.AllowedUserNameCharacters =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    //options.User.RequireUniqueEmail = true;
+    options.User.RequireUniqueEmail = true;
 
     // Default Lockout settings
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -51,12 +53,9 @@ builder.Services.AddDefaultIdentity<UsuarioIdentity>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    //options.AccessDeniedPath = "/Identity/Autenticar";
     options.Cookie.Name = "HouseHubCookieName";
     options.Cookie.HttpOnly = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-    //options.LoginPath = "/Identity/Autenticar";
-    // ReturnUrlParameter requires 
     options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
     options.SlidingExpiration = true;
 });
@@ -68,6 +67,8 @@ builder.Services.AddTransient<IPessoaService, PessoaService>();
 builder.Services.AddTransient<ISolicitacaoreparoService, SolicitacaoreparoService>();
 builder.Services.AddTransient<ILocacaoService, LocacaoService>();
 builder.Services.AddTransient<IPagamentoService, PagamentoService>();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
