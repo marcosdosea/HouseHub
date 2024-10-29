@@ -3,6 +3,8 @@ using Core.Service;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Service;
+using HouseHubWeb.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<HouseHubContext>(options =>
 {
     options.UseMySQL(connectionString);
 });
+
+builder.Services.AddDefaultIdentity<UsuarioIdentity>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityContext>();
 
 builder.Services.AddTransient<IAgendamentoService, AgendamentoService>();
 builder.Services.AddTransient<IAvalicaoService, AvaliacaoService>();
