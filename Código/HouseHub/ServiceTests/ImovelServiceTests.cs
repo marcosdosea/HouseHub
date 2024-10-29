@@ -58,7 +58,8 @@ namespace Service.Tests
                     Cep = "49500-000",
                     Logradouro = "Rua do centro",
                     Numero = "123",
-                    Complemento = "Casa 1"
+                    Complemento = "Casa 1",
+                    Modalidade = "Venda"
                 },
                 new Imovel()
                 {
@@ -81,7 +82,8 @@ namespace Service.Tests
                     Cep = "49500-000",
                     Logradouro = "Rua do centro",
                     Numero = "123",
-                    Complemento = "Casa 1"
+                    Complemento = "Casa 1",
+                    Modalidade = "Venda"
 
                 }
             };
@@ -110,7 +112,8 @@ namespace Service.Tests
                 Cep = "49509-765",
                 Logradouro = "Rua do centro",
                 Numero = "123",
-                Complemento = "Casa 1"
+                Complemento = "Casa 1",
+                Modalidade = "Aluguel"
 
             };
         }

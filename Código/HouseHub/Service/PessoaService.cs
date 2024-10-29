@@ -37,7 +37,7 @@ namespace Service {
         public bool Delete(uint Id) 
         {
             var Pessoa = houseHubContext.Pessoas.Find(Id);
-            if(Pessoa != null) 
+            if (Pessoa != null) 
             {
                 houseHubContext.Remove(Pessoa);
                 houseHubContext.SaveChanges();

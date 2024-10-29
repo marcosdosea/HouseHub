@@ -25,6 +25,7 @@ namespace Service
         /// <returns>O ID da Avaliação criada.</returns>
         public uint Create(Avaliacao avaliacao)
         {
+            
             houseHubContext.Add(avaliacao);
             houseHubContext.SaveChanges();
             return avaliacao.Id;

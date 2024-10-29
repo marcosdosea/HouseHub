@@ -47,7 +47,7 @@ namespace Service
         /// <returns></returns>
         public Agendamento? Get(uint id)
         {
-            return houseHubContext.Agendamentos.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return houseHubContext.Agendamentos.FirstOrDefault(x => x.Id == id);
         }
 
         /// <summary>
