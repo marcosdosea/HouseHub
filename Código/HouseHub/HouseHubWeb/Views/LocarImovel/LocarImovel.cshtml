@@ -4,29 +4,89 @@
     ViewData["Title"] = "Locar Imóvel";
 }
 
+@if(ViewData["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewData["Error"]
+    </div>
+}
 
-<form asp-action="Create" class="container">
+<form class="container" asp-action="@Model.IdImovel" id="form">
     <div class="form-section">
         <label asp-for="EmailCpf">Alugar para:</label>
         <input asp-for="EmailCpf" type="text" id="cpf-email" placeholder="CPF ou EMAIL:">
 
-        <h2>Informações do usuário:</h2>
-
-        <h3 id="usuario" class="username">@Model.NomeUsuario</h3>
-
-        <p>Aprovado: <span class="approved">R$ 2.000,00</span></p>
-        <p>Renda Mensal Estimada: <span class="estimated-income">R$ 40.000,00</span></p>
+        <div class="d-none" id="userInfo">
+            <h2>Informações do usuário:</h2>
+            <h3 id="usuario" class="username">@Model.NomeUsuario</h3>
+            <p>Aprovado: <span class="approved">R$ 0</span></p>
+        </div>
     </div>
 
     <div class="summary-section">
         <div class="price-details">
-            <p>Aluguel <span>R$ 800,00</span></p>
-            <p>Condomínio <span>R$ 800,00</span></p>
-            <p>IPTU <span>R$ 800,00</span></p>
+            <p>Aluguel <span>@Model.PrecoAluguel.ToString("c")</span></p>
+            <p>Condomínio <span>@Model.PrecoCondominio.ToString("c")</span></p>
+            <p>IPTU <span>@Model.Iptu.ToString("c")</span></p>
             <p>Taxa de serviço <span>R$ 200,00</span></p>
             <hr>
-            <p>Total <span class="total">R$ 1.200,00</span></p>
+            <p>
+                Total
+                <span class="total">
+                    @(((Model.PrecoAluguel) + (Model.PrecoCondominio) + (Model.Iptu) + 200).ToString("c"))
+                </span>
+            </p>
         </div>
         <input type="submit" value="Alugar" class="rent-button" />
     </div>
 </form>
+
+@{
+    char arroba = '@';
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        document.getElementById('form').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+
+        $('#cpf-email').on('change', function () {
+            var $input = $(this);
+            var cpfEmail = $input.val().trim();
+
+            var url = '/api/pessoas/cpf/' + cpfEmail;
+            if (cpfEmail.includes('@arroba')) {
+                url = '/api/pessoas/email/' + cpfEmail;
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $input.prop('disabled', true);
+                },
+                success: function (data) {
+
+                    if (data.result === 'Error') {
+                        alert(data.message);
+                    } else {
+                        $('#usuario').text(data.nome);
+                        $('.approved').text('R$ ' + data.rendaAprovada);
+                        $('#userInfo').removeClass('d-none');
+                    }
+                },
+
+                complete: function () {
+                    $input.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DTOs;
 using Core.Service;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service {
-    public class PessoaService : IPessoaService 
+namespace Service
+{
+    public class PessoaService : IPessoaService
     {
 
         private readonly HouseHubContext houseHubContext;
-        public PessoaService(HouseHubContext houseHubContext) 
+        public PessoaService(HouseHubContext houseHubContext)
         {
             this.houseHubContext = houseHubContext;
         }
@@ -22,7 +24,7 @@ namespace Service {
         /// </summary>
         /// <param name="pessoa"></param>
         /// <returns>Retorna o id da pessoa cadastrada</returns>
-        public uint Create(Pessoa pessoa) 
+        public uint Create(Pessoa pessoa)
         {
             houseHubContext.Pessoas.Add(pessoa);
             houseHubContext.SaveChanges();
@@ -34,10 +36,10 @@ namespace Service {
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>Retorna verdadeiro se a remoção for bem sucedida</returns>
-        public bool Delete(uint Id) 
+        public bool Delete(uint Id)
         {
             var Pessoa = houseHubContext.Pessoas.Find(Id);
-            if(Pessoa != null) 
+            if (Pessoa != null) 
             {
                 houseHubContext.Remove(Pessoa);
                 houseHubContext.SaveChanges();
@@ -60,9 +62,42 @@ namespace Service {
         /// Obter todas as pessoas com as no tracking
         /// </summary>
         /// <returns>Retorna uma lista com todas as pessoas</returns>
-        public IEnumerable<Pessoa> GetAll() 
+        public IEnumerable<Pessoa> GetAll()
         {
             return houseHubContext.Pessoas.AsNoTracking();
+        }
+
+        private PessoaDto SelectPessoaDto(Pessoa pessoa)
+        {
+            var pessoaDto = new PessoaDto
+            {
+                Id = pessoa.Id,
+                Nome = pessoa.Nome,
+                Cpf = pessoa.Cpf,
+                Email = pessoa.Email,
+            };
+            var renda = pessoa.Avaliacaos.LastOrDefault();
+            if (renda != null)
+            {
+                pessoaDto.RendaAprovada = renda.ValorAprovado;
+            }
+            return pessoaDto;
+        }
+
+        public PessoaDto ? GetByCpf(string cpf)
+        {
+            return houseHubContext.Pessoas
+                .Where(x => x.Cpf == cpf)
+                .Select(SelectPessoaDto)
+                .FirstOrDefault();
+        }
+
+        public PessoaDto ? GetByEmail(string email)
+        {
+            return houseHubContext.Pessoas
+                .Where(x => x.Email == email)
+                .Select(SelectPessoaDto)
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -70,7 +105,7 @@ namespace Service {
         /// </summary>
         /// <param name="nome"></param>
         /// <returns>Retorna uma ou mais pessoas que contenham o mesmo nome</returns>
-        public IEnumerable<Pessoa> GetByNome(string nome) 
+        public IEnumerable<Pessoa> GetByNome(string nome)
         {
             return houseHubContext.Pessoas.AsNoTracking().Where(p => p.Nome.Contains(nome));
         }
@@ -79,7 +114,7 @@ namespace Service {
         /// Atualiza o registro de uma pessoa
         /// </summary>
         /// <param name="pessoa"></param>
-        public void Update(Pessoa pessoa) 
+        public void Update(Pessoa pessoa)
         {
             houseHubContext.Pessoas.Update(pessoa);
             houseHubContext.SaveChanges();

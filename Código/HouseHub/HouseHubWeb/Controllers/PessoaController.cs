@@ -98,5 +98,37 @@ namespace HouseHubWeb.Controllers
             var model = mapper.Map<PessoaViewModel>(pessoa);
             return View(model);
         }
+
+        [HttpGet]
+        [Route("api/pessoas/cpf/{cpf}")]
+        public JsonResult GetPessoasByCpf(string cpf)
+        {
+            var pessoa = pessoaService.GetByCpf(cpf);
+            if (pessoa == null)
+            {
+                return Json(new
+                {
+                    Result = "Error",
+                    Message = "Usuário não encontrado"
+                });
+            }
+            return Json(pessoa);
+        }
+
+        [HttpGet]
+        [Route("api/pessoas/email/{email}")]
+        public JsonResult GetPessoaByEmail(string email)
+        {
+            var pessoa = pessoaService.GetByEmail(email);
+            if (pessoa == null)
+            {
+                return Json(new
+                {
+                    Result = "Error",
+                    Message = "Usuário não encontrado"
+                });
+            }
+            return Json(pessoa);
+        }
     }
 }

@@ -68,8 +68,7 @@ namespace HouseHubWeb.Controllers.Tests
             Assert.AreEqual(0, imovelViewModel.PrecoVenda);
             Assert.AreEqual(200, imovelViewModel.Iptu);
             Assert.AreEqual("Alugado", imovelViewModel.Status);
-            Assert.AreEqual(200, imovelViewModel.PrecoCondominio);
-            Assert.AreEqual(0, imovelViewModel.PodeAnimal);
+            Assert.AreEqual(false, imovelViewModel.PodeAnimal);
             Assert.AreEqual("Casa", imovelViewModel.Tipo);
             Assert.AreEqual((uint)2, imovelViewModel.IdPessoa);
             Assert.AreEqual("Centro", imovelViewModel.Bairro);
@@ -132,8 +131,7 @@ namespace HouseHubWeb.Controllers.Tests
                 PrecoVenda = 0,
                 Iptu = 200,
                 Status = "Alugado",
-                PrecoCondominio = 200,
-                PodeAnimal = 0,
+                PodeAnimal = true,
                 Tipo = "Casa",
                 IdPessoa = 2,
                 Bairro = "Centro",
