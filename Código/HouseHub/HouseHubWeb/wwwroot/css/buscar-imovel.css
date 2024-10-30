@@ -1,0 +1,86 @@
+﻿body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-header {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.btn-outline-primary {
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 5px 10px;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    border-bottom: 2px solid #007bff;
+    background-color: transparent; 
+    color: #007bff
+}
+
+input:focus {
+    outline: none !important;
+    box-shadow: none !important; 
+    border-color: transparent !important; 
+}
+
+.btn-outline-primary:focus, .btn-outline-primary:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+.btn-primary[type="submit"] {
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold; 
+}
+
+.btn-primary[type="submit"]:hover {
+    color: black; 
+    background-color: #E4E4E4;
+}
+
+input[asp-for="Cidade"], input[asp-for="Bairro"] {
+    background-color: #E4E4E4; 
+    color: black;
+    font-weight: 500;
+}
+
+input[asp-for="ValorMaximo"], input[asp-for="Quartos"] {
+    color: black; 
+    font-weight: 500;
+}
+
+.navbar {
+    background-color: #292C2F !important;
+    border-bottom: solid #292c2f 4px !important;
+}
+
+.nav-link {
+    color: white !important; 
+    font-weight: 400; 
+}
+
+.nav-link.active,
+.nav-link:hover {
+    color: #FF5C00 !important;
+}
+
+#Notificacao {
+    position: relative;
+    top: 8px;
+}
+
+#numeroNotificacao {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #2899D8;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
