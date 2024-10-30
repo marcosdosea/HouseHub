@@ -1,1 +1,50 @@
-﻿
+﻿@model IEnumerable<ImovelViewModel>
+
+@{
+    ViewData["Title"] = "Buscar Imóvel";
+}
+<div class="search-bar">
+    <i class="fa fa-map-marker-alt"></i>
+    <input type="text" placeholder="Bairro porto, itabaiana se">
+    <button><i class="fa fa-search"></i></button>
+</div>
+
+<br />
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-orange">@Model.Count() Casas e apartamentos</h2>
+            <p></p>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var imovel in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <img src="@imovel." class="card-img-top" alt="Imagem do imóvel">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="text-muted">@imovel.Tipo</h6>
+                                <h5 class="card-title">R$ @imovel.PrecoAluguel</h5>
+                            </div>
+                            <div class="col">
+
+                                <button class="btn btn-link"><i class="fa fa-heart text-danger"></i></button>
+
+                            </div>
+                        </div>
+                        <p class="card-text">@imovel.Descricao</p>
+                        <p class="text-muted">@imovel.Bairro, @imovel.Logradouro</p>
+                        <a href="/LocarImovel/@imovel.Id" class="stretched-link"></a>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -63,18 +63,31 @@ namespace Service {
         /// <returns>retorna os imoveis</returns>
         public IEnumerable<Imovel> GetAll(BuscarImovelDto busca)
         {
-            if(busca.Modalidade == "Aluguel")
+            var imoveis = houseHubContext.Imovels.AsNoTracking();
+
+            if(busca.Cidade != null)
             {
-                return houseHubContext.Imovels.AsNoTracking()
-                .Where(x => x.Cidade.ToLower() == busca.Cidade.ToLower() && x.Bairro.ToLower() == busca.Bairro.ToLower()
-                        && (x.Modalidade.ToLower() == busca.Modalidade.ToLower() || x.Modalidade.ToLower() == "ambos") && x.PrecoAluguel < busca.ValorMaximo);
+                imoveis = imoveis.Where(x => x.Cidade.ToLower() == busca.Cidade.ToLower());
             }
-            else
+            if (busca.Bairro != null)
             {
-                return houseHubContext.Imovels.AsNoTracking()
-                .Where(x => x.Cidade.ToLower() == busca.Cidade.ToLower() && x.Bairro.ToLower() == busca.Bairro.ToLower()
-                        && (x.Modalidade.ToLower() == busca.Modalidade.ToLower() || x.Modalidade.ToLower() == "ambos") && x.PrecoVenda < busca.ValorMaximo);
+                imoveis = imoveis.Where(x => x.Bairro.ToLower() == busca.Bairro.ToLower());
             }
+            if (busca.Quartos != null)
+            {
+                imoveis = imoveis.Where(x => x.Quartos == busca.Quartos);
+            }
+            if (busca.ValorMaximo != null)
+            {
+                imoveis = imoveis.Where(x => x.PrecoVenda < busca.ValorMaximo);
+            }
+            if (busca.Modalidade != null)
+            {
+
+                imoveis = imoveis.Where(x => x.Modalidade.ToLower() == busca.Modalidade.ToLower() || x.Modalidade.ToLower() == "ambos");
+            }
+
+            return imoveis;
         }
 
         public ImovelDto? GetImovelDto(uint id)

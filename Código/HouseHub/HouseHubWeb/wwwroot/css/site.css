@@ -73,3 +73,39 @@ body {
     border-color: #ff6a00;
 }
 
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    border-radius: 20px;
+    padding: 8px 16px;
+    width: fit-content;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+    .search-bar i {
+        color: #666;
+        margin-right: 8px;
+    }
+
+    .search-bar input {
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 200px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .search-bar button {
+        background: none;
+        border: none;
+        outline: none;
+        color: #666;
+        cursor: pointer;
+    }
+
+        .search-bar button:hover {
+            color: #333;
+        }
+
