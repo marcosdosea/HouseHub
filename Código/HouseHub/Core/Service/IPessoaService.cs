@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace Core.Service {
         Pessoa? Get(uint id);
         IEnumerable<Pessoa> GetAll();
         IEnumerable<Pessoa> GetByNome(string nome);
+        PessoaDto ? GetByCpf(string cpf);
+        PessoaDto ? GetByEmail(string email);
     }
 }
