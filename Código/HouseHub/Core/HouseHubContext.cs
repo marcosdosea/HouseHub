@@ -35,6 +35,10 @@ public partial class HouseHubContext : DbContext
 
     public virtual DbSet<Valore> Valores { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=123456;database=househub");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Agendamento>(entity =>
@@ -63,7 +67,7 @@ public partial class HouseHubContext : DbContext
                 .HasColumnName("observacoes");
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'Pendente'")
-                .HasColumnType("enum('Pendente','Recusado','Agendado','Concluído')")
+                .HasColumnType("enum('Pendente','Recusado','Agendado','Concluido')")
                 .HasColumnName("status");
 
             entity.HasOne(d => d.IdImovelNavigation).WithMany(p => p.Agendamentos)
@@ -85,8 +89,6 @@ public partial class HouseHubContext : DbContext
 
             entity.HasIndex(e => e.IdPessoa, "fk_Avaliacao_Pessoa1_idx");
 
-            entity.HasIndex(e => e.ResultadoAvaliacaoId, "fk_Avaliacao_ResultadoAvaliacao1_idx");
-
             entity.HasIndex(e => e.Id, "id_UNIQUE").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -98,7 +100,6 @@ public partial class HouseHubContext : DbContext
             entity.Property(e => e.RendaMensal)
                 .HasColumnType("decimal(10,0) unsigned")
                 .HasColumnName("rendaMensal");
-            entity.Property(e => e.ResultadoAvaliacaoId).HasColumnName("ResultadoAvaliacao_id");
             entity.Property(e => e.ScoreSerasa).HasColumnName("scoreSerasa");
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'Solicitado'")
@@ -112,11 +113,6 @@ public partial class HouseHubContext : DbContext
                 .HasForeignKey(d => d.IdPessoa)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_Avaliacao_Pessoa1");
-
-            entity.HasOne(d => d.ResultadoAvaliacao).WithMany(p => p.Avaliacaos)
-                .HasForeignKey(d => d.ResultadoAvaliacaoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Avaliacao_ResultadoAvaliacao1");
         });
 
         modelBuilder.Entity<Imagem>(entity =>
@@ -182,7 +178,7 @@ public partial class HouseHubContext : DbContext
                 .HasColumnName("logradouro");
             entity.Property(e => e.Modalidade)
                 .HasDefaultValueSql("'Ambos'")
-                .HasColumnType("enum('Aluguel',' Venda','Ambos')")
+                .HasColumnType("enum('Aluguel','Venda','Ambos')")
                 .HasColumnName("modalidade");
             entity.Property(e => e.Numero)
                 .HasMaxLength(45)
@@ -201,16 +197,13 @@ public partial class HouseHubContext : DbContext
                 .HasColumnName("precoVenda");
             entity.Property(e => e.Quartos).HasColumnName("quartos");
             entity.Property(e => e.Status)
-                .HasDefaultValueSql("'Disponível'")
-                .HasColumnType("enum('Disponível','Vendido','Alugado','Deletado')")
+                .HasDefaultValueSql("'Disponivel'")
+                .HasColumnType("enum('Disponivel','Vendido','Alugado','Deletado')")
                 .HasColumnName("status");
             entity.Property(e => e.Tipo)
                 .HasDefaultValueSql("'Casa'")
                 .HasColumnType("enum('Casa','Apartamento')")
                 .HasColumnName("tipo");
-            entity.Property(e => e.ValorCondominio)
-                .HasColumnType("decimal(10,0) unsigned")
-                .HasColumnName("valorCondominio");
 
             entity.HasOne(d => d.IdPessoaNavigation).WithMany(p => p.Imovels)
                 .HasForeignKey(d => d.IdPessoa)
@@ -303,7 +296,7 @@ public partial class HouseHubContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("dataVencimento");
             entity.Property(e => e.FormaPagamento)
-                .HasColumnType("enum('Dinheiro','Cartão de Crédito','Transferência Bancária','Boleto','Pix')")
+                .HasColumnType("enum('Dinheiro','Cartao de Credito','Transferencia Bancaria','Boleto','Pix')")
                 .HasColumnName("formaPagamento");
             entity.Property(e => e.IdLocacao).HasColumnName("idLocacao");
             entity.Property(e => e.PagamentoManual)
@@ -377,17 +370,33 @@ public partial class HouseHubContext : DbContext
 
             entity.ToTable("resultadoavaliacao");
 
+            entity.HasIndex(e => e.AvaliacaoId, "fk_ResultadoAvaliacao_Avaliacao1_idx");
+
+            entity.HasIndex(e => e.ImovelId, "fk_ResultadoAvaliacao_Imovel1_idx");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Aprovado)
                 .HasDefaultValueSql("'0'")
                 .HasComment("0 - Não\n1 - Sim")
                 .HasColumnName("aprovado");
+            entity.Property(e => e.AvaliacaoId).HasColumnName("Avaliacao_id");
             entity.Property(e => e.DataFinalizado)
                 .HasColumnType("date")
                 .HasColumnName("dataFinalizado");
             entity.Property(e => e.Descricao)
                 .HasMaxLength(200)
                 .HasColumnName("descricao");
+            entity.Property(e => e.ImovelId).HasColumnName("Imovel_id");
+
+            entity.HasOne(d => d.Avaliacao).WithMany(p => p.Resultadoavaliacaos)
+                .HasForeignKey(d => d.AvaliacaoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_ResultadoAvaliacao_Avaliacao1");
+
+            entity.HasOne(d => d.Imovel).WithMany(p => p.Resultadoavaliacaos)
+                .HasForeignKey(d => d.ImovelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_ResultadoAvaliacao_Imovel1");
         });
 
         modelBuilder.Entity<Solicitacaoreparo>(entity =>

@@ -21,9 +21,7 @@ public partial class Avaliacao
 
     public uint IdPessoa { get; set; }
 
-    public uint ResultadoAvaliacaoId { get; set; }
-
     public virtual Pessoa IdPessoaNavigation { get; set; } = null!;
 
-    public virtual Resultadoavaliacao ResultadoAvaliacao { get; set; } = null!;
+    public virtual ICollection<Resultadoavaliacao> Resultadoavaliacaos { get; set; } = new List<Resultadoavaliacao>();
 }
