@@ -28,8 +28,8 @@ namespace HouseHubWeb.Controllers
         public IActionResult Index(BuscarImovelViewModel buscarImovelViewModel)
         {
             var buscarImovelDto = mapper.Map<BuscarImovelDto>(buscarImovelViewModel);
-            var imoveis = imovelService.GetAll(buscarImovelDto);
-            var imoveisViewModel = mapper.Map<IEnumerable<ImovelViewModel>>(imoveis);
+            var imoveis = imovelService.GetAll(buscarImovelDto).Take(50).ToList();
+            var imoveisViewModel = mapper.Map<List<ImovelViewModel>>(imoveis);
             return View(imoveisViewModel);
         }
 

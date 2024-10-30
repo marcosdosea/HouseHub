@@ -15,7 +15,7 @@ namespace HouseHubWeb.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("", "BuscarImovel");
         }
 
         public IActionResult Privacy()
