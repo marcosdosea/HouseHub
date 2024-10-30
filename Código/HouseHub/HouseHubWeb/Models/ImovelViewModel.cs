@@ -19,7 +19,7 @@ namespace HouseHubWeb.Models
 
         public byte Banheiros { get; set; }
         [DisplayName("Condomínio")]
-        public decimal ValorCondominio { get; set; }
+        public decimal PrecoCondominio { get; set; }
         [DisplayName("Aluguel")]
         public decimal PrecoAluguel { get; set; }
         [DisplayName("Preço de Venda")]
