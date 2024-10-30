@@ -17,5 +17,11 @@ public partial class Resultadoavaliacao
 
     public DateTime? DataFinalizado { get; set; }
 
-    public virtual ICollection<Avaliacao> Avaliacaos { get; set; } = new List<Avaliacao>();
+    public uint AvaliacaoId { get; set; }
+
+    public uint ImovelId { get; set; }
+
+    public virtual Avaliacao Avaliacao { get; set; } = null!;
+
+    public virtual Imovel Imovel { get; set; } = null!;
 }

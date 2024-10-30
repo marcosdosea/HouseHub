@@ -1,25 +1,50 @@
-﻿using HouseHubWeb.Models;
+﻿using AutoMapper;
+using Core.Service;
+using HouseHubWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Service;
 
 namespace HouseHubWeb.Controllers
 {
     public class AvaliacaoController : Controller
     {
-        [HttpGet]
-        public IActionResult Create()
+        private readonly IAvalicaoService avaliacaoService;
+        private readonly IMapper mapper;
+
+        public AvaliacaoController(IAvalicaoService avaliacaoService, IMapper mapper)
         {
-            return View();
+            this.avaliacaoService = avaliacaoService;
+            this.mapper = mapper;
         }
 
-        [HttpPost]
-        public IActionResult Create(AvaliacaoViewModel model)
+       
+        // GET: ImovelController/Create
+        public ActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
+            var model = new AvaliacaoViewModel();
 
             return View(model);
+        }
+
+        // POST: ImovelController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(AvaliacaoViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var avaliacao = mapper.Map<Core.Avaliacao>(model);                 
+                    avaliacaoService.Create(avaliacao);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
         }
     }
 }

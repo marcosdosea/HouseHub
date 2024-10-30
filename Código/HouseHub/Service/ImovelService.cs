@@ -96,8 +96,7 @@ namespace Service {
             { 
                 Iptu = x.Iptu,
                 IdImovel = x.Id,
-                PrecoAluguel = x.PrecoAluguel,
-                PrecoCondominio = x.PrecoAluguel,
+                PrecoAluguel = (decimal)x.PrecoAluguel,
                 Status = x.Status,
             }).FirstOrDefault(x => x.IdImovel == id);
         }

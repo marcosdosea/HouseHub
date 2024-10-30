@@ -11,7 +11,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema househub
 -- -----------------------------------------------------
-
 CREATE SCHEMA IF NOT EXISTS `househub` DEFAULT CHARACTER SET utf8 ;
 USE `househub` ;
 
@@ -47,12 +46,11 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `descricao` VARCHAR(40) NOT NULL,
   `quartos` TINYINT UNSIGNED NOT NULL,
   `banheiros` TINYINT UNSIGNED NOT NULL,
-  `valorCondominio` DECIMAL UNSIGNED NOT NULL,
-  `precoAluguel` DECIMAL UNSIGNED NOT NULL,
+  `precoAluguel` DECIMAL UNSIGNED NULL,
   `precoVenda` DECIMAL UNSIGNED NOT NULL,
   `iptu` DECIMAL UNSIGNED NOT NULL,
-  `status` ENUM('Disponível', 'Vendido', 'Alugado', 'Deletado') NOT NULL DEFAULT 'Disponível',
-  `precoCondominio` DECIMAL UNSIGNED NOT NULL,
+  `status` ENUM('Disponivel', 'Vendido', 'Alugado', 'Deletado') NOT NULL DEFAULT 'Disponivel',
+  `precoCondominio` DECIMAL UNSIGNED NULL,
   `podeAnimal` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `tipo` ENUM('Casa', 'Apartamento') NOT NULL DEFAULT 'Casa',
   `idPessoa` INT UNSIGNED NOT NULL,
@@ -63,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `househub`.`Imovel` (
   `logradouro` VARCHAR(45) NOT NULL,
   `numero` VARCHAR(45) NOT NULL,
   `complemento` VARCHAR(100) NULL,
-  `modalidade` ENUM('Aluguel', ' Venda', 'Ambos') NOT NULL DEFAULT 'Ambos',
+  `modalidade` ENUM('Aluguel', 'Venda', 'Ambos') NOT NULL DEFAULT 'Ambos',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Imovel_Pessoa1_idx` (`idPessoa` ASC) VISIBLE,
@@ -88,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `househub`.`Agendamento` (
   `observacoes` VARCHAR(50) NULL,
   `dataCriacao` DATE NOT NULL,
   `dataVisita` DATE NOT NULL,
-  `status` ENUM('Pendente', 'Recusado', 'Agendado', 'Concluído') NOT NULL DEFAULT 'Pendente',
+  `status` ENUM('Pendente', 'Recusado', 'Agendado', 'Concluido') NOT NULL DEFAULT 'Pendente',
   `idImovel` INT UNSIGNED NOT NULL,
   `idPessoa` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
@@ -144,7 +142,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `househub`.`Pagamento` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `dataPagamento` DATE NOT NULL,
-  `formaPagamento` ENUM('Dinheiro', 'Cartão de Crédito', 'Transferência Bancária', 'Boleto', 'Pix') NOT NULL,
+  `formaPagamento` ENUM('Dinheiro', 'Cartao de Credito', 'Transferencia Bancaria', 'Boleto', 'Pix') NOT NULL,
   `pagamentoManual` TINYINT NOT NULL DEFAULT 0 COMMENT '0 = Não, 1 = Sim',
   `idLocacao` INT UNSIGNED NOT NULL,
   `status` ENUM('Pendente', 'Pago', 'Em atraso') NOT NULL DEFAULT 'Pendente',
@@ -161,18 +159,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `househub`.`ResultadoAvaliacao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `househub`.`ResultadoAvaliacao` (
-  `id` INT UNSIGNED NOT NULL,
-  `descricao` VARCHAR(200) NOT NULL,
-  `aprovado` TINYINT NULL DEFAULT 0 COMMENT '0 - Não\n1 - Sim',
-  `dataFinalizado` DATE NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `househub`.`Avaliacao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `househub`.`Avaliacao` (
@@ -184,21 +170,14 @@ CREATE TABLE IF NOT EXISTS `househub`.`Avaliacao` (
   `scoreSerasa` SMALLINT UNSIGNED NOT NULL,
   `status` ENUM('Solicitado', 'Análise', 'Aprovado', 'Reprovado') NOT NULL DEFAULT 'Solicitado',
   `idPessoa` INT UNSIGNED NOT NULL,
-  `ResultadoAvaliacao_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Avaliacao_Pessoa1_idx` (`idPessoa` ASC) INVISIBLE,
-  INDEX `fk_Avaliacao_ResultadoAvaliacao1_idx` (`ResultadoAvaliacao_id` ASC) VISIBLE,
   CONSTRAINT `fk_Avaliacao_Pessoa1`
     FOREIGN KEY (`idPessoa`)
     REFERENCES `househub`.`Pessoa` (`id`)
     ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  CONSTRAINT `fk_Avaliacao_ResultadoAvaliacao1`
-    FOREIGN KEY (`ResultadoAvaliacao_id`)
-    REFERENCES `househub`.`ResultadoAvaliacao` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 
@@ -235,6 +214,32 @@ CREATE TABLE IF NOT EXISTS `househub`.`Valores` (
   `valor` DECIMAL NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `Descricao_UNIQUE` (`descricao` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `househub`.`ResultadoAvaliacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `househub`.`ResultadoAvaliacao` (
+  `id` INT UNSIGNED NOT NULL,
+  `descricao` VARCHAR(200) NOT NULL,
+  `aprovado` TINYINT NULL DEFAULT 0 COMMENT '0 - Não\n1 - Sim',
+  `dataFinalizado` DATE NULL,
+  `Avaliacao_id` INT UNSIGNED NOT NULL,
+  `Imovel_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_ResultadoAvaliacao_Avaliacao1_idx` (`Avaliacao_id` ASC) VISIBLE,
+  INDEX `fk_ResultadoAvaliacao_Imovel1_idx` (`Imovel_id` ASC) VISIBLE,
+  CONSTRAINT `fk_ResultadoAvaliacao_Avaliacao1`
+    FOREIGN KEY (`Avaliacao_id`)
+    REFERENCES `househub`.`Avaliacao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ResultadoAvaliacao_Imovel1`
+    FOREIGN KEY (`Imovel_id`)
+    REFERENCES `househub`.`Imovel` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

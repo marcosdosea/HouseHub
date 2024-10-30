@@ -13,9 +13,17 @@ namespace Service
     {
         private readonly HouseHubContext houseHubContext;
 
+        // Definindo a constante para o valor mínimo de renda per capita
+        private const decimal RENDA_PER_CAPITA_MINIMA = 1.412m;
+
         public AvaliacaoService(HouseHubContext houseHubContext)
         {
             this.houseHubContext = houseHubContext;
+        }
+
+        private bool VerificaRendaPerCapita(Avaliacao avaliacao)
+        {
+            return avaliacao.NumeroDependentes == 0 && avaliacao.NumeroDependentes >= RENDA_PER_CAPITA_MINIMA || avaliacao.RendaMensal / avaliacao.NumeroDependentes >= RENDA_PER_CAPITA_MINIMA;
         }
 
         /// <summary>
@@ -25,7 +33,17 @@ namespace Service
         /// <returns>O ID da Avaliação criada.</returns>
         public uint Create(Avaliacao avaliacao)
         {
-            
+            if (VerificaRendaPerCapita(avaliacao))
+            {
+                avaliacao.Status = "Aprovado";
+                avaliacao.ValorAprovado = avaliacao.RendaMensal * 0.4m;
+            }
+            else
+            {
+                avaliacao.Status = "Análise";
+                avaliacao.ValorAprovado = 0;
+            }
+
             houseHubContext.Add(avaliacao);
             houseHubContext.SaveChanges();
             return avaliacao.Id;
