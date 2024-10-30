@@ -1,12 +1,5 @@
 ﻿using Core.Service;
 using Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Service.Tests
@@ -23,8 +16,7 @@ namespace Service.Tests
         {
 
             var options = new DbContextOptionsBuilder<HouseHubContext>()
-            .UseInMemoryDatabase(databaseName: "MyTestDb")
-            .Options;
+            .UseInMemoryDatabase(databaseName: "MyTestDb").Options;
             houseHubContext = new HouseHubContext(options);
 
             houseHubContext.Database.EnsureDeleted();
@@ -49,9 +41,11 @@ namespace Service.Tests
                     IdImovel = 1,
                     IdPessoa = 1,
                     Observacoes = "Observações necessárias",
+                    Status = "Pendente"
                 },
                 new Agendamento
                 {
+                    Id = 2,
                     DataCriacao = DateTime.Now,
                     DataVisita = DateTime.Now.AddDays(10),
                     IdImovel = 2,
@@ -66,6 +60,7 @@ namespace Service.Tests
         {
             return new Agendamento
             {
+                Id = 3,
                 DataCriacao = DateTime.Now,
                 DataVisita = DateTime.Now.AddDays(10),
                 IdImovel = 1,
@@ -83,10 +78,10 @@ namespace Service.Tests
             var result = agendamentoService.Create(agendamento);
             // Assert
             Assert.AreEqual(3, houseHubContext.Agendamentos.Count());
-            var imovelCriado = houseHubContext.Imovels.Find((uint)4);
+            var imovelCriado = houseHubContext.Imovels.Find((uint)3);
             Assert.IsNotNull(agendamento);
             Assert.AreEqual("Agendado", agendamento.Status);
-            Assert.AreEqual((uint) 4, agendamento.Id);
+            Assert.AreEqual((uint) 3, agendamento.Id);
         }
 
         [TestMethod()]
@@ -127,13 +122,13 @@ namespace Service.Tests
         public void UpdateTest()
         {
             // Act
-            var agendamento = agendamentoService.Get(1);
+            var agendamento = agendamentoService.Get(2);
             agendamento!.Status = "Agendado";
             agendamentoService.Update(agendamento);
 
+
             // Assert
-            var agendamentoAtualizado = agendamentoService.Get(1);
-            Assert.AreEqual("Agendado", agendamentoAtualizado!.Status);
+            Assert.AreEqual("Agendado", agendamento!.Status);
 
         }
     }

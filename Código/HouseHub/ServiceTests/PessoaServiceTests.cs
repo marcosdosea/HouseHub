@@ -84,7 +84,7 @@ namespace Service.Tests
             _pessoaService.Create(pessoa);
 
             // Assert
-            Assert.AreEqual(2, _context.Pessoas.Count());
+            Assert.AreEqual(3, _context.Pessoas.Count());
             var pessoaCriada = _context.Pessoas.Find(pessoa.Id);
             Assert.IsNotNull(pessoaCriada);
             Assert.AreEqual(pessoa.Nome, pessoaCriada.Nome);
@@ -127,11 +127,12 @@ namespace Service.Tests
             var idToDelete = 1;
 
             // Act
-            _pessoaService.Delete((uint)idToDelete);
+            bool deletado = _pessoaService.Delete((uint)idToDelete);
 
             // Assert
+            Assert.AreEqual(true, deletado);
             Assert.AreEqual(1, _context.Pessoas.Count());
-            var pessoaDeleted = _context.Pessoas.Find(idToDelete);
+            var pessoaDeleted = _context.Pessoas.Find((uint)idToDelete);
             Assert.IsNull(pessoaDeleted);
         }
 
