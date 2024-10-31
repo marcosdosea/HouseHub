@@ -1,5 +1,6 @@
 :root {
     --cor-de-btn: #FF5C00;
+    --cor-de-btn-secondary: #FEFEFE;
 }
 
 html {
@@ -17,6 +18,18 @@ html {
     background-color: var(--cor-de-btn);
     border-color: var(--cor-de-btn);
     border-radius: 40px;
+}
+
+.btn-secondary {
+    color: black;
+    font-weight: bold;
+    background-color: var(--cor-de-btn-secondary);
+    border-color: var(--cor-de-btn-secondary);
+    border-radius: 40px;
+}
+
+.btn-primary:hover {
+    background-color: #FF5C00;
 }
 
 .btn-primary:hover {
@@ -43,6 +56,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    font-family: 'Inter', sans-serif;
 }
 
 .plus-button {
@@ -108,4 +122,3 @@ body {
         .search-bar button:hover {
             color: #333;
         }
-
