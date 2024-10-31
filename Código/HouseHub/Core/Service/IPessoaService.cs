@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface IPessoaService 
     {
+        uint GetUserByCpf(string cpf);
+        uint GetUserByEmail(string email);
         uint Create(Pessoa pessoa);
         void Update(Pessoa pessoa);
         bool Delete(uint Id);
