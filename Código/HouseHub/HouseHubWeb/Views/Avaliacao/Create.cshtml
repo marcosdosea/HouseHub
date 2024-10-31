@@ -4,66 +4,122 @@
     ViewData["Title"] = "Enviar Avaliação";
 }
 
-<h1>Enviar Avaliação</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card p-4 col-10" style="background-color: #d1d1d1;">
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="RendaMensal" class="control-label"></label>
-                <input asp-for="RendaMensal" class="form-control" />
-                <span asp-validation-for="RendaMensal" class="text-danger"></span>
-            </div>
+        <form asp-action="Create" class="d-flex align-items-center flex-column" enctype="multipart/form-data" onsubmit="removerSifrao()">
+            <h3 class="mb-4">Avaliação de Crédito</h3>
 
-            <div class="form-group">
-                <label asp-for="Cep" class="control-label"></label>
-                <input asp-for="Cep" class="form-control" />
-                <span asp-validation-for="Cep" class="text-danger"></span>
-            </div>
+            <div class="d-flex justify-content-md-between flex-column">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
+                <div class="d-flex align-items-center mb-2">
+                    <h5 class="col-3">Sua renda:</h5>
+                    <div class="col-9">
+                        <input asp-for="RendaMensal" class="form-control" id="rendaMensal" oninput="formatCurrency(this)" placeholder="R$ 0,00" />
+                        <span asp-validation-for="RendaMensal" class="text-danger"></span>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Cidade" class="control-label"></label>
-                <input asp-for="Cidade" class="form-control" />
-                <span asp-validation-for="Cidade" class="text-danger"></span>
-            </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="form-group col-8">
+                        <input asp-for="Cep" class="form-control" placeholder="Cep" id="cepInput"/>
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-3">
+                        <input asp-for="Estado" class="form-control" placeholder="Estado" id="estadoInput" />
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Rua" class="control-label"></label>
-                <input asp-for="Rua" class="form-control" />
-                <span asp-validation-for="Rua" class="text-danger"></span>
-            </div>
+                <div class="form-group mb-2">
+                    <input asp-for="Cidade" class="form-control" placeholder="Cidade" id="cidadeInput" />
+                    <span asp-validation-for="Cidade" class="text-danger"></span>
+                </div>  
+                
+                <div class="form-group mb-2">
+                    <input asp-for="Bairro" class="form-control" placeholder="Bairro" id="bairroInput" />
+                    <span asp-validation-for="Bairro" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Telefone" class="control-label"></label>
-                <input asp-for="Telefone" class="form-control" />
-                <span asp-validation-for="Telefone" class="text-danger"></span>
-            </div>
+                <div class="form-group mb-2">
+                    <input asp-for="Rua" class="form-control" placeholder="Rua" id="ruaInput" />
+                    <span asp-validation-for="Rua" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+                <div class="form-group mb-2">
+                    <input asp-for="Numero" class="form-control" placeholder="Numero" />
+                    <span asp-validation-for="Rua" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="ComprovanteRenda" class="control-label"></label>
-                <input asp-for="ComprovanteRenda" type="file" class="form-control" />
-                <span asp-validation-for="ComprovanteRenda" class="text-danger"></span>
-            </div>
+                <h5>Contato</h5>
 
-            <div class="form-group">
-                <input type="submit" value="Enviar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <div class="form-group mb-2">
+                    <input asp-for="Telefone" class="form-control" placeholder="Telefone" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <h5>Envie os arquivos que comprovem sua renda</h5>
+                <div class="form-group mb-2">
+                    <input asp-for="ComprovanteRenda" type="file" class="form-control" accept=".pdf,.jpeg,.png,.webp" />
+                    <span asp-validation-for="ComprovanteRenda" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group d-flex justify-content-end">
+                    <a asp-action="Index" class="btn btn-secondary fw-bold mx-lg-2">Cancelar</a>
+                    <input type="submit" value="Enviar" class="btn btn-primary text-white" />
+                </div>
             </div>
         </form>
+
     </div>
 </div>
+
+
+<script>
+    function formatCurrency(input) {
+        let value = input.value.replace(/\D/g, '');
+        value = (value / 100).toFixed(2).replace('.', ',');
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        input.value = 'R$ ' + value;
+    }
+
+    document.getElementById('cepInput').addEventListener('change', function () {
+                        alert("aa")
+        var cep = this.value.trim();
+        if (cep.length == 9 && cep[5] === '-') {
+            cep = cep.replace('-', '');
+        }
+        if (cep.length == 8) {
+            fetch('https://viacep.com.br/ws/' + cep + '/json/', {
+                method: 'GET'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }
+                )
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById('cidadeInput').value = data.localidade;
+                        document.getElementById('bairroInput').value = data.bairro;
+                        document.getElementById('estadoInput').value = data.uf;
+                        document.getElementById('logradouroInput').value = data.logradouro;
+                    }
+                });
+        }
+    });
+
+    function removerSifrao() {
+        const rendaInput = document.getElementById('rendaMensal');
+        rendaInput.value = rendaInput.value.replace(/^R\$\s?/, '');
+    }
+</script>
