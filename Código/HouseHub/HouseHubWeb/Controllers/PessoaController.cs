@@ -36,7 +36,7 @@ namespace HouseHubWeb.Controllers
                 }
                 return View(model);
             }
-            catch (exeption ex)
+            catch (Exception)
             {
                 return View();
             }
