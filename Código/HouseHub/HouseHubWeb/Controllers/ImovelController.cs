@@ -64,7 +64,7 @@ namespace HouseHubWeb.Controllers
 
                     if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
-                        string name = User.Identity.GetUserId();
+                        string name = User.Identity.GetUserName();
                         uint id = pessoaService.GetUserByEmail(name);
                         imovel.IdPessoa = id;
                     }
