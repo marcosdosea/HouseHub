@@ -53,7 +53,7 @@ namespace HouseHubWeb.Controllers.Tests
             // Assert
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
             RedirectToActionResult redirectToActionResult = (RedirectToActionResult)result;
-            Assert.IsNull(redirectToActionResult.ControllerName);
+            Assert.AreEqual("HomeController", redirectToActionResult.ControllerName);
             Assert.AreEqual("Index", redirectToActionResult.ActionName);
         }
 

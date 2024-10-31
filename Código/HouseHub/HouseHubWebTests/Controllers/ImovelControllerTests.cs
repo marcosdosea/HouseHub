@@ -1,4 +1,4 @@
-﻿  using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Core.Service;
 using Moq;
@@ -63,7 +63,7 @@ namespace HouseHubWeb.Controllers.Tests
             Assert.AreEqual("Casa feia", imovelViewModel.Descricao);
             Assert.AreEqual(3, imovelViewModel.Quartos);
             Assert.AreEqual(2, imovelViewModel.Banheiros);
-            Assert.AreEqual(200, imovelViewModel.ValorCondominio);
+            Assert.AreEqual(200, imovelViewModel.PrecoCondominio);
             Assert.AreEqual(800, imovelViewModel.PrecoAluguel);
             Assert.AreEqual(0, imovelViewModel.PrecoVenda);
             Assert.AreEqual(200, imovelViewModel.Iptu);
@@ -126,7 +126,7 @@ namespace HouseHubWeb.Controllers.Tests
                 Descricao = "Casa feia",
                 Quartos = 3,
                 Banheiros = 2,
-                ValorCondominio = 200,
+                PrecoCondominio = 200,
                 PrecoAluguel = 800,
                 PrecoVenda = 0,
                 Iptu = 200,
@@ -140,7 +140,8 @@ namespace HouseHubWeb.Controllers.Tests
                 Cep = "49509-765",
                 Logradouro = "Rua do centro",
                 Numero = "123",
-                Complemento = "Casa 1"
+                Complemento = "Casa 1", 
+                Modalidade = "Ambos"
 
             };
         }
@@ -153,7 +154,6 @@ namespace HouseHubWeb.Controllers.Tests
                 Descricao = "Casa feia",
                 Quartos = 3,
                 Banheiros = 2,
-                ValorCondominio = 200,
                 PrecoAluguel = 800,
                 PrecoVenda = 0,
                 Iptu = 200,
@@ -168,7 +168,8 @@ namespace HouseHubWeb.Controllers.Tests
                 Cep = "49509-765",
                 Logradouro = "Rua do centro",
                 Numero = "123",
-                Complemento = "Casa 1"
+                Complemento = "Casa 1",
+                Modalidade = "Aluguel"
 
             };
         }
@@ -181,7 +182,6 @@ namespace HouseHubWeb.Controllers.Tests
                 Descricao = "Casa bonita",
                 Quartos = 3,
                 Banheiros = 2,
-                ValorCondominio = 200,
                 PrecoAluguel = 800,
                 PrecoVenda = 0,
                 Iptu = 200,
@@ -210,7 +210,6 @@ namespace HouseHubWeb.Controllers.Tests
                     Descricao = "Casinha bonita",
                     Quartos = 2,
                     Banheiros = 1,
-                    ValorCondominio = 100,
                     PrecoAluguel = 500,
                     PrecoVenda = 100000,
                     Iptu = 100,
@@ -233,7 +232,6 @@ namespace HouseHubWeb.Controllers.Tests
                     Descricao = "Apartamento",
                     Quartos = 3,
                     Banheiros = 2,
-                    ValorCondominio = 200,
                     PrecoAluguel = 800,
                     PrecoVenda = 200000,
                     Iptu = 200,
@@ -292,4 +290,3 @@ namespace HouseHubWeb.Controllers.Tests
         }
     }
 }
-
