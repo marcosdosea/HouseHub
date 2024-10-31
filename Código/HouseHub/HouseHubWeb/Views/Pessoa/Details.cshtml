@@ -6,91 +6,91 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>PessoaViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cpf)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cpf)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Bairro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Bairro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cidade)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Logradouro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Logradouro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cep)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cep)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Numero)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Numero)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Complemento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Complemento)
-        </dd>
-    </dl>
+<div class="container" style="max-width: 900px; background-color: #f0f0f0; padding: 20px; border-radius: 8px;">
+    <div class="row">
+        <div class="col-md-6" style="padding: 20px; background-color: #f0f0f0; border-radius: 8px;">
+            <h2>Meu Perfil</h2>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <div class="avatar" style="width: 100px; height: 100px; background-color: black; border-radius: 50%; margin-right: 20px;">
+                </div>
+                <div>
+                    <label asp-for="Nome" class="control-label">Nome</label>
+                    @Html.DisplayFor(model => model.Nome)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataNascimento" class="control-label">Data de Nascimento</label><br />
+                @Html.DisplayFor(model => model.DataNascimento)
+            </div>
+            <div class="form-group">
+                <label asp-for="Cpf" class="control-label">CPF</label><br />
+                @Html.DisplayFor(model => model.Cpf)
+            </div>
+            <div class="form-group">
+                <label asp-for="Rg" class="control-label">RG</label><br />
+                @Html.DisplayFor(model => model.Rg)
+            </div>
+        </div>
+
+        <div class="col-md-6" style="padding: 20px;">
+            <h2>Endereço</h2>
+            <div class="form-group">
+                <label asp-for="Cep" class="control-label"></label><br />
+                @Html.DisplayFor(model => model.Cep)
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label asp-for="Estado" class="control-label">Estado</label><br />
+                    @Html.DisplayFor(model => model.Estado)
+                </div>
+                <div class="col-6">
+                    <label asp-for="Cidade" class="control-label">Cidade</label><br />
+                    @Html.DisplayFor(model => model.Cidade)
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bairro" class="control-label">Bairro</label><br />
+                @Html.DisplayFor(model => model.Bairro)
+            </div>
+            <div class="form-group">
+                <label asp-for="Logradouro" class="control-label">Logradouro</label><br />
+                @Html.DisplayFor(model => model.Logradouro)
+            </div>
+            <div class="form-group">
+                <label asp-for="Numero" class="control-label">Numero</label><br />
+                @Html.DisplayFor(model => model.Numero)
+            </div>
+
+
+            <h2>Contato</h2>
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label">Telefone</label><br />
+                @Html.DisplayFor(model => model.Telefone)
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">E-mail</label><br />
+                @Html.DisplayFor(model => model.Email)
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col text-center">
+            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<style>
+    .btn-warning {
+        background-color: #ff6600;
+        border-color: #ff6600;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+</style>

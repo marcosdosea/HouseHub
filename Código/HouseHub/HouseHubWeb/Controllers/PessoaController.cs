@@ -92,6 +92,8 @@ namespace HouseHubWeb.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/pessoa/details/{id}")]
         public IActionResult Details(int id)
         {
             var pessoa = pessoaService.Get((uint)id);
