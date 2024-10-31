@@ -119,5 +119,21 @@ namespace Service
             houseHubContext.Pessoas.Update(pessoa);
             houseHubContext.SaveChanges();
         }
+
+        public uint GetUserByCpf(string cpf)
+        {
+            return houseHubContext.Pessoas
+                .Where(x => x.Cpf == cpf)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+        }
+
+        public uint GetUserByEmail(string email)
+        {
+            return houseHubContext.Pessoas
+                .Where(x => x.Email == email)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+        }
     }
 }

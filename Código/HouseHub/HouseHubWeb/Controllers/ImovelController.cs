@@ -1,22 +1,26 @@
 ﻿using AutoMapper;
 using Core.Service;
 using HouseHubWeb.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace HouseHubWeb.Controllers
 {
+    [Authorize]
     public class ImovelController : Controller
     {
 
         private readonly IImovelService imovelService;
+        private readonly IPessoaService pessoaService;
         private readonly IMapper mapper;
 
-        public ImovelController(IImovelService imovelService, IMapper mapper)
+        public ImovelController(IImovelService imovelService, IMapper mapper, IPessoaService pessoaService)
         {
             this.mapper = mapper;
             this.imovelService = imovelService;
+            this.pessoaService = pessoaService;
         }
 
 
@@ -57,6 +61,14 @@ namespace HouseHubWeb.Controllers
                     string modalidade = model.ModalidadeVender ?
                         "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
                     imovel.Modalidade = modalidade;
+
+                    if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        string name = User.Identity.GetUserId();
+                        uint id = pessoaService.GetUserByEmail(name);
+                        imovel.IdPessoa = id;
+                    }
+                    
                     imovelService.Create(imovel);
                     return RedirectToAction(nameof(Index));
                 }
