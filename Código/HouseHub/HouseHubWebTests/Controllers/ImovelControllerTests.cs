@@ -20,6 +20,7 @@ namespace HouseHubWeb.Controllers.Tests
         {
             // Arrange
             var mockService = new Mock<IImovelService>();
+            var mockServicePessoa = new Mock<IPessoaService>();
 
             IMapper mapper = new MapperConfiguration(cfg =>
                cfg.AddProfile(new ImovelProfile())).CreateMapper();
@@ -30,7 +31,7 @@ namespace HouseHubWeb.Controllers.Tests
                .Returns(GetTargetSugestao());
             mockService.Setup(service => service.Create(It.IsAny<Imovel>()))
                .Verifiable();
-            controller = new ImovelController(mockService.Object, mapper);
+            controller = new ImovelController(mockService.Object, mapper, mockServicePessoa.Object);
         }
 
         [TestMethod()]

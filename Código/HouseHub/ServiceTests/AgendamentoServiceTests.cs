@@ -16,7 +16,7 @@ namespace Service.Tests
         {
 
             var options = new DbContextOptionsBuilder<HouseHubContext>()
-            .UseInMemoryDatabase(databaseName: "MyTestDb").Options;
+                .UseInMemoryDatabase(databaseName: "MyTestDb").Options;
             houseHubContext = new HouseHubContext(options);
 
             houseHubContext.Database.EnsureDeleted();
