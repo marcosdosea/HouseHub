@@ -9,9 +9,9 @@ namespace HouseHubWeb.Controllers
     public class PagamentoController : Controller
     {
         private readonly IPagamentoService pagamentoService;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public PagamentoController(IPagamentoService pagamentoService, Mapper mapper)
+        public PagamentoController(IPagamentoService pagamentoService, IMapper mapper)
         {
             this.pagamentoService = pagamentoService;
             this.mapper = mapper;
