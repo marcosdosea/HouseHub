@@ -1,50 +1,295 @@
 ﻿@model HouseHubWeb.Models.SolicitacaoReparoViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Solicitar Reparo";
+    Layout = "_Layout";
 }
 
-<h1>Create</h1>
+<div class="repair-container">
+    <div class="repair-form-container">
+        <h2 class="repair-title">SOLICITAR REPARO</h2>
 
-<h4>SolicitacaoReparoViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Status" />
+            <input type="hidden" asp-for="IdLocacao" />
+
+            <div class="formulario">
+                <section class="infos">
+                    <div class="form-group">
+                        <label>Informe o que houve:</label>
+                        <textarea asp-for="Descricao" class="form-control description-input" placeholder="Digite aqui o problema..."></textarea>
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <span>Deseja que alguém seja enviado?</span>
+                            <div class="custom-checkbox">
+                                <input asp-for="EnviarAlguem" type="checkbox" />
+                                <span class="checkmark"></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quanto você vai precisar para o reparo?</label>
+                        <input asp-for="Valor" class="form-control" placeholder="R$ 0,00" />
+                        <span asp-validation-for="Valor" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="Data" value="@DateTime.Now" />
+                    <input type="hidden" asp-for="RespostaProprietario" />
+                </section>
+                <section class="images">
+                    <div class="form-row">
+                        <div class="image-upload-section">
+                            <h3>Adicione algumas imagens que ilustrem seu problema.</h3>
+
+                            <div class="image-preview-container">
+                                <div class="image-preview">
+                                    <div class="image-placeholder"></div>
+                                    <span>Image1</span>
+                                    <button type="button" class="delete-btn">
+                                        <i class="trash-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn-orange add-proof-btn">Adicionar Prova</button>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="form-group">
-                <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
-                <span asp-validation-for="Valor" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnviarAlguem" /> @Html.DisplayNameFor(model => model.EnviarAlguem)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-orange">Solicitar reparo</button>
             </div>
         </form>
     </div>
-</div>
+    <!-- Modal de upload de fotos -->
+    <div id="uploadModal" class="upload-modal">
+        <div class="upload-modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Adicionar Imagens</h3>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div class="upload-area">
+                <label for="fileUpload" class="upload-label">
+                    <div class="upload-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M5 12H19" stroke="#FF6B00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <p>Clique para selecionar ou arraste as imagens aqui</p>
+                </label>
+                <input type="file" id="fileUpload" multiple accept="image/*" class="file-input" />
+            </div>
+
+            <div class="image-previews">
+                <!-- As previews das imagens serão adicionadas aqui via JavaScript -->
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel cancel-upload">Cancelar</button>
+                <button type="button" class="btn-orange confirm-upload">Confirmar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        // Script para manipulação do formulário de reparo
+        // Script para manipulação do formulário de reparo
+        document.addEventListener("DOMContentLoaded", () => {
+          // Manipulação do checkbox personalizado
+          const checkbox = document.querySelector('input[type="checkbox"]')
+          if (checkbox) {
+            checkbox.addEventListener("change", function () {
+              const checkmark = this.nextElementSibling
+              if (this.checked) {
+                checkmark.classList.add("checked")
+              } else {
+                checkmark.classList.remove("checked")
+              }
+            })
+          }
+
+          // Elementos do modal
+          const modal = document.getElementById("uploadModal")
+          const addProofBtn = document.querySelector(".add-proof-btn")
+          const closeModal = document.querySelector(".close-modal")
+          const cancelUpload = document.querySelector(".cancel-upload")
+          const confirmUpload = document.querySelector(".confirm-upload")
+          const fileInput = document.getElementById("fileUpload")
+          const uploadArea = document.querySelector(".upload-area")
+          const imagePreviews = document.querySelector(".image-previews")
+          const imagePreviewContainer = document.querySelector(".image-preview-container")
+
+          // Abrir modal ao clicar em "Adicionar Prova"
+          if (addProofBtn) {
+            addProofBtn.addEventListener("click", () => {
+              modal.style.display = "block"
+            })
+          }
+
+          // Fechar modal
+          if (closeModal) {
+            closeModal.addEventListener("click", () => {
+              modal.style.display = "none"
+            })
+          }
+
+          if (cancelUpload) {
+            cancelUpload.addEventListener("click", () => {
+              modal.style.display = "none"
+            })
+          }
+
+          // Fechar modal ao clicar fora dele
+          window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+              modal.style.display = "none"
+            }
+          })
+
+          // Manipulação de upload de arquivos
+          if (fileInput) {
+            fileInput.addEventListener("change", handleFileSelect)
+          }
+
+          // Suporte para drag and drop
+          if (uploadArea) {
+            ;["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+              uploadArea.addEventListener(eventName, preventDefaults, false)
+            })
+            ;["dragenter", "dragover"].forEach((eventName) => {
+              uploadArea.addEventListener(eventName, highlight, false)
+            })
+            ;["dragleave", "drop"].forEach((eventName) => {
+              uploadArea.addEventListener(eventName, unhighlight, false)
+            })
+
+            uploadArea.addEventListener("drop", handleDrop, false)
+          }
+
+          // Confirmar upload e adicionar imagens ao formulário
+          if (confirmUpload) {
+            confirmUpload.addEventListener("click", () => {
+              // Transferir as imagens do modal para o formulário
+              const previewItems = imagePreviews.querySelectorAll(".preview-item")
+
+              if (previewItems.length > 0) {
+                // Limpar o container de previews existente
+                imagePreviewContainer.innerHTML = ""
+
+                // Adicionar cada imagem ao formulário
+                previewItems.forEach((item, index) => {
+                  const imgSrc = item.querySelector("img").src
+                  const imagePreview = document.createElement("div")
+                  imagePreview.className = "image-preview"
+                  imagePreview.innerHTML = `
+                <div class="image-placeholder" style="background-image: url('${imgSrc}');"></div>
+                <span>Image${index + 1}</span>
+                <button type="button" class="delete-btn">
+                    <i class="trash-icon"></i>
+                </button>
+            `
+                  imagePreviewContainer.appendChild(imagePreview)
+                })
+
+                // Adicionar event listeners para os novos botões de exclusão
+                const deleteButtons = document.querySelectorAll(".delete-btn")
+                deleteButtons.forEach((button) => {
+                  button.addEventListener("click", function () {
+                    const imagePreview = this.closest(".image-preview")
+                    if (imagePreview) {
+                      imagePreview.remove()
+                    }
+                  })
+                })
+              }
+
+              // Fechar o modal
+              modal.style.display = "none"
+            })
+          }
+
+          // Funções auxiliares
+          function preventDefaults(e) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
+
+          function highlight() {
+            uploadArea.classList.add("dragover")
+          }
+
+          function unhighlight() {
+            uploadArea.classList.remove("dragover")
+          }
+
+          function handleDrop(e) {
+            const dt = e.dataTransfer
+            const files = dt.files
+            handleFiles(files)
+          }
+
+          function handleFileSelect(e) {
+            const files = e.target.files
+            handleFiles(files)
+          }
+
+          function handleFiles(files) {
+            files = [...files]
+            files.forEach(previewFile)
+          }
+
+          function previewFile(file) {
+            // Verificar se o arquivo é uma imagem
+            if (!file.type.match("image.*")) {
+              return
+            }
+
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+              const preview = document.createElement("div")
+              preview.className = "preview-item"
+              preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="remove-preview">&times;</button>
+                    `
+
+              // Adicionar evento para remover a preview
+              preview.querySelector(".remove-preview").addEventListener("click", () => {
+                preview.remove()
+              })
+
+              imagePreviews.appendChild(preview)
+            }
+
+            reader.readAsDataURL(file)
+          }
+
+          // Botões de excluir imagem existentes
+          const deleteButtons = document.querySelectorAll(".delete-btn")
+          deleteButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+              const imagePreview = this.closest(".image-preview")
+              if (imagePreview) {
+                imagePreview.remove()
+              }
+            })
+          })
+        })
+    </script>
 }
+

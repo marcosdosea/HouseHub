@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace Core.Service {
     public interface ISolicitacaoreparoService 
     {
-        uint Create(Solicitacaoreparo solicitacaoreparo);
-        void Update(Solicitacaoreparo solicitacaoreparo);
-        bool Delete(uint Id);
-        Solicitacaoreparo? Get(uint id);
-        IEnumerable<Solicitacaoreparo> GetAll();
+        Task<Solicitacaoreparo> CriarSolicitacaoAsync(Solicitacaoreparo solicitacao);
+        Task<IEnumerable<Solicitacaoreparo>> ObterSolicitacoesPorProprietarioAsync(uint idProprietario);
+        Task<Solicitacaoreparo?> ObterSolicitacaoAsync(uint id);
+        Task<bool> AtualizarStatusAsync(uint id, string novoStatus, string respostaProprietario);
     }
 }

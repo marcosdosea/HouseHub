@@ -7,68 +7,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace Service;
+
+public class SolicitacaoreparoService : ISolicitacaoreparoService
 {
-    public class SolicitacaoreparoService : ISolicitacaoreparoService
+
+    private readonly HouseHubContext context;
+
+    public SolicitacaoreparoService(HouseHubContext houseHubContext)
     {
+        this.context = houseHubContext;
+    }
 
-        private readonly HouseHubContext houseHubContext;
+    public async Task<Solicitacaoreparo> CriarSolicitacaoAsync(Solicitacaoreparo solicitacao)
+    {
+        context.Solicitacaoreparos.Add(solicitacao);
+        await context.SaveChangesAsync();
 
-        public SolicitacaoreparoService(HouseHubContext houseHubContext)
-        {
-            this.houseHubContext = houseHubContext;
-        }
-        /// <summary>
-        /// Criar uma solicitação de reparo
-        /// </summary>
-        /// <param name="solicitacaoreparo"></param>
-        /// <returns>Id da solicitação do reparo criado</returns>
-        public uint Create(Solicitacaoreparo solicitacaoreparo)
-        {
-            houseHubContext.Solicitacaoreparos.Add(solicitacaoreparo);
-            houseHubContext.SaveChanges();
-            return solicitacaoreparo.Id;
-        }
-        /// <summary>
-        /// retorna true se a exclusão for bem sucedida e false se não for
-        /// </summary>
-        /// <param name="Id"></param>
-        public bool Delete(uint Id)
-        {
-            var solicitacaoReparo = houseHubContext.Solicitacaoreparos.Find(Id);
-            if (solicitacaoReparo != null)
-            {
-                houseHubContext.Remove(solicitacaoReparo);
-                houseHubContext.SaveChanges();
-                return true;
-            }
-            return false;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>retorna a solicitação de reparo encontrada</returns>
-        public Solicitacaoreparo? Get(uint id)
-        {
-            return houseHubContext.Solicitacaoreparos.AsNoTracking().FirstOrDefault(x => x.Id == id);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>retorna a lista de solicitações de reparo</returns>
-        public IEnumerable<Solicitacaoreparo> GetAll()
-        {
-            return houseHubContext.Solicitacaoreparos.AsNoTracking();
-        }
-        /// <summary>
-        /// faz a atualização de uma entidade caso não esteja usando as no tracking
-        /// </summary>
-        /// <param name="solicitacaoreparo"></param>
-        public void Update(Solicitacaoreparo solicitacaoreparo)
-        {
-            houseHubContext.Solicitacaoreparos.Update(solicitacaoreparo);
-            houseHubContext.SaveChanges();
-        }
+        return solicitacao;
+    }
+
+    public async Task<IEnumerable<Solicitacaoreparo>> ObterSolicitacoesPorProprietarioAsync(uint idProprietario)
+    {
+        return context.Solicitacaoreparos.AsNoTracking();
+    }
+
+    public async Task<Solicitacaoreparo?> ObterSolicitacaoAsync(uint id)
+    {
+        var solicitacao = await context.Solicitacaoreparos.FindAsync(id);
+        if (solicitacao == null) return null;
+
+        return solicitacao;
+    }
+
+    public async Task<bool> AtualizarStatusAsync(uint id, string novoStatus, string respostaProprietario)
+    {
+        var entidade = await context.Solicitacaoreparos.FindAsync(id);
+        if (entidade == null) return false;
+
+        entidade.Status = novoStatus;
+        entidade.RespostaProprietario = respostaProprietario;
+        await context.SaveChangesAsync();
+
+        return true;
     }
 }
