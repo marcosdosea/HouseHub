@@ -12,113 +12,121 @@ html {
         font-size: 16px;
     }
 }
-.btn-primary {
-    color: black;
-    font-weight: bold;
-    background-color: var(--cor-de-btn);
-    border-color: var(--cor-de-btn);
-    border-radius: 40px;
-}
-
-.btn-secondary {
-    color: black;
-    font-weight: bold;
-    background-color: var(--cor-de-btn-secondary);
-    border-color: var(--cor-de-btn-secondary);
-    border-radius: 40px;
-}
-
-.btn-primary:hover {
-    background-color: #FF5C00;
-}
-
-.btn-primary:hover {
-    background-color: #552200;
-}
-
-.btn_voltar {
-    color: black;
-    font-weight: bold;
-    border-color: lightgray;
-    border-radius: 40px;
-    color: black;
-    background-color: lightgray;
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 body {
     margin-bottom: 60px;
     font-family: 'Inter', sans-serif;
 }
 
-.plus-button {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    line-height: 56px;
-    text-align: center;
-    padding: 0;
-    color: #fff;
-    background-color: var(--cor-de-btn);
-    border-color: #ff6a00;
+.navbar {
+    background-color: rgba(20, 20, 20, 0.7) !important;
+    backdrop-filter: blur(5px);
 }
 
-.plus-button:hover {
-    background-color: #ff6a00;
-    border-color: #ff6a00;
-}
-
-.btn-laranja {
-    background-color: var(--cor-de-btn);
-    border-color: var(--cor-de-btn);
-    color: #fff;
-}
-
-.btn-laranja:hover {
-    background-color: #ff6a00;
-    border-color: #ff6a00;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7;
-    border-radius: 20px;
-    padding: 8px 16px;
-    width: fit-content;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-    .search-bar i {
-        color: #666;
-        margin-right: 8px;
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+        color: white !important;
     }
 
-    .search-bar input {
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 200px;
-        color: #333;
-        font-size: 14px;
-    }
-
-    .search-bar button {
-        background: none;
-        border: none;
-        outline: none;
-        color: #666;
-        cursor: pointer;
-    }
-
-        .search-bar button:hover {
-            color: #333;
+        .navbar .navbar-brand img {
+            filter: brightness(1) !important;
         }
+
+        .navbar .nav-link:hover {
+            color: #ff6a00 !important;
+        }
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('/img/fundo_buscar.png') no-repeat center center/cover;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(255, 140, 0, 0.7));
+    backdrop-filter: blur(12px);
+    z-index: -1;
+}
+
+.sobre-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 20px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.sobre-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff6a00;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sobre-texto {
+    font-size: 1.2rem;
+    color: #f5f5f5;
+    text-align: justify;
+    max-width: 1000px;
+    margin: 20px 0;
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+.sobre-section {
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+    .sobre-section h3 {
+        font-size: 1.8rem;
+        color: #ff6a00;
+        margin-bottom: 15px;
+    }
+
+    .sobre-section p {
+        font-size: 1rem;
+        color: #ddd;
+        line-height: 1.6;
+    }
+
+.sobre-footer {
+    font-size: 1rem;
+    color: #f5f5f5;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.sobre-container,
+.sobre-header,
+.sobre-texto {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
