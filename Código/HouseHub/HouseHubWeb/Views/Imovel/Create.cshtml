@@ -69,22 +69,28 @@
                 <label asp-for="PodeAnimal" class="control-label"></label>
                 <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                     @{
-                        string Active = Model.PodeAnimal ? "active" : "";
-                        string NotActive = Model.PodeAnimal ? "" : "active";
+                        string Active = "";
+                        string NotActive = "";
+                        if (Model != null)
+                        {
+                            Active = Model?.PodeAnimalBool == true ? "active" : "";
+                            NotActive = Model?.PodeAnimalBool == false ? "active" : "";
+                        }
+
                     }
-                    <label class="btn btn-outline-primary">
-                        <input type="radio" asp-for="PodeAnimal" value="true" autocomplete="off"> Sim
+                    <label class="btn btn-outline-primary @Active">
+                        <input type="radio" asp-for="PodeAnimalBool" value="true" autocomplete="off"> Sim
                     </label>
                     <label class="btn btn-outline-secondary @NotActive">
-                        <input type="radio" asp-for="PodeAnimal" value="false" autocomplete="off"> Não
+                        <input type="radio" asp-for="PodeAnimalBool" value="false" autocomplete="off"> Não
                     </label>
                 </div>
-                <span asp-validation-for="PodeAnimal" class="text-danger"></span>
+                <span asp-validation-for="PodeAnimalBool" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                @Html.DropDownListFor(model => model.Tipo, Model.Tipos, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Tipo, ViewBag.Tipos as List<SelectListItem>, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form_group">

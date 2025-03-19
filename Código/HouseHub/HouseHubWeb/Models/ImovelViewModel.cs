@@ -34,7 +34,9 @@ namespace HouseHubWeb.Models
         /// 0 = Não, 1 = Sim
         /// </summary>
         [DisplayName("Pode Animal?")]
-        public bool PodeAnimal { get; set; } = false;
+        public bool PodeAnimalBool { get; set; } = false;
+
+        public byte PodeAnimal { get; set; } = 0;
         /// <summary>
         /// Casa, Apartamento
         /// </summary>

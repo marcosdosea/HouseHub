@@ -4,6 +4,7 @@ using HouseHubWeb.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace HouseHubWeb.Controllers
@@ -43,9 +44,12 @@ namespace HouseHubWeb.Controllers
         // GET: ImovelController/Create
         public ActionResult Create()
         {
-            var model = new ImovelViewModel();
-
-            return View(model);
+            ViewBag.Tipos = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Casa", Value = "Casa" },
+                new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
+            };
+            return View();
         }
 
         // POST: ImovelController/Create
@@ -57,10 +61,15 @@ namespace HouseHubWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
+                    model.PodeAnimal = (byte)(model.PodeAnimalBool ? 1 : 0);
+
                     var imovel = mapper.Map<Core.Imovel>(model);
+
                     string modalidade = model.ModalidadeVender ?
                         "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
                     imovel.Modalidade = modalidade;
+                    imovel.Status = "Disponivel";
 
                     if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
@@ -68,18 +77,31 @@ namespace HouseHubWeb.Controllers
                         uint id = pessoaService.GetUserByEmail(name);
                         imovel.IdPessoa = id;
                     }
-                    
+
                     imovelService.Create(imovel);
                     return RedirectToAction(nameof(Index));
                 }
+                ViewBag.Tipos = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Casa", Value = "Casa" },
+                new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
+            };
+                // Caso ModelState seja inválido, retorna para a View com os erros
                 return View(model);
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                
-                return View();
+                ModelState.AddModelError("", "Erro ao tentar criar o imóvel: " + ex.Message);
+                ViewBag.Tipos = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Casa", Value = "Casa" },
+                new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
+            };
+                // Sempre garantir que a View receba um modelo
+                return View(model);
             }
         }
+
 
         // GET: ImovelController/Edit/5
         public ActionResult Edit(int id)
