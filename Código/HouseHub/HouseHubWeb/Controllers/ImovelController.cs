@@ -68,16 +68,16 @@ namespace HouseHubWeb.Controllers
                         uint id = pessoaService.GetUserByEmail(name);
                         imovel.IdPessoa = id;
                     }
-                    
+
+                    imovel.IdPessoa = pessoaService.GetUserByEmail(User.Identity.GetUserName());
                     imovelService.Create(imovel);
                     return RedirectToAction(nameof(Index));
                 }
                 return View(model);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                
-                return View();
+                return View(model);
             }
         }
 

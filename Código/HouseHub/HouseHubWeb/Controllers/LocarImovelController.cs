@@ -2,6 +2,7 @@
 using Core;
 using Core.Service;
 using HouseHubWeb.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,7 +49,7 @@ namespace HouseHubWeb.Controllers
                 {
                     var locacao = mapper.Map<Locacao>(locacaoViewModel);
                     locacao.IdImovel = id;
-                    locacao.IdPessoa = 1;///Get the user id;
+                    locacao.IdPessoa = pessoaService.GetUserByEmail(User.Identity.GetUserName());
                     locacaoService.Create(locacao);
                     return RedirectToAction("Index", "Home");
                 }

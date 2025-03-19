@@ -15,5 +15,6 @@ namespace Core.Service {
         IEnumerable<Imovel> GetAll();
         IEnumerable<Imovel> GetAll(BuscarImovelDto busca);
         ImovelDto ? GetImovelDto(uint id);
+        IEnumerable<MeusImoveisDto> GetMeusImoveis(uint idPessoa);
     }
 }
