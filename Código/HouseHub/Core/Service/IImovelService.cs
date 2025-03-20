@@ -11,6 +11,7 @@ namespace Core.Service {
         uint Create(Imovel imovel);
         void Update(Imovel imovel);
         void Delete(uint imovel);
+        void AssociarImagemAoImovel(uint imovelId, uint imagemId);
         Imovel ? Get(uint id);
         IEnumerable<Imovel> GetAll();
         IEnumerable<Imovel> GetAll(BuscarImovelDto busca);

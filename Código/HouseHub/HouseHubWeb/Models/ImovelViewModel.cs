@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.ComponentModel;
@@ -63,6 +63,13 @@ namespace HouseHubWeb.Models
         public bool ModalidadeAmbos { get; set; }
         public bool ModalidadeVender { get; set; }
         public bool ModalidadeAluguel { get; set; }
+
+        [DisplayName("Imagens")]
+        public List<IFormFile>? ImageFiles { get; set; }
+
+        // Opcional: para exibição de imagens existentes
+        public List<string>? ExistingImageUrls { get; set; }
+
 
         public List<SelectListItem> Tipos { get; set; } = new List<SelectListItem>{
             new SelectListItem("Casa", "Casa"),

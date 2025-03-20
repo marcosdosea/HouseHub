@@ -15,14 +15,19 @@ namespace HouseHubWeb.Controllers
 
         private readonly IImovelService imovelService;
         private readonly IPessoaService pessoaService;
+        private readonly IImagemService imagemService;
+        private readonly IFileStorageService fileStorageService;
         private readonly IMapper mapper;
 
-        public ImovelController(IImovelService imovelService, IMapper mapper, IPessoaService pessoaService)
+        public ImovelController(IImovelService imovelService, IPessoaService pessoaService, IImagemService imagemService, IFileStorageService fileStorageService, IMapper mapper)
         {
-            this.mapper = mapper;
             this.imovelService = imovelService;
             this.pessoaService = pessoaService;
+            this.imagemService = imagemService;
+            this.fileStorageService = fileStorageService;
+            this.mapper = mapper;
         }
+
 
 
         // GET: ImovelController
@@ -55,17 +60,14 @@ namespace HouseHubWeb.Controllers
         // POST: ImovelController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ImovelViewModel model)
+        public async Task<ActionResult> Create(ImovelViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-
                     model.PodeAnimal = (byte)(model.PodeAnimalBool ? 1 : 0);
-
                     var imovel = mapper.Map<Core.Imovel>(model);
-
                     string modalidade = model.ModalidadeVender ?
                         "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
                     imovel.Modalidade = modalidade;
@@ -78,26 +80,49 @@ namespace HouseHubWeb.Controllers
                         imovel.IdPessoa = id;
                     }
 
-                    imovelService.Create(imovel);
+                    // Salvar o imóvel para obter um ID
+                    uint imovelId = imovelService.Create(imovel);
+
+                    // Processar imagens se existirem
+                    if (model.ImageFiles != null && model.ImageFiles.Count > 0)
+                    {
+                        // Salvar os arquivos fisicamente
+                        List<string> imageUrls = await fileStorageService.SaveImagesAsync(model.ImageFiles);
+
+                        // Salvar as URLs no banco de dados e associar ao imóvel
+                        foreach (var url in imageUrls)
+                        {
+                            var imagem = new Core.Imagem
+                            {
+                                Url = url
+                            };
+
+                            // Salvar a imagem no banco
+                            uint imagemId = await imagemService.CreateAsync(imagem);
+
+                            // Associar a imagem ao imóvel
+                            await imagemService.AssociarImagemAoImovelAsync(imovelId, imagemId);
+                        }
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
+
                 ViewBag.Tipos = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Casa", Value = "Casa" },
-                new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
-            };
-                // Caso ModelState seja inválido, retorna para a View com os erros
+                {
+                    new SelectListItem { Text = "Casa", Value = "Casa" },
+                    new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
+                };
                 return View(model);
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Erro ao tentar criar o imóvel: " + ex.Message);
                 ViewBag.Tipos = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Casa", Value = "Casa" },
-                new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
-            };
-                // Sempre garantir que a View receba um modelo
+                {
+                    new SelectListItem { Text = "Casa", Value = "Casa" },
+                    new SelectListItem { Text = "Apartamento", Value = "Apartamento" }
+                };
                 return View(model);
             }
         }

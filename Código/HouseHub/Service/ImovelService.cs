@@ -109,5 +109,17 @@ namespace Service {
             houseHubContext.Imovels.Update(imovel);
             houseHubContext.SaveChanges();
         }
+
+        public void AssociarImagemAoImovel(uint imovelId, uint imagemId)
+        {
+            var imovel = houseHubContext.Imovels.Include(i => i.Imagems).FirstOrDefault(i => i.Id == imovelId);
+            var imagem = houseHubContext.Imagems.Find(imagemId);
+
+            if (imovel != null && imagem != null)
+            {
+                imovel.Imagems.Add(imagem);
+                houseHubContext.SaveChanges();
+            }
+        }
     }
 }

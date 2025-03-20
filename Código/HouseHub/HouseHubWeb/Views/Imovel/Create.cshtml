@@ -8,7 +8,7 @@
 
 <hr />
 
-<form asp-action="Create" class="container-fluid">
+<form asp-action="Create" class="container-fluid" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row w-100 justify-content-around">
         <div class="endereco col-md-4">
@@ -94,8 +94,9 @@
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form_group">
-                <label for="formFileMultiple" class="form-label">Coloque suas fotos</label>
-                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                <label asp-for="ImageFiles" class="form-label">Coloque suas fotos</label>
+                <input class="form-control" type="file" asp-for="ImageFiles" id="formFileMultiple" multiple>
+                <span asp-validation-for="ImageFiles" class="text-danger"></span>
             </div>
 
             <div class="imagens mt-3">
