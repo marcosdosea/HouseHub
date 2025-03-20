@@ -29,13 +29,13 @@ namespace Service
         {
             try
             {
-                var imovelImagem = new ImovelImagem
-                {
-                    Imovel_id = imovelId,
-                    Imagem_id = imagemId
-                };
+                var imovel = await _dbContext.Set<Imovel>().FindAsync(imovelId);
+                var imagem = await _dbContext.Set<Imagem>().FindAsync(imagemId);
 
-                _dbContext.Set<ImovelImagem>().Add(imovelImagem);
+                if (imovel == null || imagem == null)
+                    return false;
+
+                imovel.Imagems.Add(imagem);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -47,9 +47,9 @@ namespace Service
 
         public async Task<List<Imagem>> GetImagensByImovelIdAsync(uint imovelId)
         {
-            return await _dbContext.Set<ImovelImagem>()
-                .Where(ii => ii.Imovel_id == imovelId)
-                .Select(ii => ii.Imagem)
+            return await _dbContext.Set<Imovel>()
+                .Where(i => i.Id == imovelId)
+                .SelectMany(i => i.Imagems)
                 .ToListAsync();
         }
     }

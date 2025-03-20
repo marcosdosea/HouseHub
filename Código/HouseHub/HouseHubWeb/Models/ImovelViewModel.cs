@@ -66,7 +66,7 @@ namespace HouseHubWeb.Models
 
         [DisplayName("Imagens")]
         public List<IFormFile>? ImageFiles { get; set; }
-
+        public string ImagemPrincipalUrl { get; set; } = string.Empty;
         // Opcional: para exibição de imagens existentes
         public List<string>? ExistingImageUrls { get; set; }
 

@@ -31,10 +31,18 @@ namespace HouseHubWeb.Controllers
 
 
         // GET: ImovelController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var imoveis = imovelService.GetAll().ToList();
             var model = mapper.Map<List<ImovelViewModel>>(imoveis);
+
+            // Carregar a primeira imagem para cada imóvel
+            foreach (var imovelViewModel in model)
+            {
+                var imagens = await imagemService.GetImagensByImovelIdAsync((uint)imovelViewModel.Id);
+                imovelViewModel.ImagemPrincipalUrl = imagens.FirstOrDefault()?.Url;
+            }
+
             return View(model);
         }
 
