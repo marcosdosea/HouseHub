@@ -42,6 +42,8 @@ namespace HouseHubWeb.Models
 
         public uint IdPessoa { get; set; }
 
+        public PessoaViewModel? IdPessoaNavigation { get; set; }
+
         public string Bairro { get; set; } = null!;
 
         public string Estado { get; set; } = null!;

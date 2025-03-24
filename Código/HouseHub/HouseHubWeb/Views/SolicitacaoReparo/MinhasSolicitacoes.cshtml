@@ -1,18 +1,19 @@
 ﻿@model List<HouseHubWeb.Models.SolicitacaoReparoViewModel>
 
 @{
-    ViewData["Title"] = "Solicitações de Reparo";
+    ViewData["Title"] = "Minhas Solicitações de Reparo";
     Layout = "_Layout";
 }
 
 <div class="repair-container">
-    <h2 class="repair-title">SOLICITAÇÕES DE REPARO (PROPRIETÁRIO)</h2>
+    <h2 class="repair-title">MINHAS SOLICITAÇÕES DE REPARO</h2>
 
     <div class="repair-list">
         @if (Model.Count == 0)
         {
             <div class="empty-state">
-                <p>Você ainda não tem solicitações de reparo para seus imóveis.</p>
+                <p>Você ainda não possui solicitações de reparo.</p>
+                <p>Para criar uma solicitação, acesse um dos seus imóveis alugados.</p>
             </div>
         }
         else
@@ -26,6 +27,7 @@
                         <th>Descrição</th>
                         <th>Status</th>
                         <th>Valor</th>
+                        <th>Resposta</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -42,8 +44,19 @@
                             </td>
                             <td>R$ @item.Valor.ToString("N2")</td>
                             <td>
+                                @if (string.IsNullOrEmpty(item.RespostaProprietario))
+                                {
+                                    <span class="no-response">Sem resposta</span>
+                                }
+                                else
+                                {
+                                    @item.RespostaProprietario.Substring(0, Math.Min(30, item.RespostaProprietario.Length))
+
+                                    @(item.RespostaProprietario.Length > 30 ? "..." : "")
+                                }
+                            </td>
+                            <td>
                                 <a asp-action="Detalhes" asp-route-idSolicitacao="@item.Id" class="btn-details">Detalhes</a>
-                                <a asp-action="Responder" asp-route-id="@item.Id" class="btn-respond">Responder</a>
                             </td>
                         </tr>
                     }
@@ -85,16 +98,16 @@
         border-collapse: collapse;
     }
 
-    .table th, .table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
 
-    .table th {
-        background-color: #f8f9fa;
-        font-weight: 600;
-    }
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
 
     .status-badge {
         display: inline-block;
@@ -104,47 +117,44 @@
         font-weight: 600;
     }
 
-    .status-badge.pendente {
-        background-color: #FFF3CD;
-        color: #856404;
+        .status-badge.pendente {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-badge.aprovado {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-badge.rejeitado {
+            background-color: #F8D7DA;
+            color: #721C24;
+        }
+
+        .status-badge.em.andamento {
+            background-color: #CCE5FF;
+            color: #004085;
+        }
+
+        .status-badge.concluido {
+            background-color: #D1ECF1;
+            color: #0C5460;
+        }
+
+    .no-response {
+        color: #999;
+        font-style: italic;
     }
 
-    .status-badge.aprovado {
-        background-color: #D4EDDA;
-        color: #155724;
-    }
-
-    .status-badge.rejeitado {
-        background-color: #F8D7DA;
-        color: #721C24;
-    }
-
-    .status-badge.em.andamento {
-        background-color: #CCE5FF;
-        color: #004085;
-    }
-
-    .status-badge.concluido {
-        background-color: #D1ECF1;
-        color: #0C5460;
-    }
-
-    .btn-details, .btn-respond {
+    .btn-details {
         display: inline-block;
         padding: 5px 10px;
         margin: 2px;
         border-radius: 4px;
         text-decoration: none;
         font-size: 13px;
-    }
-
-    .btn-details {
         background-color: #E2E3E5;
         color: #383d41;
-    }
-
-    .btn-respond {
-        background-color: #FF6B00;
-        color: white;
     }
 </style>

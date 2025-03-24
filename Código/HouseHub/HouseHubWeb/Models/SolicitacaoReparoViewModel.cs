@@ -30,5 +30,7 @@ namespace HouseHubWeb.Models
         public string Status { get; set; } = null!;
 
         public uint IdLocacao { get; set; }
+
+        public LocacaoViewModel? IdLocacaoNavigation { get; set; }
     }
 }
