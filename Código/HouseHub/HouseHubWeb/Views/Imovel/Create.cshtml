@@ -124,7 +124,7 @@
                     <input type="radio" asp-for="ModalidadeVender" class="btn-check" id="Vender" name="modalidade_venda" value="vender" autocomplete="off">
                     <label class="btn btn-outline-primary" for="Vender">Vender</label>
 
-                    <input type="radio" asp-for="ModalidadeAmbos" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off">
+                    <input type="radio" asp-for="ModalidadeAmbos" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off" checked>
                     <label class="btn btn-outline-primary" for="Ambos">Ambos</label>
                 </div>
             </div>
@@ -213,14 +213,23 @@
             function toggleFields() {
                 const isAlugarSelected = alugarRadio.checked;
                 const isVenderSelected = venderRadio.checked;
+                const isAmbosSelected = ambosRadio.checked;
 
-                document.querySelector('.valor-condominio').style.display = (isAlugarSelected || isVenderSelected) ? '' : 'none';
-                document.querySelector('.valor-aluguel').style.display = isAlugarSelected ? '' : 'none';
-                document.querySelector('.valor-venda').style.display = isVenderSelected ? '' : 'none';
+                // Mostra todos os campos primeiro, caso esteja em "Ambos"
+                precoAluguelInput.closest('.form-group').style.display = 'block';
+                precoVendaInput.closest('.form-group').style.display = 'block';
+                valorCondominioInput.closest('.form-group').style.display = 'block';
+                valorTotalInput.closest('.form-group').style.display = 'block';
 
+                // Ajusta a visibilidade conforme a seleção
                 if (isAlugarSelected) {
-                    calculateValorTotal();
+                    precoVendaInput.closest('.form-group').style.display = 'none';
+                } else if (isVenderSelected) {
+                    precoAluguelInput.closest('.form-group').style.display = 'none';
+                    valorCondominioInput.closest('.form-group').style.display = 'none';
+                    valorTotalInput.closest('.form-group').style.display = 'none';
                 }
+                // Se for "Ambos", todos os campos já estão visíveis
             }
 
             function calculateValorTotal() {
@@ -230,7 +239,7 @@
                 valorTotalInput.value = valorTotal.toFixed(2);
             }
 
-            // Adicionamos um evento change ao grupo de radio buttons
+            // Adiciona evento change aos radio buttons
             document.querySelectorAll('[name="modalidade_venda"]').forEach(radio => {
                 radio.addEventListener('change', toggleFields);
             });

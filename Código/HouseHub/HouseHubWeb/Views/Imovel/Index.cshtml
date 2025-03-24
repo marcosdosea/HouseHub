@@ -15,7 +15,14 @@
     {
         <div class="card m-2" style="width: 18rem">
             <p>
-                @($"Imovel disponível para {item.Modalidade}")
+                @if(item.Modalidade == "Ambos")
+                {
+                    @("Imovel disponível para alugar ou vender");
+                }
+                else
+                {
+                    @("Imovel disponível para " + item.Modalidade);
+                }
             </p>
             @if (!string.IsNullOrEmpty(item.ImagemPrincipalUrl))
             {

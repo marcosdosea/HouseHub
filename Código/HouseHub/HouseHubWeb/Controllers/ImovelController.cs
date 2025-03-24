@@ -76,8 +76,8 @@ namespace HouseHubWeb.Controllers
                 {
                     model.PodeAnimal = (byte)(model.PodeAnimalBool ? 1 : 0);
                     var imovel = mapper.Map<Core.Imovel>(model);
-                    string modalidade = model.ModalidadeVender ?
-                        "Venda" : model.ModalidadeAluguel ? "Aluguel" : "Ambos";
+                    string modalidade = model.PrecoVenda != null & model.PrecoAluguel != null?
+                        "Ambos" : model.PrecoAluguel != null & model.PrecoVenda == null  ? "Aluguel" : "Venda";
                     imovel.Modalidade = modalidade;
                     imovel.Status = "Disponivel";
 
