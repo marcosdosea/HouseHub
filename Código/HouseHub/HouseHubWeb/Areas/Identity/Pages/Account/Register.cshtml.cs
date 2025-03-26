@@ -1,3 +1,4 @@
+
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
@@ -19,6 +20,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Core.Service;
+using Core;
 
 namespace HouseHubWeb.Areas.Identity.Pages.Account
 {
@@ -30,13 +33,16 @@ namespace HouseHubWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<UsuarioIdentity> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IPessoaService _pessoaService;
+
 
         public RegisterModel(
             UserManager<UsuarioIdentity> userManager,
             IUserStore<UsuarioIdentity> userStore,
             SignInManager<UsuarioIdentity> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IPessoaService pessoaService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,60 +50,83 @@ namespace HouseHubWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _pessoaService = pessoaService;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "O campo Email é obrigatório")]
+            [EmailAddress(ErrorMessage = "Email inválido")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "O campo Senha é obrigatório")]
+            [StringLength(100, ErrorMessage = "A {0} deve ter no mínimo {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmar senha")]
+            [Compare("Password", ErrorMessage = "A senha e a confirmação de senha não conferem.")]
             public string ConfirmPassword { get; set; }
+
+            // Dados da entidade Pessoa
+            [Required(ErrorMessage = "O campo Nome é obrigatório")]
+            [StringLength(100, ErrorMessage = "O nome deve ter no máximo {1} caracteres")]
+            [Display(Name = "Nome completo")]
+            public string Nome { get; set; }
+
+            [Required(ErrorMessage = "O campo CPF é obrigatório")]
+            [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "CPF inválido. Use o formato: 000.000.000-00")]
+            [Display(Name = "CPF")]
+            public string Cpf { get; set; }
+
+            [Required(ErrorMessage = "O campo Data de Nascimento é obrigatório")]
+            [DataType(DataType.Date)]
+            [Display(Name = "Data de Nascimento")]
+            public DateTime DataNascimento { get; set; }
+
+            [Required(ErrorMessage = "O campo Telefone é obrigatório")]
+            [RegularExpression(@"^\(\d{2}\) \d{5}-\d{4}$", ErrorMessage = "Telefone inválido. Use o formato: (00) 00000-0000")]
+            [Display(Name = "Telefone")]
+            public string Telefone { get; set; }
+
+            // Endereço (campos opcionais)
+            [Display(Name = "CEP")]
+            [RegularExpression(@"^\d{5}-\d{3}$", ErrorMessage = "CEP inválido. Use o formato: 00000-000")]
+            public string Cep { get; set; }
+
+            [Display(Name = "Estado")]
+            [StringLength(2, ErrorMessage = "Use a sigla do estado (2 letras)")]
+            public string Estado { get; set; }
+
+            [Display(Name = "Cidade")]
+            [StringLength(100)]
+            public string Cidade { get; set; }
+
+            [Display(Name = "Bairro")]
+            [StringLength(100)]
+            public string Bairro { get; set; }
+
+            [Display(Name = "Logradouro")]
+            [StringLength(200)]
+            public string Logradouro { get; set; }
+
+            [Display(Name = "Número")]
+            [StringLength(10)]
+            public string Numero { get; set; }
+
+            [Display(Name = "Complemento")]
+            [StringLength(100)]
+            public string Complemento { get; set; }
         }
 
 
@@ -123,6 +152,30 @@ namespace HouseHubWeb.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    string cpfSemFormatacao = Input.Cpf?.Replace(".", "").Replace("-", "");
+                    string cepSemFormatacao = Input.Cep?.Replace("-", "");
+
+
+                    // Criar e salvar a entidade Pessoa
+                    Pessoa pessoa = new Pessoa
+                    {
+                        Nome = Input.Nome,
+                        Cpf = cpfSemFormatacao,
+                        DataNascimento = Input.DataNascimento,
+                        Telefone = Input.Telefone,
+                        Email = Input.Email,
+                        Cep =  cepSemFormatacao,
+                        Estado = Input.Estado,
+                        Cidade = Input.Cidade,
+                        Bairro = Input.Bairro,
+                        Logradouro = Input.Logradouro,
+                        Numero = Input.Numero,
+                        Complemento = Input.Complemento
+                    };
+
+                    // Salvar a entidade Pessoa
+                    _pessoaService.Create(pessoa);
+
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -132,8 +185,8 @@ namespace HouseHubWeb.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirme seu email",
+                    //    $"Por favor, confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -179,3 +232,4 @@ namespace HouseHubWeb.Areas.Identity.Pages.Account
         }
     }
 }
+
