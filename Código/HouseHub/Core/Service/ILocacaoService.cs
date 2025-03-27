@@ -12,6 +12,7 @@ namespace Core.Service {
         void Delete(uint id);
         Locacao? Get(uint id);
         IEnumerable<Locacao> GetAll();
+        Locacao? GetIdLocacaoByIdImovelAndUser(uint idImovel, uint idPessoa);
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Service;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Service
 {
@@ -74,6 +75,11 @@ namespace Service
         {
             houseHubContext.Locacaos.Update(locacao);
             houseHubContext.SaveChanges();
+        }
+
+        public Locacao? GetIdLocacaoByIdImovelAndUser(uint idImovel, uint idPessoa)
+        {
+            return houseHubContext.Locacaos.OrderByDescending(locacao => locacao.Id).FirstOrDefault(locacao => locacao.IdImovel == idImovel && locacao.IdPessoa == idPessoa);
         }
     }
 }

@@ -1,0 +1,150 @@
+﻿@model List<HouseHubWeb.Models.SolicitacaoReparoViewModel>
+
+@{
+    ViewData["Title"] = "Solicitações de Reparo";
+    Layout = "_Layout";
+}
+
+<div class="repair-container">
+    <h2 class="repair-title">SOLICITAÇÕES DE REPARO (PROPRIETÁRIO)</h2>
+
+    <div class="repair-list">
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <p>Você ainda não tem solicitações de reparo para seus imóveis.</p>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imóvel</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        <th>Valor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@(item.IdLocacaoNavigation?.IdImovelNavigation?.Descricao ?? "N/A")</td>
+                            <td>@item.Data.ToString("dd/MM/yyyy")</td>
+                            <td>@item.Descricao.Substring(0, Math.Min(50, item.Descricao.Length))@(item.Descricao.Length > 50 ? "..." : "")</td>
+                            <td>
+                                <span class="status-badge @item.Status.ToLower()">@item.Status</span>
+                            </td>
+                            <td>R$ @item.Valor.ToString("N2")</td>
+                            <td>
+                                <a asp-action="Detalhes" asp-route-idSolicitacao="@item.Id" class="btn-details">Detalhes</a>
+                                <a asp-action="Responder" asp-route-id="@item.Id" class="btn-respond">Responder</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<style>
+    .repair-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .repair-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #FF6B00;
+        text-align: center;
+    }
+
+    .repair-list {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 30px;
+        color: #666;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-badge.pendente {
+        background-color: #FFF3CD;
+        color: #856404;
+    }
+
+    .status-badge.aprovado {
+        background-color: #D4EDDA;
+        color: #155724;
+    }
+
+    .status-badge.rejeitado {
+        background-color: #F8D7DA;
+        color: #721C24;
+    }
+
+    .status-badge.em.andamento {
+        background-color: #CCE5FF;
+        color: #004085;
+    }
+
+    .status-badge.concluido {
+        background-color: #D1ECF1;
+        color: #0C5460;
+    }
+
+    .btn-details, .btn-respond {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 2px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .btn-details {
+        background-color: #E2E3E5;
+        color: #383d41;
+    }
+
+    .btn-respond {
+        background-color: #FF6B00;
+        color: white;
+    }
+</style>

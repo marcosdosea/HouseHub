@@ -1,0 +1,410 @@
+﻿/* Cores principais */
+:root {
+    --orange: #ff6b00;
+    --light-gray: #e5e5e5;
+    --dark-gray: #333333;
+    --white: #ffffff;
+}
+
+/* Estilos gerais */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff8f3;
+}
+
+/* Container principal */
+.repair-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Container do formulário */
+.repair-form-container {
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 1000px; /* Aumentado para acomodar as seções lado a lado */
+}
+
+/* Título */
+.repair-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark-gray);
+}
+
+/* Layout de seções lado a lado */
+.formulario {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #00000020;
+}
+
+section.infos {
+    flex: 1;
+    width: 45%;
+    min-width: 300px; /* Largura mínima para evitar compressão excessiva */
+}
+
+section.images {
+    flex: 1;
+    width: 45%;
+    min-width: 300px; /* Largura mínima para evitar compressão excessiva */
+}
+
+/* Grupos de formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--dark-gray);
+    }
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Área de descrição */
+.description-input {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Checkbox personalizado */
+.checkbox-group {
+    margin: 20px 0;
+}
+
+.checkbox-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+    .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    background-color: var(--white);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--orange);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Seção de upload de imagem */
+.image-upload-section {
+    width: 100%;
+}
+
+    .image-upload-section h3 {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+.image-preview-container {
+    margin-bottom: 20px;
+}
+
+.image-preview {
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+    .image-preview span {
+        margin-top: 5px;
+        margin-left: 10px;
+        flex: 1;
+    }
+
+.image-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: #ccc;
+    margin-right: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+}
+
+.delete-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--orange);
+}
+
+.trash-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B00'%3E%3Cpath d='M19 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H3a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2zM9 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1H9V5zm7 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8h10v11z'/%3E%3C/svg%3E");
+    background-size: contain;
+}
+
+/* Botões */
+.btn-orange {
+    background-color: var(--orange);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .btn-orange:hover {
+        background-color: #e05e00;
+    }
+
+.add-proof-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+    width: 100%; /* Garante que ocupe toda a largura */
+}
+
+.btn-cancel {
+    background-color: var(--white);
+    color: var(--dark-gray);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+    .btn-cancel:hover {
+        background-color: #f5f5f5;
+    }
+
+/* Layout responsivo */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .repair-form-container {
+        padding: 20px;
+    }
+
+    form {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    section.formulario,
+    section.images {
+        width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-cancel,
+    .btn-orange {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Modal de Upload */
+.upload-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.upload-modal-content {
+    background-color: var(--white);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+    .close-modal:hover {
+        color: var(--dark-gray);
+    }
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+    transition: border-color 0.3s;
+}
+
+    .upload-area:hover {
+        border-color: var(--orange);
+    }
+
+.upload-icon {
+    margin-bottom: 15px;
+}
+
+.upload-label {
+    display: block;
+    cursor: pointer;
+}
+
+    .upload-label p {
+        color: #666;
+        margin: 0;
+    }
+
+.file-input {
+    display: none;
+}
+
+.image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+/* Atualizar o estilo da prévia no modal */
+.preview-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+    .preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.remove-preview {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--orange);
+    border: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Estilo para quando a área de upload está com drag over */
+.upload-area.dragover {
+    border-color: var(--orange);
+    background-color: rgba(255, 107, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .upload-modal-content {
+        width: 90%;
+        margin: 20% auto;
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+        .modal-actions button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+}

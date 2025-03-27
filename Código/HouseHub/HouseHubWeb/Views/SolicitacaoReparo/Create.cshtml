@@ -1,47 +1,138 @@
 ﻿@model HouseHubWeb.Models.SolicitacaoReparoViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar Solicitação de Reparo";
+    Layout = "_Layout";
 }
 
-<h1>Create</h1>
+<div class="repair-container">
+    <h2 class="repair-title">CRIAR SOLICITAÇÃO DE REPARO</h2>
 
-<h4>SolicitacaoReparoViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="repair-form">
+        <form asp-action="Create" asp-route-idImovel="@ViewBag.IdImovel" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
+                <label asp-for="Descricao">Descrição do Problema</label>
+                <textarea asp-for="Descricao" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
+                <label asp-for="Valor">Valor Estimado (R$)</label>
+                <input asp-for="Valor" class="form-control" type="number" step="0.01" />
                 <span asp-validation-for="Valor" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnviarAlguem" /> @Html.DisplayNameFor(model => model.EnviarAlguem)
-                </label>
-            </div>
+
             <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
+                <label>Precisa que o proprietário envie alguém?</label>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input asp-for="EnviarAlguem" type="radio" value="true" checked /> Sim
+                    </label>
+                    <label class="radio-label">
+                        <input asp-for="EnviarAlguem" type="radio" value="false" /> Não
+                    </label>
+                </div>
+                <span asp-validation-for="EnviarAlguem" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="form-actions">
+                <button type="submit" class="btn-orange">Enviar Solicitação</button>
+                <a asp-controller="Imovel" asp-action="Detalhes" asp-route-id="@ViewBag.IdImovel" class="btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .repair-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .repair-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #FF6B00;
+        text-align: center;
+    }
+
+    .repair-form {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .radio-options {
+        display: flex;
+        gap: 20px;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+        .radio-label input {
+            margin-right: 8px;
+        }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .btn-orange, .btn-secondary {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-orange {
+        background-color: #FF6B00;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #E2E3E5;
+        color: #383d41;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
 
 @section Scripts {
     @{
