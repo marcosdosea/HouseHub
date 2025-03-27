@@ -67,6 +67,9 @@ builder.Services.AddTransient<IPessoaService, PessoaService>();
 builder.Services.AddTransient<ISolicitacaoreparoService, SolicitacaoreparoService>();
 builder.Services.AddTransient<ILocacaoService, LocacaoService>();
 builder.Services.AddTransient<IPagamentoService, PagamentoService>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+builder.Services.AddScoped<IImagemService, ImagemService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

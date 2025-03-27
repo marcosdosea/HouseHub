@@ -1,67 +1,247 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Cadastro de Usuário";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Criar nova conta</h4>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="mb-3">Dados pessoais</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Nome" class="form-control" placeholder="Nome completo" />
+                                    <label asp-for="Input.Nome"></label>
+                                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="nome@exemplo.com" />
+                                    <label asp-for="Input.Email"></label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Cpf" class="form-control cpf-mask" placeholder="000.000.000-00" />
+                                    <label asp-for="Input.Cpf"></label>
+                                    <span asp-validation-for="Input.Cpf" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Telefone" class="form-control telefone-mask" placeholder="(00) 00000-0000" />
+                                    <label asp-for="Input.Telefone"></label>
+                                    <span asp-validation-for="Input.Telefone" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.DataNascimento" class="form-control" type="date" />
+                                    <label asp-for="Input.DataNascimento"></label>
+                                    <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3">
+                                <h5 class="mb-3">Endereço</h5>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Cep" class="form-control cep-mask" id="cep" placeholder="00000-000" />
+                                    <label asp-for="Input.Cep"></label>
+                                    <span asp-validation-for="Input.Cep" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Logradouro" class="form-control" id="logradouro" placeholder="Rua, Avenida..." />
+                                    <label asp-for="Input.Logradouro"></label>
+                                    <span asp-validation-for="Input.Logradouro" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Numero" class="form-control" placeholder="Nº" />
+                                    <label asp-for="Input.Numero"></label>
+                                    <span asp-validation-for="Input.Numero" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Complemento" class="form-control" placeholder="Complemento" />
+                                    <label asp-for="Input.Complemento"></label>
+                                    <span asp-validation-for="Input.Complemento" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Bairro" class="form-control" id="bairro" placeholder="Bairro" />
+                                    <label asp-for="Input.Bairro"></label>
+                                    <span asp-validation-for="Input.Bairro" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Cidade" class="form-control" id="cidade" placeholder="Cidade" />
+                                    <label asp-for="Input.Cidade"></label>
+                                    <span asp-validation-for="Input.Cidade" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Estado" class="form-control" id="estado" placeholder="UF" />
+                                    <label asp-for="Input.Estado"></label>
+                                    <span asp-validation-for="Input.Estado" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3">
+                                <h5 class="mb-3">Dados de acesso</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="Senha" />
+                                    <label asp-for="Input.Password"></label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Confirmar senha" />
+                                    <label asp-for="Input.ConfirmPassword"></label>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg w-100">Cadastrar</button>
                         </div>
                     </form>
-                }
-            }
-        </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Login com outros serviços</h5>
+                </div>
+                <div class="card-body">
+                    @{
+                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                        {
+                            <div>
+                                <p>
+                                    Não há serviços de autenticação externa configurados. Veja este <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                        artigo
+                                        sobre como configurar este aplicativo ASP.NET para suportar login via serviços externos
+                                    </a>.
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins!)
+                                        {
+                                            <button type="submit" class="btn btn-secondary mb-2 w-100" name="provider" value="@provider.Name" title="Login usando sua conta @provider.DisplayName">@provider.DisplayName</button>
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="card shadow-sm mt-3">
+                <div class="card-body">
+                    <p>Já possui uma conta? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Faça login aqui</a></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Script para máscaras de CPF, telefone e CEP usando jQuery Mask
+        $(document).ready(function() {
+            $('.cpf-mask').mask('000.000.000-00');
+            $('.telefone-mask').mask('(00) 00000-0000');
+            $('.cep-mask').mask('00000-000');
+
+            // Consulta de CEP via API ViaCEP
+            function limpaFormularioCep() {
+                $("#logradouro").val("");
+                $("#bairro").val("");
+                $("#cidade").val("");
+                $("#estado").val("");
+            }
+
+            $("#cep").blur(function() {
+                var cep = $(this).val().replace(/\D/g, '');
+
+                if (cep != "") {
+                    var validacep = /^[0-9]{8}$/;
+
+                    if(validacep.test(cep)) {
+                        $("#logradouro").val("Carregando...");
+                        $("#bairro").val("Carregando...");
+                        $("#cidade").val("Carregando...");
+                        $("#estado").val("Carregando...");
+
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+                            if (!("erro" in dados)) {
+                                $("#logradouro").val(dados.logradouro);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#estado").val(dados.uf);
+                            } else {
+                                limpaFormularioCep();
+                                alert("CEP não encontrado.");
+                            }
+                        });
+                    } else {
+                        limpaFormularioCep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } else {
+                    limpaFormularioCep();
+                }
+            });
+        });
+    </script>
 }

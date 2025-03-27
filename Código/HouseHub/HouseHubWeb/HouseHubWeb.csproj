@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Shared\Sobre.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\Sobre.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Imovel\Index.cshtml.css" />
   </ItemGroup>
 

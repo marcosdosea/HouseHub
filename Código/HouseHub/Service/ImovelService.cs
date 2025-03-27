@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 using Core.DTOs;
 using Core.Service;
 using Microsoft.EntityFrameworkCore;
@@ -110,8 +110,6 @@ namespace Service {
             houseHubContext.SaveChanges();
         }
 
-
-
         public List<ImovelDto> GetImoveisDtoByPessoa(uint idPessoa)
         {
             return houseHubContext.Locacaos
@@ -129,6 +127,18 @@ namespace Service {
                     }
                 )
                 .ToList();
+        }
+      
+        public void AssociarImagemAoImovel(uint imovelId, uint imagemId)
+        {
+            var imovel = houseHubContext.Imovels.Include(i => i.Imagems).FirstOrDefault(i => i.Id == imovelId);
+            var imagem = houseHubContext.Imagems.Find(imagemId);
+
+            if (imovel != null && imagem != null)
+            {
+                imovel.Imagems.Add(imagem);
+                houseHubContext.SaveChanges();
+            }
         }
     }
 }
