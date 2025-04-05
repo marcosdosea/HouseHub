@@ -11,6 +11,7 @@ namespace HouseHubWeb.Mappers
         {
             CreateMap<Locacao, LocacaoViewModel>().ReverseMap();
             CreateMap<ImovelDto, LocacaoViewModel>().ReverseMap();
+            CreateMap<Locacao, LocacaoViewModel>().ReverseMap();
         }
     }
 }

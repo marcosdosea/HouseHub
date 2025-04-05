@@ -23,6 +23,7 @@ namespace Service {
         /// <param name="imovel"></param>
         /// <returns>id do imovel</returns>
         public uint Create(Imovel imovel) {
+            imovel.Status = "Disponivel";
             houseHubContext.Imovels.Add(imovel);
             houseHubContext.SaveChanges();
             return imovel.Id;
@@ -108,6 +109,20 @@ namespace Service {
         public void Update(Imovel imovel) {
             houseHubContext.Imovels.Update(imovel);
             houseHubContext.SaveChanges();
+        }
+
+        public IEnumerable<MeusImoveisDto> GetMeusImoveis(uint idPessoa)
+        {
+            return houseHubContext.Locacaos.Include(x => x.IdImovelNavigation).Where(x => x.IdPessoa == idPessoa && x.Status == "Ativo")
+                                .Select(x => new MeusImoveisDto
+                                {
+                                    IdImovel = x.IdImovel,
+                                    ValorAluguel = x.Valor,
+                                    Bairro = x.IdImovelNavigation.Bairro,
+                                    Cidade = x.IdImovelNavigation.Cidade,
+                                    UrlImagem = "", //x.IdImovelNavigation.Imagems.FirstOrDefault(new Imagem { Url = ""}).Url,
+                                    DataProximoPagamento = x.DataVencimento
+                                });
         }
 
         public List<ImovelDto> GetImoveisDtoByPessoa(uint idPessoa)

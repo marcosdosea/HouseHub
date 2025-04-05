@@ -87,8 +87,7 @@ namespace HouseHubWeb.Controllers
                         uint id = pessoaService.GetUserByEmail(name);
                         imovel.IdPessoa = id;
                     }
-
-                    // Salvar o imóvel para obter um ID
+                    
                     uint imovelId = imovelService.Create(imovel);
 
                     // Processar imagens se existirem
