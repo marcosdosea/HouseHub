@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<ImovelViewModel>
-
 @{
     ViewData["Title"] = "Meus Imóveis";
 }
-
 <div class="d-flex justify-content-around flex-row">
     <h1> Meus imovéis</h1>
     <nav class="nav justify-content-end">
@@ -12,40 +10,49 @@
         <a class="nav-link" href="#">Alugados</a>
     </nav>
 </div>
-
-
 <section class="d-flex flex-row flex-wrap">
     @foreach (var item in Model)
     {
         <div class="card m-2" style="width: 18rem">
             <p>
-                @($"Imovel disponível para {item.Modalidade}")
+                @if(item.Modalidade == "Ambos")
+                {
+                    @("Imovel disponível para alugar ou vender");
+                }
+                else
+                {
+                    @("Imovel disponível para " + item.Modalidade);
+                }
             </p>
-            <img src="..." class="card-img-top" alt="Imagens da casa">
+            @if (!string.IsNullOrEmpty(item.ImagemPrincipalUrl))
+            {
+                <img src="@Url.Content(item.ImagemPrincipalUrl)" class="card-img-top" alt="Imagem do imóvel" style="height: 200px; object-fit: cover;">
+            }
+            else
+            {
+                <img src="~/img/no-image.jpg" class="card-img-top" alt="Sem imagem disponível" style="height: 200px; object-fit: cover;">
+            }
             <div class="card-body">
                 <h5 class="card-title">@item.PrecoAluguel</h5>
                 <p class="card-text">@item.Descricao</p>
-
             </div>
             <div class="card-footer">
-
                 @if (item.Status == "Disponível")
                 {
                     <div class="row">
                         <a href="#" class="col btn btn-outline-secondary m-1">Inativar anúncio</a>
                         <a href="#" class="col btn btn-danger m-1">
                             Excluir imóvel
-                            <i class="fa fas trash"></i>
+                            <i class="fa fa-trash"></i>
                         </a>
                     </div>
-
                     <a href="#" class="btn btn-primary w-100">Alugar</a>
                 }
                 else if (item.Status == "Alugado")
                 {
                     <a class="btn btn-outline-secondary m-1" href="#"> Confirmar Pagamento de Aluguel</a>
                     <a class="btn btn-primary m-1">
-                        <i class="fa fas clock"></i>
+                        <i class="fa fa-clock"></i>
                         Ver históricos de pagamentos
                     </a>
                 }
@@ -53,7 +60,6 @@
         </div>
     }
 </section>
-
 <a class="btn-lg rounded-circle btn plus-button" asp-action="Create">
     +
 </a>

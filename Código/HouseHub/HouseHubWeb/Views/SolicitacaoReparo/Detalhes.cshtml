@@ -1,0 +1,182 @@
+﻿@model HouseHubWeb.Models.SolicitacaoReparoViewModel
+
+@{
+    ViewData["Title"] = "Detalhes da Solicitação";
+    Layout = "_Layout";
+}
+
+<div class="repair-container">
+    <h2 class="repair-title">DETALHES DA SOLICITAÇÃO DE REPARO</h2>
+
+    <div class="repair-details">
+        <div class="card">
+            <div class="card-header">
+                <div class="status-badge @Model.Status.ToLower()">@Model.Status</div>
+                <div class="date">Solicitado em: @Model.Data.ToString("dd/MM/yyyy")</div>
+            </div>
+
+            <div class="card-body">
+                <div class="detail-row">
+                    <h3>Descrição do Problema</h3>
+                    <p>@Model.Descricao</p>
+                </div>
+
+                <div class="detail-row">
+                    <h3>Valor Solicitado</h3>
+                    <p class="value">R$ @Model.Valor.ToString("N2")</p>
+                </div>
+
+                <div class="detail-row">
+                    <h3>Enviar Alguém?</h3>
+                    <p>@(Model.EnviarAlguem ? "Sim" : "Não")</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.RespostaProprietario))
+                {
+                    <div class="detail-row response">
+                        <h3>Resposta do Proprietário</h3>
+                        <p>@Model.RespostaProprietario</p>
+                    </div>
+                }
+            </div>
+
+            <div class="card-footer">
+                @if (User.Identity.Name == Model.IdLocacaoNavigation?.IdImovelNavigation?.IdPessoaNavigation?.Email)
+                {
+                    <!-- Ações do proprietário -->
+                    <a asp-action="Responder" asp-route-id="@Model.Id" class="btn-orange">Responder</a>
+                }
+                <a asp-action="Index" class="btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .repair-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .repair-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #FF6B00;
+        text-align: center;
+    }
+
+    .repair-details {
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-footer {
+        padding: 15px 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .detail-row {
+        margin-bottom: 20px;
+    }
+
+        .detail-row h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .detail-row p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+    .value {
+        font-weight: bold;
+        color: #FF6B00;
+    }
+
+    .response {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 4px solid #FF6B00;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .status-badge.pendente {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-badge.aprovado {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-badge.rejeitado {
+            background-color: #F8D7DA;
+            color: #721C24;
+        }
+
+        .status-badge.em.andamento {
+            background-color: #CCE5FF;
+            color: #004085;
+        }
+
+        .status-badge.concluido {
+            background-color: #D1ECF1;
+            color: #0C5460;
+        }
+
+    .date {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .btn-orange, .btn-secondary {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-orange {
+        background-color: #FF6B00;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #E2E3E5;
+        color: #383d41;
+    }
+</style>
