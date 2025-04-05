@@ -61,6 +61,7 @@ namespace HouseHubWeb.Models
         public string ImagemPrincipalUrl { get; set; } = string.Empty;
         // Opcional: para exibição de imagens existentes
         public List<string>? ExistingImageUrls { get; set; }
+        public PessoaViewModel? IdPessoaNavigation { get; set; }
 
 
         public List<SelectListItem> Tipos { get; set; } = new List<SelectListItem>{
