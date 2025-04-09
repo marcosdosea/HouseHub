@@ -8,7 +8,7 @@
 
 <hr />
 
-<form asp-action="Create" class="container-fluid">
+<form asp-action="Create" class="container-fluid" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row w-100 justify-content-around">
         <div class="endereco col-md-4">
@@ -69,27 +69,34 @@
                 <label asp-for="PodeAnimal" class="control-label"></label>
                 <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                     @{
-                        string Active = Model.PodeAnimal ? "active" : "";
-                        string NotActive = Model.PodeAnimal ? "" : "active";
+                        string Active = "";
+                        string NotActive = "";
+                        if (Model != null)
+                        {
+                            Active = Model?.PodeAnimalBool == true ? "active" : "";
+                            NotActive = Model?.PodeAnimalBool == false ? "active" : "";
+                        }
+
                     }
-                    <label class="btn btn-outline-primary">
-                        <input type="radio" asp-for="PodeAnimal" value="true" autocomplete="off"> Sim
+                    <label class="btn btn-outline-primary @Active">
+                        <input type="radio" asp-for="PodeAnimalBool" value="true" autocomplete="off"> Sim
                     </label>
                     <label class="btn btn-outline-secondary @NotActive">
-                        <input type="radio" asp-for="PodeAnimal" value="false" autocomplete="off"> Não
+                        <input type="radio" asp-for="PodeAnimalBool" value="false" autocomplete="off"> Não
                     </label>
                 </div>
-                <span asp-validation-for="PodeAnimal" class="text-danger"></span>
+                <span asp-validation-for="PodeAnimalBool" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                @Html.DropDownListFor(model => model.Tipo, Model.Tipos, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Tipo, ViewBag.Tipos as List<SelectListItem>, "Selecione o tipo de Imóvel", htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form_group">
-                <label for="formFileMultiple" class="form-label">Coloque suas fotos</label>
-                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                <label asp-for="ImageFiles" class="form-label">Coloque suas fotos</label>
+                <input class="form-control" type="file" asp-for="ImageFiles" id="formFileMultiple" multiple>
+                <span asp-validation-for="ImageFiles" class="text-danger"></span>
             </div>
 
             <div class="imagens mt-3">
@@ -117,7 +124,7 @@
                     <input type="radio" asp-for="ModalidadeVender" class="btn-check" id="Vender" name="modalidade_venda" value="vender" autocomplete="off">
                     <label class="btn btn-outline-primary" for="Vender">Vender</label>
 
-                    <input type="radio" asp-for="ModalidadeAmbos" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off">
+                    <input type="radio" asp-for="ModalidadeAmbos" class="btn-check" id="Ambos" name="modalidade_venda" value="ambos" autocomplete="off" checked>
                     <label class="btn btn-outline-primary" for="Ambos">Ambos</label>
                 </div>
             </div>
@@ -206,14 +213,23 @@
             function toggleFields() {
                 const isAlugarSelected = alugarRadio.checked;
                 const isVenderSelected = venderRadio.checked;
+                const isAmbosSelected = ambosRadio.checked;
 
-                document.querySelector('.valor-condominio').style.display = (isAlugarSelected || isVenderSelected) ? '' : 'none';
-                document.querySelector('.valor-aluguel').style.display = isAlugarSelected ? '' : 'none';
-                document.querySelector('.valor-venda').style.display = isVenderSelected ? '' : 'none';
+                // Mostra todos os campos primeiro, caso esteja em "Ambos"
+                precoAluguelInput.closest('.form-group').style.display = 'block';
+                precoVendaInput.closest('.form-group').style.display = 'block';
+                valorCondominioInput.closest('.form-group').style.display = 'block';
+                valorTotalInput.closest('.form-group').style.display = 'block';
 
+                // Ajusta a visibilidade conforme a seleção
                 if (isAlugarSelected) {
-                    calculateValorTotal();
+                    precoVendaInput.closest('.form-group').style.display = 'none';
+                } else if (isVenderSelected) {
+                    precoAluguelInput.closest('.form-group').style.display = 'none';
+                    valorCondominioInput.closest('.form-group').style.display = 'none';
+                    valorTotalInput.closest('.form-group').style.display = 'none';
                 }
+                // Se for "Ambos", todos os campos já estão visíveis
             }
 
             function calculateValorTotal() {
@@ -223,7 +239,7 @@
                 valorTotalInput.value = valorTotal.toFixed(2);
             }
 
-            // Adicionamos um evento change ao grupo de radio buttons
+            // Adiciona evento change aos radio buttons
             document.querySelectorAll('[name="modalidade_venda"]').forEach(radio => {
                 radio.addEventListener('change', toggleFields);
             });

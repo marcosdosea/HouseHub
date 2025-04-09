@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 using Core.DTOs;
 using Core.Service;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +23,7 @@ namespace Service {
         /// <param name="imovel"></param>
         /// <returns>id do imovel</returns>
         public uint Create(Imovel imovel) {
+            imovel.Status = "Disponivel";
             houseHubContext.Imovels.Add(imovel);
             houseHubContext.SaveChanges();
             return imovel.Id;
@@ -108,6 +109,51 @@ namespace Service {
         public void Update(Imovel imovel) {
             houseHubContext.Imovels.Update(imovel);
             houseHubContext.SaveChanges();
+        }
+
+        public IEnumerable<MeusImoveisDto> GetMeusImoveis(uint idPessoa)
+        {
+            return houseHubContext.Locacaos.Include(x => x.IdImovelNavigation).Where(x => x.IdPessoa == idPessoa && x.Status == "Ativo")
+                                .Select(x => new MeusImoveisDto
+                                {
+                                    IdImovel = x.IdImovel,
+                                    ValorAluguel = x.Valor,
+                                    Bairro = x.IdImovelNavigation.Bairro,
+                                    Cidade = x.IdImovelNavigation.Cidade,
+                                    UrlImagem = "", //x.IdImovelNavigation.Imagems.FirstOrDefault(new Imagem { Url = ""}).Url,
+                                    DataProximoPagamento = x.DataVencimento
+                                });
+        }
+
+        public List<ImovelDto> GetImoveisDtoByPessoa(uint idPessoa)
+        {
+            return houseHubContext.Locacaos
+                .Where(locacao => locacao.IdPessoa == idPessoa)
+                .Join(
+                    houseHubContext.Imovels,
+                    locacao => locacao.IdImovel,
+                    imovel => imovel.Id,
+                    (locacao, imovel) => new ImovelDto
+                    {
+                        Iptu = imovel.Iptu == null ? 0 : imovel.Iptu,
+                        IdImovel = imovel.Id,
+                        PrecoAluguel = imovel.PrecoAluguel.HasValue ? (decimal)imovel.PrecoAluguel.Value : 0m,
+                        Status = imovel.Status ?? string.Empty,
+                    }
+                )
+                .ToList();
+        }
+      
+        public void AssociarImagemAoImovel(uint imovelId, uint imagemId)
+        {
+            var imovel = houseHubContext.Imovels.Include(i => i.Imagems).FirstOrDefault(i => i.Id == imovelId);
+            var imagem = houseHubContext.Imagems.Find(imagemId);
+
+            if (imovel != null && imagem != null)
+            {
+                imovel.Imagems.Add(imagem);
+                houseHubContext.SaveChanges();
+            }
         }
     }
 }

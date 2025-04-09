@@ -11,9 +11,12 @@ namespace Core.Service {
         uint Create(Imovel imovel);
         void Update(Imovel imovel);
         void Delete(uint imovel);
+        void AssociarImagemAoImovel(uint imovelId, uint imagemId);
         Imovel ? Get(uint id);
         IEnumerable<Imovel> GetAll();
         IEnumerable<Imovel> GetAll(BuscarImovelDto busca);
         ImovelDto ? GetImovelDto(uint id);
+        IEnumerable<MeusImoveisDto> GetMeusImoveis(uint idPessoa);
+        List<ImovelDto>? GetImoveisDtoByPessoa(uint idPessoa);
     }
 }

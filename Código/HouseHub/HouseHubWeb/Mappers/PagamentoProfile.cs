@@ -2,9 +2,9 @@
 
 namespace HouseHubWeb.Mappers
 {
-    public class PagamentoViewModel : Profile
+    public class PagamentoProfile : Profile
     {
-        public PagamentoViewModel()
+        public PagamentoProfile()
         {
             CreateMap<Core.Pagamento, Models.PagamentoViewModel>().ReverseMap();
         }
