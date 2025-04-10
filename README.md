@@ -9,7 +9,7 @@
     <li><a href="#solucao">2. A Solução</a></li>
     <li><a href="#publico">3. Público Alvo</a></li>
     <li><a href="#linksuteis">4. Links Úteis</a></li>
-    <li><a href="#equipe">4. Equipe</a></li>
+    <li><a href="#equipe">5. Equipe</a></li>
   </ul>
 
   <h2 id="problema">1. O Problema </h2>
