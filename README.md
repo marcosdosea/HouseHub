@@ -8,7 +8,7 @@
     <li><a href="#problema">1. O Problema</a></li>
     <li><a href="#solucao">2. A Solução</a></li>
     <li><a href="#publico">3. Público Alvo</a></li>
-    <!--<li><a href="#linksuteis">4. Links Úteis</a></li>-->
+    <li><a href="#linksuteis">4. Links Úteis</a></li>
     <li><a href="#equipe">4. Equipe</a></li>
   </ul>
 
@@ -40,13 +40,13 @@
 </ul>
 <p>Além disso, a HouseHub também pode beneficiar investidores imobiliários que desejam explorar o mercado com uma ferramenta moderna e eficaz.</p>
 
-<!-- ainda não temos links úteis!
+
   <h2 id="linksuteis">4. Links Úteis</h2>
--->
-  
+  <a href="https://github.com/marcosdosea/HouseHub/blob/main/DocumentosRegistro/Apresenta%C3%A7%C3%A3o%20e%20Manual%20da%20HouseHub.pdf" target="_blank">Manual</a> <br/>
+  <a href="https://github.com/marcosdosea/HouseHub/blob/main/DocumentosRegistro/video.mp4" target="_blank">Video</a>
 
   
-  <h2 id="equipe">4. Equipe</h2>
+  <h2 id="equipe">5. Equipe</h2>
 
   <table align="center">
   <tr>
